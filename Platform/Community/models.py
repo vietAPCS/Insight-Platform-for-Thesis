@@ -32,19 +32,6 @@ class Community(models.Model):
     def get_absolute_url(selft):
         return reverse('home')
 
-
-class Exam(models.Model):
-    # khóa đại diện , khóa chính
-    id = models.AutoField(primary_key=True) 
-    name = models.CharField(max_length=255, blank=True, null=True)
-    created_date = models.DateField(auto_now_add=True, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE,related_name='exams_as_user')
-    mentor = models.ForeignKey(User, on_delete=models.CASCADE,related_name='exams_as_mentor')
-    community = models.ForeignKey(Community, on_delete=models.CASCADE)
-    description = models.CharField(max_length=255, blank=True, null=True)
-    # print(str(abcd))
-    
-
 class CommunityHistory(models.Model):
     commu_history_id = models.AutoField(primary_key=True)
     community_id = models.ForeignKey(Community, on_delete=models.CASCADE, null = False)
@@ -118,10 +105,3 @@ class CommunityMember(models.Model):
         # self.id = f"{self.community}-{self.member}-{day}{month}{year}"
 
         super().save(*args, **kwargs)
-
-class ExamBank(models.Model):
-    id = models.AutoField(primary_key=True)
-    community_id = models.ForeignKey(Community, on_delete=models.CASCADE)
-    ques_content = models.CharField(max_length=50)
-    answer = models.CharField(max_length=50)
-    purpose = models.CharField(max_length=50)
