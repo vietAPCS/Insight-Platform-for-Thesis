@@ -1,0 +1,62 @@
+{% extends 'Community/base.html' %}
+
+{% block title %}
+Community
+{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<div class="container body-container">
+    <section id="shorcuts" style="text-align: center;">
+        <h3 class="mb-3">Joined</h3>
+        <div class="shorcut-container">
+            {% for short in shorcuts %}
+                <div class="shorcut-wrapper">
+                    <img src="{% static 'shiba-shorcut.jpg' %}" alt="{{short.name}}" class="shorcut-img">
+                    <h6>{{short.community_id.name}}</h6>
+                    <a href="{% url 'Community:community-interface' short.community_id.pk %}">
+                        <i class="fa-solid fa-paper-plane me-2"></i>
+                    </a>    
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="community">
+        <div class="community-container">
+            
+            <h1 class="me-5">All Communities</h1>
+    
+            {% for community in communities %}
+                <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
+                    <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{community.name}}-banner" style="height: 120px; object-fit:cover;">
+                    <div class="card-body shadow-sm">
+                        <h5 class="card-title">{{community.name}}</h5>
+                        <small>Created at {{community.created_date}} by <a href="{% url 'Member:profile' community.created_user.id %}">{{community.created_user.username}}</a> </small>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                        <a href="{% url 'Community:community-detail' community.pk %}" class="btn btn-link">
+                            <i class="fa-solid fa-paper-plane me-2"></i>View insight
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <section id="newests">
+        <div class="newset-container">
+            <h1 class="ms-5">Newests from Insight</h1>
+
+            <div class="card text-bg-dark newest-banner">
+                <img src="{% static 'shiba.webp' %}" class="card-img" alt="shiba">
+                <div class="card-img-overlay">
+                  <h5 class="card-title">Card title</h5>
+                  <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                  <p class="card-text"><small>Last updated 3 mins ago</small></p>
+                </div>
+              </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

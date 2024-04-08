@@ -1,0 +1,23 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}{{ this_community.name }}{% endblock %}
+{% load static %}
+
+{% block content %} 
+
+
+<div class="container">
+        {%for cexam in exams %}
+            {% include 'Community/exam_view.html' %}
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+
+<!-- <a href="{% url 'Community:home' %}">Back</a> -->
+{% endblock %}
+```

@@ -1,0 +1,94 @@
+{% extends 'Community/base.html' %}
+
+{%load static%}
+
+{% block title %}
+Add community
+{% endblock %}
+
+{%block link%}
+<link rel="stylesheet" href='{% static "add_community.css" %}'>
+{%endblock%}
+
+{% block content %}
+
+<script src='{% static "add_community.js" %}' ></script>
+<div class="container add-container">
+    <div class="title-wrapper">
+        <h3>Add Community</h3>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="row mb-5">
+            <h4 class="col-3">Name</h4>
+            <div class="col-9">
+                <input type="text" id="community-name" name="community-name" class="add-form-control">
+            </div>
+        </div>
+
+        <!-- <label>Created user</label>
+        <datalist id="community-created-user" name="community-created-user" class="form-control mb-3"> 
+            <option></option>
+        </datalist> -->
+        <div class="row mb-5">
+            <h4 class="col-sm-full col-3">Description</h4>
+            <div class="col-9">
+                <textarea id="community-description" name="community-description" class="add-form-description " placeholder="Mô tả cộng đồng"> </textarea>
+            </div>
+
+        </div>
+        
+        <div class="row mb-5">
+            <h4 class="col-3">Score to be mentor</h4>
+            <div class="col-6">
+                <input type="range" min="1" max="100" class="add-form-slider" id="threshold-slider" value="50" name="mentor-threshold">
+            </div>
+            <div class="col-3">
+                <span id="threshold-val">50</span>
+            </div>
+        </div>
+        <script>
+            const threshold_slider = document.querySelector('#threshold-slider')
+            
+            console.log(threshold_slider)
+            threshold_slider.addEventListener('change', ()=>{
+                console.log(event.target.value)
+            const text=document.querySelector('#threshold-val')
+            text.innerHTML=event.target.value
+            })
+
+        </script>
+        <!-- <input id="mentor-threshold" name="mentor-threshold" class="form-control mb-3" type="number""> </textarea> -->
+  
+        <div class="row mb-5">
+            <h4 class="col-3">Document upload permission</h4>
+            <div class="col-9">
+                <select class="add-form-select" aria-label="Default select example" name="community-upload-permission" style="margin-bottom: 15px;">
+                    <option selected value="1">Freely</option>
+                    <option value="2">Only Mentor</option>
+                    <option value="3">Restricted</option>
+                </select>
+            </div>
+        </div>      
+
+        <div class="row">
+            <div class="col-3">
+                <h4 class="form-check-label" for="enable_entrance_test">Enable entrance questions</h4>
+            </div>
+            <div class="col">
+                <input class="add-form-check-input" type="checkbox" role="switch" id="enable_entrance_test-24923" name = "enable-entrance-test">
+            </div>
+            <!-- <div class="input-group col-5" style="width: auto;" id="file_upload_container-24923">
+                <input type="file" class="form-control" id="file_upload-24923" disabled>
+            </div> -->
+        </div>
+        
+
+        <div class="add-button">
+            <button class="btn btn-primary" id = "add_community_button-24923">Add</button>
+        </div>        
+        
+    </form>
+</div>
+
+{% endblock %}

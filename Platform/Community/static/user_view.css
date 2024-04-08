@@ -1,0 +1,55 @@
+        /* Style for the user item view */
+        .user-item-wrapper {
+            display: flex;
+            margin: 32px 24px;
+            align-items: center;
+            padding: 24px 32px;
+            border-radius: 20px;
+            background-color: white;
+            box-shadow: 0 .5rem 1rem rgba(67, 185, 254, 0.237);
+        }
+
+        .user-item-wrapper:hover {
+            transform: translateY(-20px);
+            transform: scale(1.06);
+            transition: transform 0.3s ease;
+        }
+
+        /* Style for the user avatar */
+        .user-item-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 16px;
+
+        }
+
+        /* Style for user information container */
+        .user-item-info-wrapper {
+            flex: 1;
+        }
+
+        /* Style for username */
+        .user-item-username {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        /* Style for date joined, score, and rank */
+        .user-item-info {
+            font-size: 14px;
+            color: #666;
+        }
+
+
+
+        .useritem-rank-wrapper {
+            flex: .4;
+        }
+
+        .rank {
+            color: black;
+            font-weight: 600;
+            font-size: 24px;
+        }

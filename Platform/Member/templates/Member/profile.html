@@ -1,0 +1,202 @@
+{% extends 'Community/base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="body-container container">
+        <div class="row gutters">
+            <!-- left infor bar -->
+            <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="account-settings">
+                            <div class="user-profile">
+                                <div class="user-avatar">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Maxwell Admin">
+                                </div>
+                                <h5 class="user-name">{{this_user.username}}</h5>
+                                <h6 class="user-email">yuki@Maxwell.com</h6>
+                            </div>
+                            <div class="about">
+                                <h5>About</h5>
+                                <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+                            </div>
+                            
+                            {% if request.user == this_user %}
+                            <div class="edit-wrapper">
+                                <a href="{% url 'Member:edituser' this_user.id %}">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- edit user -->
+            <!-- <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mb-2 text-primary">Personal Details</h6>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" class="form-control" id="fullName" placeholder="Enter full name">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="eMail">Email</label>
+                                    <input type="email" class="form-control" id="eMail" placeholder="Enter email ID">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="phone">Phone</label>
+                                    <input type="text" class="form-control" id="phone" placeholder="Enter phone number">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="website">Website URL</label>
+                                    <input type="url" class="form-control" id="website" placeholder="Website url">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <h6 class="mt-3 mb-2 text-primary">Address</h6>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="Street">Street</label>
+                                    <input type="name" class="form-control" id="Street" placeholder="Enter Street">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="ciTy">City</label>
+                                    <input type="name" class="form-control" id="ciTy" placeholder="Enter City">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="sTate">State</label>
+                                    <input type="text" class="form-control" id="sTate" placeholder="Enter State">
+                                </div>
+                            </div>
+                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                <div class="form-group">
+                                    <label for="zIp">Zip Code</label>
+                                    <input type="text" class="form-control" id="zIp" placeholder="Zip Code">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row gutters">
+                            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div class="text-right">
+                                    <button type="button" id="submit" name="submit" class="btn btn-secondary">Cancel</button>
+                                    <button type="button" id="submit" name="submit" class="btn btn-primary">Update</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+
+            <!-- right bar -->
+            <div class="col">
+                <!-- right table -->
+                <div class="row">
+                    <div class="col">
+                        <div class="table-container card">
+                            <h4 class="text-primary">Join list</h4>
+                            <table class="table table-sm table-bordered table-striped table-hover " style="text-align: center">
+                                <thead>
+                                    <colgroup>
+                                        <col width=auto span="1">
+                                        <col width=auto span="1">
+                                        <col width="150" span="1">
+                                        <col width="200" span="1">
+                                    </colgroup>
+                                    
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Community</th>
+                                    <th scope="col">Joined date</th>
+                                    <th scope="col">Score</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for user_community in user_communities %}
+                                <tr style="color:E7FBBE">
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{user_community.community_id.name}}</td>
+                                    <td>{{user_community.joined_date}}</td>
+                                    <td>{{user_community.score}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- right table 2 crate list -->
+                <div class="col">
+                    <div class="table-container card">
+                        <h4 class="text-primary">Create list</h4>
+                        <table class="table table-sm table-bordered table-striped table-hover" style="text-align: center;border-collapse: collapse;" >
+                                <thead>
+                                    <colgroup>
+                                        <col width=auto span="1">
+                                        <col width=auto span="1">
+                                        <col width="150" span="1">
+                                        <col width="200" span="1">
+                                    </colgroup>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Community</th>
+                                    <th scope="col">Created date</th>
+                                    <th scope="col">Size</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for creater_communities in len %}
+                                <tr style="color:E7FBBE">
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{creater_communities.community.name}}</td>
+                                    <td>{{creater_communities.community.created_date}}</td>
+                                    <td>{{creater_communities.len}}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+           
+
+
+        </div>
+    <!-- ---------------------------------------------------- -->
+
+
+ 
+</div>
+
+{% endblock %}
+```

@@ -1,0 +1,77 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}{{ this_community.name }}{% endblock %}
+{% load static %}
+
+{% block content %} 
+
+
+<div class="container">
+    <!-- <div class="block">
+        <h3>Documents:</h3>
+        <table class="table table-sm table-bordered table-striped table-hover " style="text-align: center">
+        <thead>
+              
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Creator</th>
+            <th scope="col">Title</th>
+            <th scope="col">Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for doc in community_doc %}
+        <tr style="color:E7FBBE">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{doc.created_user_id.username}}</td>
+            <td>{{doc.title}}</td>
+            <td>{{doc.description}}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+        <a href="{% url 'Community:home' %}">Configure this community</a>
+    </div>
+
+    <div class="block">
+        <h3>Score Rank:</h3>
+        <table class="table table-sm table-bordered table-striped table-hover" style="text-align: center;border-collapse: collapse;" >
+            <thead>
+                <colgroup>
+                    <col width=auto span="1">
+                    <col width=auto span="1">
+                    <col width="150" span="1">
+                    <col width="200" span="1">
+                </colgroup>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Community</th>
+                <th scope="col">Created date</th>
+                <th scope="col">Size</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for creater_communities in creater_communities %}
+            <tr style="color:E7FBBE">
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{creater_communities.name}}</td>
+                <td>{{creater_communities.created_date}}</td>
+                <td>{{community_size}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table></div> -->
+        {%for cuser in users_community %}
+            {% include 'Community/user_view.html' %}
+        {% endfor %}
+
+
+
+    </div>
+
+
+
+
+<!-- <a href="{% url 'Community:home' %}">Back</a> -->
+{% endblock %}
+```

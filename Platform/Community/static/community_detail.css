@@ -1,0 +1,22 @@
+.community-detail-container {
+    margin-top: 100px;
+}
+
+.community-info-wrapper {
+    background-color: #fff;
+    border: none;
+    border-radius: var(--container-border-radius);
+    min-height: 500px;
+    text-align: center;
+    padding: 64px 64px;
+}
+
+.community-join-btn {
+    min-width: 128px;
+    padding: 6px 36px;
+    margin: 24px;
+}
+
+.back-wrapper {
+    text-align: left;
+}

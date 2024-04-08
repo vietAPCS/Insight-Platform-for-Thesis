@@ -1,0 +1,39 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}{{ community.name }}{% endblock %}
+{% load static %}
+
+{% block link %}
+<link rel="stylesheet" href="{% static 'community_doc.css' %}">
+{% endblock %}
+
+{% block content %} 
+
+<div class="container">
+        {% if community.upload_permission == 1 or is_former%}
+        <div class="upload-doc-wrapper">
+            <a class="border-btn" href="http://127.0.0.1:3001/upload-entranceDocument">
+                Upload Document
+            </a>
+        </div>
+        {% endif %}
+        <div class="doc-wrapper">
+            <div class="title-wrapper">
+                <h3>All documents</h3>
+            </div>
+            {%for doc in community_docs%}
+            <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
+                <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
+                <div class="card-body shadow-sm">
+                    <h5 class="card-title">{{doc.title}}</h5>
+                    <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
+                    <a href="{{doc.path}}" class="btn btn-link">
+                        See more
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+</div>
+{% endblock %}

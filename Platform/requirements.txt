@@ -1,0 +1,10 @@
+django
+requests
+django-cors-headers
+mysqlclient
+
+## database name :insight_database
+## password:
+## username: root
+## port : 3306
+## python manage.py runserver

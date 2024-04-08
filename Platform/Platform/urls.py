@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path('', include(('Community.urls', 'Commnuity'), namespace='Community')),
+    path('', include(('Member.urls', 'Member'), namespace='Member')),
     path('admin/', admin.site.urls),
-    path('', include('Community.urls'))
 ]

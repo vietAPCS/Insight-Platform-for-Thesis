@@ -1,0 +1,13 @@
+.doc-wrapper {
+    padding: 48px;
+    background-color: #fff;
+    border-radius: var(--container-border-radius);
+}
+
+.title-wrapper {
+    margin-bottom: 16px;
+}
+
+.upload-doc-wrapper {
+    margin-bottom: 16px;
+}

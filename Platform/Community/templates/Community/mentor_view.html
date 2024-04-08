@@ -1,0 +1,52 @@
+{% load static %}
+<div class="user-item-wrapper">
+    <!-- User Avatar -->
+    <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar">
+
+    <!-- User Information -->
+    <div class="user-item-info-wrapper">
+        <!-- Username -->
+        <div class="user-item-username">{{mentor.user_id.username}}</div>
+
+        <!-- Date Joined -->
+        <div class="user-item-info">Joined: {{mentor.joined_date}}</div>
+
+        <div class="user-item-info">Score: {{mentor.score}}</div>
+    </div>
+    
+        <!-- Score -->
+
+    <!-- View Profile Button -->
+    <a class="border-btn" href="{% url 'Member:profile' mentor.user_id.id %}">View Profile</a>
+
+    <!-- Follow Button -->
+    <button class="border-btn" id="send-request">Send a request</button> 
+    <script>
+        $('#send-request').click(function () {
+            console.log('clciked')
+            // console.log({{this_c_user.id}})
+            // console.log({{mentor.id}})
+            $.ajax({
+                url: '{% url "Community:ajax-request-mentor" %}',
+                data: {
+                    'communityID': {{community.id}},
+                    'user_communityID': {{this_c_user.id}},
+                    'mentorID': {{mentor.id}}
+
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if(data.flag)
+                    {
+                        console.log("success")
+                        console.log(data.status)
+                    }
+                    else 
+                    {
+                        console.log(data.err_message)
+                    }
+                }
+            })
+        })
+    </script> 
+</div>

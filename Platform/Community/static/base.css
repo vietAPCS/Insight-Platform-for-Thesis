@@ -1,0 +1,16 @@
+:root {
+    --button-light:   #7fbbfa;
+    --button-bold:  #007BFF;
+
+    --container-border-radius: 18px;
+}
+
+
+body {
+    margin: 0;
+    /* padding-top: 40px; */
+    color: #2e323c;
+    background: #dcdee4;
+    position: relative;
+    height: 100%;
+}

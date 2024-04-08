@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+section {
+    margin-bottom: 60px;
+    padding: 60px 25px;
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: var(--container-border-radius);
+
+}
+
+.active {
+    font-weight: 500;
+}
+
+.shorcut-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+}
+
+.shorcut-wrapper {
+    display: inline-block;
+    text-align: center;
+    padding: 5px 20px;
+}
+
+.shorcut-img {
+    width: 72px;
+    height: 72px;
+    margin-bottom: 8px;
+    object-fit: cover;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.community-card {
+    width: 16rem !important;
+    min-width: 14rem !important;
+}
+
+.body-container {
+    /* background-color: #ffffff; */
+    padding: 40px 20px;
+}
+
+.community-container {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+footer {
+    padding-bottom: 128px;
+}
+
+footer p, footer a {
+    font-size: 14px;
+}
+
+.newset-container {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.newest-banner {
+    width: 800px !important; 
+    height: 430px !important; 
+    object-fit: cover;
+    overflow: hidden;
+    position: relative !important;
+}
+/* boostrap */
+
+.dropdown-menu {
+    width: 100px !important;
+}
+.dropdown-item {
+    width: 100px !important;
+}
+.dropdown-divider {
+    width: 100px !important;
+}

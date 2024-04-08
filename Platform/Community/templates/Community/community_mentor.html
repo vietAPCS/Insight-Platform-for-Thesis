@@ -1,0 +1,20 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}{{ this_community.name }}{% endblock %}
+{% load static %}
+
+{% block content %} 
+
+<div class="container">
+        {%for mentor in community_mentors%}
+            {% include 'Community/mentor_view.html' %}
+        {% endfor %}
+
+</div>
+
+
+
+
+<!-- <a href="{% url 'Community:home' %}">Back</a> -->
+{% endblock %}
+```

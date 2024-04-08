@@ -1,0 +1,29 @@
+{% load static %}
+<div class="user-item-wrapper">
+    <!-- User Avatar -->
+    <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar">
+
+    <!-- User Information -->
+    <div class="user-item-info-wrapper">
+        <!-- Username -->
+        <div class="user-item-username">{{cuser.user_id.username}}</div>
+
+        <!-- Date Joined -->
+        <div class="user-item-info">Joined: {{cuser.joined_date}}</div>
+
+    </div>
+    
+    <div class="useritem-rank-wrapper">
+        <!-- Score -->
+        <div class="user-item-info">Score: {{cuser.score}}</div>
+    
+        <!-- Rank Information -->
+        <div class="user-item-info rank">Rank: {{ forloop.counter }}</div>
+    </div>
+
+    <!-- View Profile Button -->
+    <a class="border-btn" href="{% url 'Member:profile' cuser.user_id.id %}">View Profile</a>
+
+    <!-- Follow Button -->
+    <button class="border-btn">Follow</button>
+</div>

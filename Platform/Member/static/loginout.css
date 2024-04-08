@@ -1,0 +1,18 @@
+.loginout-container {
+    display: flex;
+    justify-content: center;
+}
+.loginout-wrapper{
+    width: 450px;
+    padding: 50px 60px 100px 60px;
+    background-color: #ffffff;
+    border-radius: 5px;
+}
+
+.loginout-logo {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-self: center;
+    margin-bottom: 30px;
+}

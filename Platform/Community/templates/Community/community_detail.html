@@ -1,0 +1,38 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}
+{{ community.name }}
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href='{% static "community_detail.css" %}'>
+
+<div class="container">
+
+    <div class="container community-info-wrapper">
+        <h1>{{community.name}}</h1>
+        <p><strong>Founder:</strong> <a href="{% url 'Member:profile' community.created_user.id %}">{{community.created_user}}</a></p>
+        <p><strong>Since</strong>{{community.created_date}}</p>
+        <p><strong>Description:</strong> {{community.description}}.</p>
+        <p><strong>Total Number of Users:</strong> {{community_size}}</p>
+        <p><strong>Total Number of Mentors:</strong> {{num_mentors}}</p>
+        <p><strong>Total Number of Documents:</strong> {{num_documents}}</p>
+        
+        
+        {% if community.entrance_test_enable %}
+        <form action="http://127.0.0.1:3001/exam">
+            <input style="display: none;" type="text" name="communityName" value="{{community.name}}">
+            <input style="display: none;" type="text" name="communityId" value="{{community.id}}">
+            <input style="display: none;" type="text" name="userId" value="{{user.id}}">
+            <button class="border-btn community-join-btn" type="submit">Take test to join</button>
+        </form>  
+        {% else %}
+            <a class="border-btn community-join-btn" href="{% url 'Community:join-community' community.pk %}">Join</a>
+        {% endif %}
+        <div class="back-wrapper">
+            <a class="border-btn" href="{% url 'Community:home' %}">Back</a>
+        </div>
+    </div>
+
+{% endblock %}

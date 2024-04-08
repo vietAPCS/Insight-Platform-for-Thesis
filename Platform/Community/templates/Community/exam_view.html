@@ -1,0 +1,25 @@
+
+{% load static %}
+<div class="user-item-wrapper">
+    <!-- User Avatar -->
+    <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar">
+
+    <!-- User Information -->
+    <div class="user-item-info-wrapper">
+        <!-- Username -->
+        <div class="user-item-username">{{cexam.name}}</div>
+        <div class="user-item-username">{{cexam.user_id.username}}</div>
+        <!-- Date Joined -->
+        <div class="user-item-info">Created: {{cexam.created_date}}</div>
+        <div class="user-item-info ">
+            <h4>Jury's name {{cexam.mentor.username}}</h4>
+            </div>
+        <div class="user-item-info">description: {{cexam.description}}</div>
+    </div>
+
+
+    <!-- View Profile Button -->
+
+    <!-- Follow Button -->
+    <button class="border-btn">Enter</button>
+</div>
