@@ -1,7 +1,10 @@
 django
-requests
-django-cors-headers
-mysqlclient
+requests #python install requests
+django-cors-headers #python -m pip install django-cors-headers
+mysqlclient #pip install mysqlclient
+psycopg2-binary #pip install psycopg2-binary
+django-cockroaddb #pip install django-cockroachdb
+python-dotenv #pip install python-dotenv
 
 ## database name :insight_database
 ## password:

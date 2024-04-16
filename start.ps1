@@ -1,0 +1,1 @@
+Start-Process powershell -ArgumentList "cd Platform; python manage.py runserver 9000"
