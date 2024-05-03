@@ -4,6 +4,7 @@ from django.contrib.auth import login, logout, authenticate
 from .models import *
 from django.contrib.auth.models import User
 from datetime import datetime
+#from .forms import *
 # Create your views here.
 
 def signin(request):
@@ -68,8 +69,8 @@ def profile(request, pk):
         return redirect('Member:signin')
     else:
         this_user = User.objects.get(id = pk)
-        this_user2 = User.objects.get(id = pk)
         # print(this_user)
+        user_img = MyUser.objects.get(userid = this_user).avatar
         user_communities = UserCommunity.objects.filter(user_id = this_user)
         creater_communities = Community.objects.filter(created_user = this_user)
         len = []
@@ -85,9 +86,9 @@ def profile(request, pk):
             'this_user': this_user,
             'user_communities': user_communities,
             'creater_communities': creater_communities,
-            "len": len
+            "len": len,
+            'img': user_img
         }
-        
         return render(request, 'Member/profile.html', context)
     
 
@@ -100,7 +101,22 @@ def edituser(request, pk):
         if user != this_user:
             return render(request, 'Member/error.html')
         else:
+            user2 = MyUser.objects.get(userid = this_user)
             if request.method == 'POST':
-                pass
+                username = request.POST.get('nick-name', None)
+                # form = profile_form(request.POST, request.FILES)
+                # if form.is_valid():
+                #     form.save()
+                if(len(request.FILES)!=0):
+                    user2.avatar = request.FILES['image']
+                    user2.save()
+
+                this_user.username = username
+                this_user.save()
+                return redirect('/')
             else:
-                return render(request, 'Member/edit_user.html')
+                context = {
+                    'user_name':this_user.username,
+                    'img':user2.avatar
+                }
+                return render(request, 'Member/edit_user.html',context)
