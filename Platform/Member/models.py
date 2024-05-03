@@ -25,7 +25,6 @@ class MyUser(models.Model):
             img.thumbnail(new_img)
             img.save(self.avatar.path)
     
-
 class UserHistory(models.Model):
     id = models.AutoField(primary_key=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -54,10 +53,20 @@ class UserCommunity(models.Model):
     def __str__(self):
         return str(self.user_id) + ' - ' + str(self.community_id)
 
-
 class RequestMentor(models.Model):
     id = models.AutoField(primary_key=True)
     UserCommunityId = models.ForeignKey(UserCommunity, on_delete=models.CASCADE, related_name="member_in_community")
     mentorId =  models.ForeignKey(UserCommunity, on_delete=models.CASCADE, related_name="requesting_mentors")
     upadate_date = models.DateField(auto_now_add=True)
     status = models.IntegerField(default= 0, blank=True, null=True) #1 == accepted, 2 == reject, 0 == waiting
+
+class ExamRoom(models.Model):
+    id = models.AutoField(primary_key=True)
+    mentor_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    score = models.IntegerField(default=10, null=True, blank=True)
+    mentor_hash = models.CharField(max_length=255, blank=True, null=False)
+    student_hash = models.CharField(max_length=255, blank=True, null=False)
+
+class StudentRoom(models.Model):
+    room_id = models.ForeignKey(ExamRoom, on_delete=models.CASCADE)
+    student_id = models.ForeignKey(User, on_delete=models.CASCADE)
