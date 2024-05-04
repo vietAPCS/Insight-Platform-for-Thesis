@@ -15,6 +15,7 @@ section {
 
 }
 
+
 .active {
     font-weight: 500;
 }
@@ -42,8 +43,10 @@ section {
 }
 
 .community-card {
-    width: 16rem !important;
+    width: 20rem !important;
     min-width: 14rem !important;
+    padding: auto;
+    text-align: center;
 }
 
 .body-container {
@@ -55,6 +58,10 @@ section {
     display: flex;
     flex-wrap: wrap;
 
+}
+.community-header {
+    align-items: center;
+    text-align: center;
 }
 
 footer {
@@ -79,12 +86,3 @@ footer p, footer a {
 }
 /* boostrap */
 
-.dropdown-menu {
-    width: 100px !important;
-}
-.dropdown-item {
-    width: 100px !important;
-}
-.dropdown-divider {
-    width: 100px !important;
-}
