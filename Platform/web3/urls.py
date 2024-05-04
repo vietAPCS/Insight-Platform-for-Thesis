@@ -1,8 +1,8 @@
-from django.contrib import path
+from django.urls import path
 from .views import *
 
 urlpatterns = [
-    path('', home, name="home"),
+    path('general', home2, name="home2"),
 ]
 
 # Register your models here.

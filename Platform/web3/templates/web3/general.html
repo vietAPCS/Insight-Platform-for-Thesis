@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaMask Transaction Example</title>
+  <!-- <script src="https://cdn.ethers.io/dist/ethers.min.js"></script> -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.3.1/web3.min.js" integrity="sha512-96ZCo0pzD4x2MuBZCB4ipirFKs/X/xB2diGU/A7zpfaltISM309KN79pyWe4l9IdtOlzitRltfVcxgdTEbcnvQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.slim.js"
+    integrity="sha256-7GO+jepT9gJe9LB4XFf8snVOjX3iYNb0FHYr5LI1N5c=" crossorigin="anonymous"></script>
+</head>
+
+<style>
+  body {
+    background: url("https://wallpaperaccess.com/full/3648396.jpg") no-repeat center center fixed;
+    background-size: 100% 100%;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
+</style>
+
+<body>
+  
+  <div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Action Form</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div id="buyCourseForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="courseID" class="form-label">Course ID</label>
+                <input type="text" class="form-control" id="courseID" placeholder="Enter Course ID">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="buyCourse()">Buy Course</button>
+            </form>
+          </div>
+
+          <div id="fundContractForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="amountFund" class="form-label">Amount</label>
+                <input type="text" class="form-control" id="amountFund" placeholder="Enter Amount">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="fundContract()">Fund Contract</button>
+            </form>
+          </div>
+
+          <div id="withdrawContractForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="amountWithdraw" class="form-label">Amount</label>
+                <input type="text" class="form-control" id="amountWithdraw" placeholder="Enter Amount">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="withdrawContract()">Withdraw Contract</button>
+            </form>
+          </div>
+
+          <div id="openCourseForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="courseIDOpen" class="form-label">Course ID</label>
+                <input type="text" class="form-control" id="courseIDOpen" placeholder="Enter Course ID">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="openCourse()">Open Course</button>
+            </form>
+          </div>
+
+          <div id="getBoughtCourse" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label class="form-label">Get All Bought Courses </label>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="getBoughtCourse()">getBoughtCourse</button>
+            </form>
+          </div>
+
+          <div id="mintBatchForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="numberOfNFT" class="form-label">Number Of NFT</label>
+                <input type="text" class="form-control" id="numberOfNFT" placeholder="Enter Number Of NFT">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="mintBatch()">Mint Batch</button>
+            </form>
+          </div>
+
+
+          <div id="setMinterForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="addressOfMinter" class="form-label">Address Of Minter</label>
+                <input type="text" class="form-control" id="addressOfMinter" placeholder="Enter Address Of Minter">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="setMinter()">Mint Batch</button>
+            </form>
+          </div>
+
+
+          <div id="viewDetailForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="courseIDDetail" class="form-label">Course ID</label>
+                <input type="text" class="form-control" id="courseIDDetail" placeholder="Enter Course ID">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="viewCourseDetails()">View Details</button>
+            </form>
+          </div>
+          <style>
+            .action-button {
+              min-width: 200px;
+              /* Set the desired width */
+            }
+          </style>
+          <div id="getTokenURIForm" style="display: none;">
+            <form>
+              <div class="mb-3">
+                <label for="tokenID" class="form-label">Token ID</label>
+                <input type="text" class="form-control" id="tokenID" placeholder="Enter Token ID">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="getTokenURI()">Get Token URI</button>
+            </form>
+          </div>
+
+
+          <div id="addCourseForm" style="display: none;">
+            <form id="form_add_course" enctype="multipart/form-data">
+              <div class="mb-3">
+                <label for="courseName" class="form-label">CourseName</label>
+                <input type="text" class="form-control" name="courseName" id="courseName" placeholder="Enter CourseName">
+              </div>
+              <div class="input-group">
+                <label for="files">Select files</label>
+                <input id="file" name="content" type="file" />
+              </div>
+              <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <input type="text" name="description" class="form-control" id="description" placeholder="Enter Description">
+              </div>
+              <div class="mb-3">
+                <label for="price" class="form-label">Price</label>
+                <input type="text" name="price" class="form-control" id="price" placeholder="Enter Price">
+              </div>
+              <button type="button" class="btn btn-primary" onclick="AddCourse()">AddCourse</button>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div id="successMessage" class="alert alert-success mt-3 d-none" role="alert">
+            <span id="successCourseID"></span>
+          </div>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Add this code inside the modal-body -->
+
+
+  <div class="d-flex justify-content-center align-items-center flex-wrap" style="min-height: 100vh;">
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('buyCourseForm')">Buy Course</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('fundContractForm')">Fund CourseOpening Contract</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('withdrawContractForm')">Withdraw CourseOpening Contract</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('openCourseForm')">Open Course</button>
+
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('viewDetailForm')">View Detail Course</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('getTokenURIForm')">Get Token URI for NFT</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('setMinterForm')">Set Minter</button>
+
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('mintBatchForm')">Mint Batch</button>
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('getBoughtCourse')">Get Bought Courses</button>
+    <button type="button" class="btn btn-primary m-3 action-button" data-bs-toggle="modal" data-bs-target="#myModal"
+      onclick="toggleForm('addCourseForm')">Add Course</button>
+  </div>
+
+
+
+
+  </div>
+
+  <script src="../../js/CourseOpeningContract.js"></script>
+  <script src="../../js/home.js"></script>
+
+</body>
+
+</html>
