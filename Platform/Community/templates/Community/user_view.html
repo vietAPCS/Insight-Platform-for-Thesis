@@ -1,8 +1,10 @@
 {% load static %}
 <div class="user-item-wrapper">
     <!-- User Avatar -->
-    <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar">
-
+    <!-- <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar"> -->
+    <div class="avatar">
+        <img src="{{cuser.user_id.userimg.avatar.url}}" class="avatar">
+    </div>
     <!-- User Information -->
     <div class="user-item-info-wrapper">
         <!-- Username -->

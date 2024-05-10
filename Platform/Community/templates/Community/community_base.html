@@ -70,7 +70,7 @@
                   {% if "/community-interface/exam" in request.path %}
                     active
                   {% endif %}'
-                href="{% url 'Community:community-exam' community.pk %}">Exam</a>
+                href="{% url 'Room:contest' pk=community.id %}">Exam</a>
               </li>
               <li class="nav-item">
                 <a class='nav-link
@@ -114,7 +114,9 @@
   {% if this_c_user %}
     <div id="left-size">
         <div class="sidebar">
-            <div class="avatar"></div>
+            <div class="avatar">
+              <img src="{{img.url}}" class="avatar">
+            </div>
             <div class="username">{{user.username}}</div>
             <div class="joindate">Joined: {{this_c_user.joined_date}}</div>
             <div class="score">Score: {{this_c_user.score}}</div>

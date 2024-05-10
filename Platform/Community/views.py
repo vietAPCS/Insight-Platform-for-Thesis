@@ -62,16 +62,17 @@ def community_interface(request, pk):
         return redirect('Community:community-detail', pk=pk)
     else:
         isFormer = Validate_former(this_user, community)
-        this_community_user = UserCommunity.objects.filter(
+        this_community_user = UserCommunity.objects.get(
             user_id=this_user, community_id=community)
-        users_community = UserCommunity.objects.filter(community_id=community)
+        user_img = MyUser.objects.get(userid = this_user).avatar
+        users_community = UserCommunity.objects.prefetch_related('user_id__userimg').filter(community_id=community)
         users_community = users_community.order_by('-score')
-        print(community)
         context = {
             'this_c_user': this_community_user,
             'community': community,
             'is_former': isFormer,
             'users_community': users_community,
+            'img': user_img
         }
         # context['community_size'] = creater_communities.count()
         return render(request, 'Community/community_interface.html', context)
@@ -358,10 +359,11 @@ def get_community_exam(request, pk):
         return redirect('Member:signin')
     else:
         this_user = request.user
-        EXAM_URL = "http://127.0.0.1:5000/sign_up"
+        # EXAM_URL = "http://127.0.0.1:5000/sign_up"
         this_community_user = UserCommunity.objects.get(
             user_id=this_user, community_id=pk)
-        return redirect(EXAM_URL+"?username="+this_user.username+"&score="+str(this_community_user.score))
+        # return redirect(EXAM_URL+"?username="+this_user.username+"&score="+str(this_community_user.score))
+        return render(request, 'Room/contest')
     #     community = Community.objects.get(id=pk)
     #     isMember = Validate_member(this_user, community)
     #     isFormer = Validate_former(this_user, community)

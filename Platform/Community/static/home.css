@@ -86,3 +86,12 @@ footer p, footer a {
 }
 /* boostrap */
 
+.dropdown-menu {
+    width: 100px !important;
+}
+.dropdown-item {
+    width: 100px !important;
+}
+.dropdown-divider {
+    width: 100px !important;
+}

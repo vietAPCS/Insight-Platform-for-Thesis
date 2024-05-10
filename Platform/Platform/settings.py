@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Community',
     'Member',
+    'Room',
     'web3',
     'corsheaders',
 ]

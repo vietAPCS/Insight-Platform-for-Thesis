@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  .room-id {
+    cursor: pointer;
+    color: #0d6efd !important;
+  }
+  .room-id:hover{
+    text-decoration: underline;
+  }
+</style>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  const roomIds = document.querySelectorAll('.room-id');
+  roomIds.forEach(roomId => {
+    roomId.addEventListener("click", function() {
+      const roomIdValue = this.textContent;
+      window.location.href = `/contestant/${roomIdValue}`;
+    });
+  });
+});
+</script>
+
+  <h1 class="text-center mt-3">Contestant Room</h1>
+
+  {% if contestant_rooms %}
+    <table class="table table-bordered mt-3 text-center">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">RoomID</th>
+          <th scope="col">Previous score</th>
+          <th scope="col">Target score</th>
+          <th scope="col">Number of test completed</th>
+          <th scope="col">Final result</th>
+        </tr>
+      </thead>
+
+      <tbody class="overflow-auto">
+        {% for contestant in contestant_rooms %}
+        <tr>
+          <th scope="row" class="col-1">{{ loop.index }}</th>
+          <td class="col-3 room-id">{{ contestant._id }}</td>
+          <td class="col-2">{{ contestant.prev_score }}</td>
+          <td class="col-2">{{ contestant.want_score }}</td>
+          <td class="col-2">{{ count_test_complete[loop.index - 1] }} / 5</td>
+          <td class="col-2">{{ contestant.final_result }}</td>
+        </tr>
+          {% endfor %}
+      </tbody>
+    </table>
+
+  {% else %}
+    <h2 class="text-center mt-3">No room found</h2>
+  {% endif %}
+
+{% endblock %}

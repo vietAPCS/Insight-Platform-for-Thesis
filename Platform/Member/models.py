@@ -12,7 +12,7 @@ class MyUser(models.Model):
     # first Name, last name, password, joined_date đã được kế thừa từ class user
     # user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     id = models.AutoField(primary_key = True)
-    userid = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    userid = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="userimg")
     MetamarskID = models.CharField(max_length=255, blank=False, null=False)
     avatar = models.ImageField(default='default.png', upload_to='profile_images')
     def save(self, *args, **kwargs):
@@ -45,7 +45,7 @@ class UserHistory(models.Model):
 
 class UserCommunity(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_community")
     community_id = models.ForeignKey(Community, on_delete=models.CASCADE)
     score = models.IntegerField(default=10, null=True, blank=True)
     joined_date = models.DateField(auto_now_add=True)
@@ -59,14 +59,3 @@ class RequestMentor(models.Model):
     mentorId =  models.ForeignKey(UserCommunity, on_delete=models.CASCADE, related_name="requesting_mentors")
     upadate_date = models.DateField(auto_now_add=True)
     status = models.IntegerField(default= 0, blank=True, null=True) #1 == accepted, 2 == reject, 0 == waiting
-
-class ExamRoom(models.Model):
-    id = models.AutoField(primary_key=True)
-    mentor_id = models.ForeignKey(User, on_delete=models.CASCADE)
-    score = models.IntegerField(default=10, null=True, blank=True)
-    mentor_hash = models.CharField(max_length=255, blank=True, null=False)
-    student_hash = models.CharField(max_length=255, blank=True, null=False)
-
-class StudentRoom(models.Model):
-    room_id = models.ForeignKey(ExamRoom, on_delete=models.CASCADE)
-    student_id = models.ForeignKey(User, on_delete=models.CASCADE)

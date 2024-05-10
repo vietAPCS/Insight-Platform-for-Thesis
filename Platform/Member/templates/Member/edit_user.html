@@ -23,7 +23,8 @@
 
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                             <label for="avatar">Chose avatar:</label>
-                            <input type="file" class="btn btn-light" accept="image/*" name="image"></input>
+                            <input type="file" accept="image/*" name="image" hidden id="upload2"></input>
+                            <label for="upload2" class="btn btn-success">Upload</label>
                         </div>
                     </div>
 
@@ -93,7 +94,7 @@
                     <div class="row gutters">
                         <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                             <div class="text-right">
-                                <a class="btn btn-secondary"href="{% url 'Member:profile' user.id %}">Cancel</a>
+                                <a class="btn btn-secondary" href="{% url 'Member:profile' user.id %}">Cancel</a>
                                 <button type="submit" id="submit" name="submit" class="btn btn-primary">Update</button>
                             </div>
                         </div>
