@@ -77,7 +77,7 @@
                   {% if request.path == "/add-community" %}
                     active
                   {% endif %}'
-                href="{% url 'Community:add-community' %}">About</a>
+                href="{% url 'Community:community-detail' community.id %}">About</a>
               </li>
 
               {% if is_former %}

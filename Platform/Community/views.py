@@ -86,23 +86,21 @@ def community_detail(request, pk):
         community = Community.objects.get(id=pk)
         user = request.user
         isMember = Validate_member(user, community)
-        if isMember == True:
-            return redirect('Community:community-interface', pk=pk)
-        else:
-            community_size = UserCommunity.objects.filter(
+        community_size = UserCommunity.objects.filter(
                 community_id=pk).count()
-            num_documents = CommunityDoc.objects.filter(
-                community_id=pk).count()
-            num_mentors = UserCommunity.objects.filter(
-                community_id=pk, is_mentor=True).count()
-            context = {
-                "community_size": community_size,
-                "num_documents": num_documents,
-                "num_mentors": num_mentors,
-                "community": community,
-                "user": user,
-            }
-            return render(request, 'Community/community_detail.html', context)
+        num_documents = CommunityDoc.objects.filter(
+            community_id=pk).count()
+        num_mentors = UserCommunity.objects.filter(
+            community_id=pk, is_mentor=True).count()
+        context = {
+            "community_size": community_size,
+            "num_documents": num_documents,
+            "num_mentors": num_mentors,
+            "community": community,
+            "user": user,
+            'ismember': isMember,
+        }
+        return render(request, 'Community/community_detail.html', context)
 
 # 1. xác định người dùng có thuộc community hay ko, nếu ko thì redirect qua trang detail
 # 2. xác định người dùng có phải former hay ko
