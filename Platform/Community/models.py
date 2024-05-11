@@ -57,6 +57,15 @@ class CommunityDoc(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=100) 
     path = models.TextField(max_length=255, null=False)
+    def save(self, *args, **kwargs):
+    # Get the day, month, and year from the created_date
+        day = str(self.created_date.day).zfill(2)
+        month = str(self.created_date.month).zfill(2)
+        year = str(self.created_date.year % 100).zfill(2)
+
+        # self.id = f"{self.community}-{self.member}-{day}{month}{year}"
+
+        super().save(*args, **kwargs)
 
 
 class CommunityCerti(models.Model):

@@ -8,6 +8,7 @@ from .models import *
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CommunityForm
 from Member.models import *
+from datetime import datetime
 import requests
 # Create your views here.
 
@@ -119,8 +120,9 @@ def community_mentor(request, pk):
         if not isMember:
             return redirect('Community:community-detail', pk=pk)
         else:
-            this_community_user = UserCommunity.objects.filter(
+            this_community_user = UserCommunity.objects.prefetch_related('user_id__userimg').get(
                 user_id=this_user, community_id=community)
+            user_img = MyUser.objects.get(userid = this_user).avatar
             isFormer = Validate_former(this_user, community)
             threshold = community.mentor_threshold
             mentor = UserCommunity.objects.filter(
@@ -129,7 +131,8 @@ def community_mentor(request, pk):
                 'this_c_user': this_community_user,
                 'community_mentors': mentor,
                 'community': community,
-                'is_former': isFormer
+                'is_former': isFormer,
+                'img': user_img
             }
             return render(request, 'Community/community_mentor.html', context)
 
@@ -174,14 +177,16 @@ def community_setting(request, pk):
             else:
                 community = Community.objects.get(id=pk)
                 this_user = request.user
-                this_community_user = UserCommunity.objects.filter(
+                user_img = MyUser.objects.get(userid = this_user).avatar
+                this_community_user = UserCommunity.objects.get(
                     user_id=this_user, community_id=community)
                 print(this_user)
                 is_former = True
                 context = {
                     'this_c_user': this_community_user,
                     'is_former': is_former,
-                    'community': community
+                    'community': community,
+                    'img': user_img
                 }
                 print(community.upload_permission)
                 return render(request, 'Community/community_setting.html', context)
@@ -323,9 +328,44 @@ def ansewer_request_mentor(request):
 
 
 # upload document , gọi API của nhóm Hưng
-def upload_document(request):
-    pass
-
+def upload_document(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+    else:
+        this_user = request.user
+        community = Community.objects.get(id=pk)
+        isMember = Validate_member(this_user, community)
+        isFormer = Validate_former(this_user, community)
+        if not isMember:
+            redirect('Community:community-detail', pk=pk)
+        else:
+            if request.method == 'POST':
+                title = request.POST['title']
+                description = request.POST['description']
+                new_doc = CommunityDoc()
+                new_doc.title = title
+                new_doc.description = description
+                new_doc.created_user_id = this_user
+                new_doc.created_date = datetime.now()
+                new_doc.community_id = community
+                new_doc.save()
+                
+                return redirect('Community:community-docs', pk=pk)
+            else:
+                community = Community.objects.get(id=pk)
+                this_user = request.user
+                user_img = MyUser.objects.get(userid = this_user).avatar
+                this_community_user = UserCommunity.objects.get(
+                    user_id=this_user, community_id=community)
+                print(this_user)
+                is_former = True
+                context = {
+                    'this_c_user': this_community_user,
+                    'is_former': is_former,
+                    'community': community,
+                    'img': user_img
+                }
+                return render(request, 'Community/upload_doc.html', context)
 
 # get document and return render html
 # Trung - Việt
@@ -342,14 +382,15 @@ def get_community_docments(request, pk):
         else:
             community_docs = CommunityDoc.objects.filter(
                 community_id=community).all()
-            this_community_user = UserCommunity.objects.get(
+            this_community_user = UserCommunity.objects.prefetch_related('user_id__userimg').get(
                 user_id=this_user, community_id=community)
-
+            user_img = MyUser.objects.get(userid = this_user).avatar
             context = {
                 'community': community,
                 'this_c_user': this_community_user,
                 'community_docs': community_docs,
-                'is_former': isFormer
+                'is_former': isFormer,
+                'img': user_img
             }
             return render(request, 'Community/community_document.html', context)
 

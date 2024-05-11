@@ -9,6 +9,7 @@ urlpatterns = [
     path('community-interface/mentor/<int:pk>', community_mentor, name='community-mentor'),
     path('community-interface/setting/<int:pk>', community_setting, name='community-setting'),
     path('community-interface/docs/<int:pk>', get_community_docments, name='community-docs'),
+    path('community-interface/upload_doc/<int:pk>', upload_document, name='upload_doc'),
     path('community-interface/exam/<int:pk>', get_community_exam, name='community-exam'),
     path('add-community', add_community, name='add-community'),
     path('done_exam', done_exam, name='done-exam'),
