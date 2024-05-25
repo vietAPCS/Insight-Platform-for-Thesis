@@ -3,4 +3,4 @@ from .models import *
 
 # Register your models here.
 admin.site.register(ExamRoom),
-admin.site.register(StudentRoom),
+admin.site.register(RoomDetails),
