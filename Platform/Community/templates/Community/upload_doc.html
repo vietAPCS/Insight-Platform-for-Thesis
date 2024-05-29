@@ -12,7 +12,7 @@
     <div class="title-wrapper">
         <h3>Upload Document</h3>
     </div>
-    <form method="POST">
+    <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row mb-5">
             <h4 class="col-3">Title</h4>
@@ -30,8 +30,8 @@
         <div class="row mb-5">
             <h4 class="col-sm-full col-3">Document</h4>
             <div class="col-9">
-                <input type="file" accept="application/pdf" name="doc" hidden id="upload2" disabled></input>
-                <label for="upload2" class="btn btn-success">Upload File</label>
+                <input type="file" accept="application/pdf" name="doc" id="upload file" hidden></input>
+                <label for="upload file" class="btn btn-success">Upload File</label>
             </div>
         </div>
         <div class="row gutters">

@@ -4,6 +4,9 @@ from django.contrib.auth import login, logout, authenticate
 from .models import *
 from django.contrib.auth.models import User
 from datetime import datetime
+import requests
+from django.http import HttpResponse
+from Platform.utils import *
 #from .forms import *
 # Create your views here.
 
@@ -104,9 +107,6 @@ def edituser(request, pk):
             user2 = MyUser.objects.get(userid = this_user)
             if request.method == 'POST':
                 username = request.POST.get('nick-name', None)
-                # form = profile_form(request.POST, request.FILES)
-                # if form.is_valid():
-                #     form.save()
                 if(len(request.FILES)!=0):
                     user2.avatar = request.FILES['image']
                     user2.save()
@@ -120,3 +120,23 @@ def edituser(request, pk):
                     'img':user2.avatar
                 }
                 return render(request, 'Member/edit_user.html',context)
+
+    # # URL of the file you want to download
+    # file_url = 'https://apricot-impressive-termite-356.mypinata.cloud/ipfs/QmT2rvh81di6135JtbRwBwXHETCTThYaFxaK6Y1FZqp7AB'
+
+    # # Fetch the file from the URL
+    # response = requests.get(file_url)
+
+    # if response.status_code == 200:
+    #     # Set the file name for the downloaded file
+    #     filename = 'downloaded_file.txt'
+
+    #     # Create an HttpResponse with the file content and appropriate headers
+    #     response = HttpResponse(
+    #         response.content,
+    #         content_type='application/octet-stream'
+    #     )
+    #     response['Content-Disposition'] = f'attachment; filename="{filename}"'
+    #     return response
+    # else:
+    #     return HttpResponse("Failed to download the file.")

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-
+from Platform.utils import encrypt
 def validate_no_negative(value):
     if value < 0:
         raise ValidationError(
@@ -56,16 +56,10 @@ class CommunityDoc(models.Model):
     created_user_id = models.ForeignKey(User, on_delete=models.CASCADE)
     description = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=100) 
-    path = models.TextField(max_length=255, null=False)
+    doc_cid = models.TextField(max_length=255, null=False, blank=True)
     def save(self, *args, **kwargs):
-    # Get the day, month, and year from the created_date
-        day = str(self.created_date.day).zfill(2)
-        month = str(self.created_date.month).zfill(2)
-        year = str(self.created_date.year % 100).zfill(2)
-
-        # self.id = f"{self.community}-{self.member}-{day}{month}{year}"
-
-        super().save(*args, **kwargs)
+        self.doc_cid = encrypt(self.doc_cid)
+        super(CommunityDoc, self).save(*args, **kwargs)
 
 
 class CommunityCerti(models.Model):

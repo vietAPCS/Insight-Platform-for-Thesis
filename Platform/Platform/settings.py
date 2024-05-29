@@ -24,10 +24,14 @@ if os.path.isfile(dotenv_file):
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ['SECRET_KEY']y
+SECRET_KEY = os.environ['SECRET_KEY']
+
+#Pinata
 PINATA_KEY = os.environ['PINATA_KEY']
 PINATA_SECRET = os.environ['PINATA_SECRET']
 PINATA_JWT = os.environ['PINATA_JWT']
+
+#Secret key
 ENCRYPTION_SECRET = os.environ['ENCRYPTION_SECRET']
 
 # SECURITY WARNING: don't run with debug turned on in production!

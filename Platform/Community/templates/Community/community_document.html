@@ -22,20 +22,23 @@
                 <h3>All documents</h3>
             </div>
             {%for doc in community_docs%}
-            <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
-                <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
-                <div class="card-body shadow-sm">
-                    <h5 class="card-title">{{doc.title}}</h5>
-                    <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
-                    <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>
-                    <a href="{{doc.path}}" class="btn btn-primary">
-                        Download
-                    </a>
-                    <div id="des{{doc.document_id}}" class="collapse">
-                        {{doc.description}}
+            <form method="POST">{% csrf_token %}
+                <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
+                    <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
+                    <div class="card-body shadow-sm">
+                        <h5 class="card-title" value = {{doc.title}} name="title">{{doc.title}}</h5>
+                        <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
+                        <button class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>
+                        <input type = "text" value = {{doc.title}} name="title" hidden></input>
+                        <button type="submit" value= {{doc.doc_cid}} name="download" class="btn btn-primary">
+                            Download
+                        </button>    
+                        <div id="des{{doc.document_id}}" class="collapse">
+                            {{doc.description}}
+                        </div>
                     </div>
                 </div>
-            </div>
+             </form>
             {% endfor %}
         </div>
 

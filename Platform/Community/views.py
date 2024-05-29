@@ -4,12 +4,14 @@ from django.http import JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
+from django.conf import settings
 from .models import *
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CommunityForm
 from Member.models import *
 from datetime import datetime
 import requests
+from Platform.utils import *
 # Create your views here.
 
 
@@ -346,6 +348,8 @@ def upload_document(request, pk):
                 new_doc.created_user_id = this_user
                 new_doc.created_date = datetime.now()
                 new_doc.community_id = community
+                new_doc.doc_cid = get_cid(request)
+
                 new_doc.save()
                 
                 return redirect('Community:community-docs', pk=pk)
@@ -377,6 +381,8 @@ def get_community_docments(request, pk):
         isFormer = Validate_former(this_user, community)
         if not isMember:
             redirect('Community:community-detail', pk=pk)
+        elif request.POST.get('download', False):
+            return get_file(request)
         else:
             community_docs = CommunityDoc.objects.filter(
                 community_id=community).all()
