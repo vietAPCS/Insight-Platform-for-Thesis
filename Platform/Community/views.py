@@ -327,7 +327,6 @@ def ansewer_request_mentor(request):
         return JsonResponse({'error': 'Invalid request method'}, status=405)
 
 
-# upload document , gọi API của nhóm Hưng
 def upload_document(request, pk):
     if not request.user.is_authenticated:
         return redirect('Member:signin')
@@ -370,7 +369,6 @@ def upload_document(request, pk):
                 return render(request, 'Community/upload_doc.html', context)
 
 # get document and return render html
-# Trung - Việt
 def get_community_docments(request, pk):
     if not request.user.is_authenticated:
         return redirect('Member:signin')

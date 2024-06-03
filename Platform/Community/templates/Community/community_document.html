@@ -8,6 +8,9 @@
 {% endblock %}
 
 {% block content %} 
+<script>
+    
+</script>
 
 <div class="container">
         {% if community.upload_permission == 1 or is_former%}
@@ -29,7 +32,7 @@
                         <h5 class="card-title" value = {{doc.title}} name="title">{{doc.title}}</h5>
                         <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
                         <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>
-                        <input type = "text" value = {{doc.title}} name="title" hidden></input>
+                        <!-- <input type = "text" value = {{doc.title}} name="title" hidden></input> -->
                         <button type="submit" value= {{doc.doc_cid}} name="download" class="btn btn-primary">
                             Download
                         </button>    
