@@ -341,12 +341,14 @@ def upload_document(request, pk):
             if request.method == 'POST':
                 title = request.POST['title']
                 description = request.POST['description']
+                price = request.POST['price']
                 new_doc = CommunityDoc()
                 new_doc.title = title
                 new_doc.description = description
                 new_doc.created_user_id = this_user
                 new_doc.created_date = datetime.now()
                 new_doc.community_id = community
+                new_doc.price = price
                 new_doc.doc_cid = get_cid(request)
 
                 new_doc.save()

@@ -38,7 +38,7 @@ def signup(request):
             username = request.POST.get('username', None)
             password = request.POST.get('password', None)
             password2 = request.POST.get('password2', None)
-            metamarskID = request.POST.get('metamarsk-id')
+            metamaskID = request.POST.get('metamaskID', None)
 
             if password != password2:
                 return render(request, 'Member/signup.html')
@@ -53,7 +53,7 @@ def signup(request):
 
             new_my_user = MyUser()
             new_my_user.userid = new_user
-            new_my_user.MetamarskID = metamarskID
+            new_my_user.metamaskID = metamaskID
             new_my_user.save()
     
             login(request, new_user)

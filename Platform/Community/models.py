@@ -57,6 +57,7 @@ class CommunityDoc(models.Model):
     description = models.CharField(max_length=255, blank=True, null=True)
     title = models.CharField(max_length=100) 
     doc_cid = models.TextField(max_length=255, null=False, blank=True)
+    price = models.IntegerField(default=0, validators=[validate_no_negative])
     def save(self, *args, **kwargs):
         self.doc_cid = encrypt(self.doc_cid)
         super(CommunityDoc, self).save(*args, **kwargs)
