@@ -12,9 +12,13 @@ def encrypt(message):
 
 def decrypt(message):
     f = Fernet(settings.ENCRYPTION_SECRET)
+    print(settings.ENCRYPTION_SECRET)
     mes =  bytes(message, encoding='utf8')
+    print(mes)
     token = f.decrypt(mes)
+    print(token)
     ret = token.decode()
+    print(ret)
     return ret
 
 def get_cid(request):
@@ -31,11 +35,10 @@ def get_cid(request):
 
 def get_file(request):
     file_url = 'https://ipfs.io/ipfs/'+ decrypt(request.POST.get('download'))
-        # Fetch the file from the URL
     response = requests.get(file_url)
     if response.status_code == 200:
         # Set the file name for the downloaded file
-        filename = request.POST.get('title') + '.pdf'
+        filename = 'request' + '.pdf'
 
         # Create an HttpResponse with the file content and appropriate headers
         response = HttpResponse(

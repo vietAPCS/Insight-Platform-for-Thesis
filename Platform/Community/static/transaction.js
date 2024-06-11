@@ -1,6 +1,5 @@
-const Web3 = require('web3');
 
-const web3 = new Web3('https://eth-sepolia.g.alchemy.com/v2/xc0bq1h-z23pK_2CFPsIDayaDLaf6UaD');
+const web3 = new Web3(window.ethereum);
 
 const contractAddress = '0x58Be5eD51e171D50C958b78ff3E9A093c287D2EB';
 
@@ -419,11 +418,48 @@ const contractABI = [
 ];
 
 const Insights = new web3.eth.Contract(contractABI, contractAddress);
+const el= document.getElementById('hiddenInput');
+if (el) {
+	console.log("youre gay");
+}
 
-async function buyDoc() {
+async function requestAccount() {
+	try {
+	  const accounts = await window.ethereum.request({
+		method: 'eth_requestAccounts',
+	  });
+	  return accounts[0];
+	} catch (error) {
+	  console.error('User denied account access');
+	  return null;
+	}
+  }
+
+// document.getElementById('myForm').addEventListener("submit", function(event) {
+//     // Prevent the default form submission
+//     event.preventDefault();
+// 	console.log("Hello Prevented");
+// 	const docPrice = document.getElementById('price').value;
+// 	const address = document.getElementById('address').value;
+//     // this.submit();
+// });
+
+async function buyDoc(address, docPrice, cid) {
     try {
-        const result = await Insights.methods.transfer().call();
+		const fromAdress = await requestAccount();
+		console.log(address + "this is address");
+		console.log(docPrice + "this is docPrice");	
+		const correctPrice = docPrice * 1000000000000000000;
+        const result = await Insights.methods.transfer(address,correctPrice).send({from: fromAdress});
+		// const result = await Insights.methods.totalSupply().call();
         console.log(result);
+		const form = document.getElementById('myForm');
+		const t = document.createElement('input');
+		t.setAttribute('type', 'text');
+		t.setAttribute('name', 'download');
+		t.setAttribute('value', cid);
+		form.appendChild(t)
+		form.submit();
     } catch (error) {
         console.error(error);
     }

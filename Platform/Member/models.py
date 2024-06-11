@@ -12,14 +12,12 @@ class MyUser(models.Model):
     # first Name, last name, password, joined_date đã được kế thừa từ class user
     # user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     id = models.AutoField(primary_key = True)
-    userid = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="userimg")
-    MetamarskID = models.CharField(max_length=255, blank=False, null=False)
+    userid = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="myuser")
+    metamaskID = models.CharField(max_length=255, blank=True, null=True)
     avatar = models.ImageField(default='default.png', upload_to='profile_images')
     def save(self, *args, **kwargs):
         super().save()
-
         img = Image.open(self.avatar.path)
-
         if img.height > 200 or img.width > 200:
             new_img = (200, 200)
             img.thumbnail(new_img)

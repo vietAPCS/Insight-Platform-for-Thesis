@@ -68,7 +68,7 @@ def community_interface(request, pk):
         this_community_user = UserCommunity.objects.get(
             user_id=this_user, community_id=community)
         user_img = MyUser.objects.get(userid = this_user).avatar
-        users_community = UserCommunity.objects.prefetch_related('user_id__userimg').filter(community_id=community)
+        users_community = UserCommunity.objects.prefetch_related('user_id__myuser').filter(community_id=community)
         users_community = users_community.order_by('-score')
         context = {
             'this_c_user': this_community_user,
@@ -120,7 +120,7 @@ def community_mentor(request, pk):
         if not isMember:
             return redirect('Community:community-detail', pk=pk)
         else:
-            this_community_user = UserCommunity.objects.prefetch_related('user_id__userimg').get(
+            this_community_user = UserCommunity.objects.prefetch_related('user_id__myuser').get(
                 user_id=this_user, community_id=community)
             user_img = MyUser.objects.get(userid = this_user).avatar
             isFormer = Validate_former(this_user, community)
@@ -384,9 +384,9 @@ def get_community_docments(request, pk):
         elif request.POST.get('download', False):
             return get_file(request)
         else:
-            community_docs = CommunityDoc.objects.filter(
+            community_docs = CommunityDoc.objects.prefetch_related('created_user_id__myuser').filter(
                 community_id=community).all()
-            this_community_user = UserCommunity.objects.prefetch_related('user_id__userimg').get(
+            this_community_user = UserCommunity.objects.prefetch_related('user_id__myuser').get(
                 user_id=this_user, community_id=community)
             user_img = MyUser.objects.get(userid = this_user).avatar
             context = {

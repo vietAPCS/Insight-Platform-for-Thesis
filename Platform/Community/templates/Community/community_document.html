@@ -8,9 +8,7 @@
 {% endblock %}
 
 {% block content %} 
-<script>
-    
-</script>
+<script src="https://cdn.jsdelivr.net/npm/web3@4.9.0/dist/web3.min.js"></script>
 
 <div class="container">
         {% if community.upload_permission == 1 or is_former%}
@@ -25,25 +23,29 @@
                 <h3>All documents</h3>
             </div>
             {%for doc in community_docs%}
-            <form method="POST">{% csrf_token %}
+            <form id="myForm" method="POST">{% csrf_token %}
                 <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
                     <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
                     <div class="card-body shadow-sm">
                         <h5 class="card-title" value = {{doc.title}} name="title">{{doc.title}}</h5>
                         <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
-                        <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>
-                        <!-- <input type = "text" value = {{doc.title}} name="title" hidden></input> -->
-                        <button type="submit" value= {{doc.doc_cid}} name="download" class="btn btn-primary">
-                            Download
-                        </button>    
+                        <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>   
+                            <input type = "text" value = {{doc.title}} name="title" hidden></input>
+                            <input type="hidden" id="address" value={{doc.created_user_id.myuser.metamaskID}}></input>
+                            <!-- <input type="text" name="download" value={{doc.doc_cid}}></input> -->
+                            <input type="text" id="price" value={{doc.price}}></input>
+                            <button type="button" id="submitButton" class="btn btn-primary" onclick="buyDoc('{{doc.created_user_id.myuser.metamaskID}}','{{doc.price}}','{{doc.doc_cid}}')">
+                                Download
+                            </button> 
                         <div id="des{{doc.document_id}}" class="collapse">
                             {{doc.description}}
                         </div>
                     </div>
-                </div>
-             </form>
+            </div>
+        </form>
             {% endfor %}
         </div>
-
+    
 </div>
+<script src='{% static "transaction.js" %}'></script>
 {% endblock %}
