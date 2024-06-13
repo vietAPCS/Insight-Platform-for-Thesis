@@ -43,7 +43,7 @@ class UserHistory(models.Model):
 
 class UserCommunity(models.Model):
     id = models.AutoField(primary_key=True)
-    user_id = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_community")
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_community")
     community_id = models.ForeignKey(Community, on_delete=models.CASCADE)
     score = models.IntegerField(default=10, null=True, blank=True)
     joined_date = models.DateField(auto_now_add=True)

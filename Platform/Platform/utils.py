@@ -14,11 +14,8 @@ def decrypt(message):
     f = Fernet(settings.ENCRYPTION_SECRET)
     print(settings.ENCRYPTION_SECRET)
     mes =  bytes(message, encoding='utf8')
-    print(mes)
     token = f.decrypt(mes)
-    print(token)
     ret = token.decode()
-    print(ret)
     return ret
 
 def get_cid(request):

@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "Room/base.html" %}
 {% block content %}
 
-<script>
+<!-- <script>
 function viewTest(roomID, mentorID) {
   var xhr = new XMLHttpRequest();
   xhr.open('GET', '/view_test/' + roomID + "?mentor_id=" + mentorID, true);
@@ -51,45 +51,46 @@ function viewSubmit(roomID, mentorID) {
   // Gửi yêu cầu lấy dữ liệu PDF từ server
   xhr.send();
 }
-</script>
+</script> -->
 
 <div class="container">
-  {% if room._id %}
-    <h1 class=""
-      {% if room.is_finished %}
-        style="color: green"
-      {% endif %}
-
-    >Room {{room._id}}</h1>
+  {% if room.id %}
+    {% if room.final_grade %}
+      <h1 class="" style="color: green">
+        Room {{room.id}}</h1>
+    {% else %}
+      <h1 class="" style="color: white">
+        Room {{room.id}}</h1>
+    {% endif %}
   {% else %}
     <h1 class="" style="color: green">Room Viewer</h1>
   {% endif %}
   
   <ol>
-    {% if room._id %} 
-      <li>Room ID: {{room._id}}</li>
+    {% if room.id %} 
+      <li>Room ID: {{room.id}}</li>
     {% endif %}
 
     <li>
-      Room Contestant: {{room.contestant.username}}
+      Room Contestant: {{room.student_id.username}}
       <ol>
-        <li>Score: {{room.prev_score}}</li>
-        <li>Wanted Score: {{room.want_score}}</li>
-        <li>Updated Score: {{room.updated_score}}</li>
+        <li>Score: {{room.prev_grade}}</li>
+        <li>Wanted Score: {{room.wanted_grade}}</li>
+        <li>Updated Score: {{room.final_score}}</li>
       </ol>
     </li>
   
     <li>
       Room Mentor:
       <ul>
-        {% for mentor in room.mentors %}
-        <li>{{mentor.username}}</li>
+        {% for mentor in room_details %}
+        <li>{{mentor.mentor_id.username}}</li>
         {% endfor %}
       </ul>
     </li>
   
     <li>
-      Room Final Average Score: {{room.final_result}}
+      Room Final Average Score: {{room.final_grade}}
     </li>
   </ol>
   
@@ -106,34 +107,34 @@ function viewSubmit(roomID, mentorID) {
     </thead>
 
     <tbody class="overflow-auto">
-      {% for test in room.tests %}
+      {% for test in room_details %}
       <tr>
-        <th scope="row" class="col-1">{{ loop.index }}</th>
-        <td class="col-2">{{ test.mentor_name }}</td>
+        <th scope="row" class="col-1">{{ forloop.counter }}</th>
+        <td class="col-2">{{ test.mentor_id.username }}</td>
         
         <!-- Test -->
-        {% if not test.test %}
+        {% if not test.exam_cid %}
         <td class="col-2"> None </td>
         {% else %}
         <td class="col-2">
-          <button class="btn btn-success" onclick="viewTest('{{ room._id }}', '{{test.mentor_id}}')">View</button> 
+          <!-- <button class="btn btn-success" onclick="viewTest('{-{ room._id }}', '{-{test.mentor_id}}')">View</button>  -->
         </td> 
         {% endif %}
 
         <!-- Submission -->
-        {% if not test.submission %}
+        {% if not test.answer_cid %}
         <td class="col-2"> None </td>
         {% else %}
         <td class="col-2">
-          <button class="btn btn-success" onclick="viewSubmit('{{ room._id }}', '{{loop.index - 1}}')">View</button> 
+          <!-- <button class="btn btn-success" onclick="viewSubmit('{-{ room._id }}', '{-{loop.index - 1}}')">View</button>  -->
         </td> 
         {% endif %}
 
         <!-- Score -->
-        {% if not test.score %}
+        {% if not test.grade %}
         <td class="col-2"> None </td>
         {% else %}
-        <td class="col-2"> {{test.score}} </td> 
+        <td class="col-2"> {{test.grade}} </td> 
         {% endif %}
       </tr>
       {% endfor %}

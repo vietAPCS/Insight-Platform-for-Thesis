@@ -25,7 +25,7 @@ class Community(models.Model):
     mentor_threshold = models.IntegerField(default=0, validators=[validate_no_negative])
     entrance_test_enable = models.BooleanField(default=0)
     Member = models.ManyToManyField(User,related_name='groups_joined',through='CommunityMember')
-    # print(str(abcd))
+
     def __str__(self):
         return str(self.name) + '-' + str(self.created_user)
     
@@ -58,6 +58,7 @@ class CommunityDoc(models.Model):
     title = models.CharField(max_length=100) 
     doc_cid = models.TextField(max_length=255, null=False, blank=True)
     price = models.IntegerField(default=0, validators=[validate_no_negative])
+    
     def save(self, *args, **kwargs):
         self.doc_cid = encrypt(self.doc_cid)
         super(CommunityDoc, self).save(*args, **kwargs)
@@ -100,6 +101,7 @@ class CommunityMember(models.Model):
     date_joined = models.DateField(auto_now_add=True)
     is_mentor = models.BooleanField(default=False)
     point= models.IntegerField(default=0)
+
     def save(self, *args, **kwargs):
     # Get the day, month, and year from the created_date
         day = str(self.date_joined.day).zfill(2)
