@@ -7,12 +7,18 @@
 {%endblock%}
 
 {% block content %} 
+<!-- <script>
+    let my_url = "{% url 'Community:upload_doc' pk=community.pk %}";
+    let csrftoken = "{{ csrf_token }}";
+</script>
+
+<script src='{% static "sign.js"%}'></script> -->
 
 <div class="container add-container">
     <div class="title-wrapper">
         <h3>Upload Document</h3>
     </div>
-    <form method="POST" enctype="multipart/form-data">
+    <form id="submit form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row mb-5">
             <h4 class="col-3">Title</h4>
@@ -38,6 +44,7 @@
             <h4 class="col-sm-full col-3">Document</h4>
             <div class="col-9">
                 <input type="file" accept="application/pdf" name="doc" id="upload file" hidden></input>
+                <!-- onchange="myfunc()" -->
                 <label for="upload file" class="btn btn-success">Upload File</label>
             </div>
         </div>
@@ -55,7 +62,4 @@
         
     </form>
 </div>
-
-
-
 {% endblock %}

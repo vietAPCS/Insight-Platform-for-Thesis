@@ -12,6 +12,7 @@ from Member.models import *
 from datetime import datetime
 import requests
 from Platform.utils import *
+import json
 # Create your views here.
 
 
@@ -334,11 +335,19 @@ def upload_document(request, pk):
         this_user = request.user
         community = Community.objects.get(id=pk)
         isMember = Validate_member(this_user, community)
-        isFormer = Validate_former(this_user, community)
         if not isMember:
             redirect('Community:community-detail', pk=pk)
         else:
             if request.method == 'POST':
+                # if request.POST.get('signature', False):
+                #     print(request.POST['signature'])
+                #     return redirect('Community:community-docs', pk=pk)
+                # print(request.POST['id'])
+                # cid = "this is cid upsioeef"
+                # # cid = get_cid(request)
+                # print(cid)
+                # return JsonResponse({'cid': cid, 'cid3': cid})
+
                 title = request.POST['title']
                 description = request.POST['description']
                 price = request.POST['price']
@@ -357,7 +366,7 @@ def upload_document(request, pk):
             else:
                 community = Community.objects.get(id=pk)
                 this_user = request.user
-                user_img = MyUser.objects.get(userid = this_user).avatar
+                myuser = MyUser.objects.get(userid = this_user)
                 this_community_user = UserCommunity.objects.get(
                     user_id=this_user, community_id=community)
                 print(this_user)
@@ -366,7 +375,8 @@ def upload_document(request, pk):
                     'this_c_user': this_community_user,
                     'is_former': is_former,
                     'community': community,
-                    'img': user_img
+                    'img': myuser.avatar,
+                    'metamask_id': myuser.metamaskID
                 }
                 return render(request, 'Community/upload_doc.html', context)
 

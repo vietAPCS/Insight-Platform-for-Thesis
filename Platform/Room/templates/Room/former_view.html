@@ -84,21 +84,21 @@
                                 <div class="list-contest">
                                     <div class="info-contest" style="flex: 1.5">
                                         <div class="contest-title"> Room </div>
-                                        {{ room['_id'] }}
+                                        {{ room.id }}
                                     </div>
                                     <div class="info-contest" style="flex: 1.5">
                                         <div class="contest-title"> Contestant </div>
                                         <div class="contest-block">
-                                            {{ room['contestant']['username']}}
+                                            {{ room.student_id.username}}
                                         </div>
                                     </div>
                                     <div class="info-contest">
                                         <div class="contest-title"> Final Result </div>
-                                        {{ room['final_result']}}
+                                        {{ room.final_grade }}
                                     </div>
                                     <div class="info-contest">
-                                        <div class="contest-title"> Score change </div>
-                                        {{ room['updated_score']}}
+                                        <div class="contest-title"> Previous Grade </div>
+                                        {{ room.prev_grade }}
                                     </div>
                                     <div class="participate-button">
                                         <input type="submit" class="unselectable button full small join-warning" value="Sign" style="color: white;"

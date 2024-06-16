@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<script>
+<!-- <script>
 
 function viewSubmit(roomID) {
   var xhr = new XMLHttpRequest();
@@ -136,11 +136,12 @@ function viewSubmitSign(roomID) {
   console.log(roomID)
   window.open('/room/contestant/submission_signature?room_id=' + roomID)
 }
-</script>
+</script> -->
 
   <h1 class="text-center mt-3">Contestant Room</h1>
 
-  {% if contestant_rooms %}
+  {% if room %}
+    {% for room in rooms %}
     <table class="table table-bordered mt-3 text-center">
       <thead>
         <tr>
@@ -155,14 +156,14 @@ function viewSubmitSign(roomID) {
       </thead>
 
       <tbody class="overflow-auto">
-        {% for contestant in contestant_rooms %}
+        {% for test in room_details %}
         <tr>
-          <th scope="row" class="col-1">{{ loop.index }}</th>
-          <td class="col-3">{{ contestant._id }}</td>
-          <td class="col-2">{{ contestant.mentor }}</td> 
+          <th scope="row" class="col-1">{{ forloop.counter }}</th>
+          <td class="col-3">{{ room.id }}</td>
+          <td class="col-2">{{ test.mentor_id.username }}</td> 
 
           <!-- test -->
-          {% if not contestant.test %}
+          {% if not test.exam_cid %}
             <td class="col-2">No submission</td>
           {% else %}
             <td class="col-2">
@@ -170,7 +171,7 @@ function viewSubmitSign(roomID) {
             </td>
           {% endif %}
 
-          {% if not contestant.submission %}
+          {% if not test.answer_cid %}
             <td class="col-2">
               <button style="cursor: pointer;" class="btn btn-danger" onclick="submit('{{ contestant._id }}')">Submit</button>
             </td>
@@ -181,7 +182,7 @@ function viewSubmitSign(roomID) {
           {% endif %}
             
           <!-- Submission Sign -->
-          {% if contestant.submission_sign %}
+          {% if test.mentor_signature %}
             <td class="col-2">
               <button style="cursor: pointer;" class="btn btn-success" onclick="viewSubmitSign('{{ contestant._id }}')">View</button>
             </td>
@@ -192,9 +193,8 @@ function viewSubmitSign(roomID) {
           {% endfor %}
       </tbody>
     </table>
-
+    {% endfor %}
   {% else %}
     <h2 class="text-center mt-3">No room found</h2>
   {% endif %}
-
 {% endblock %}
