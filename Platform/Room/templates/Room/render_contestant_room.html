@@ -1,11 +1,12 @@
 {% extends "Room/base.html" %}
 {% block content %}
-
+{% load static %}
 <script>
-  function viewSign(mess){
-    alert(mess);
-  }
+  let my_url = "{% url 'Room:mentor' com_id=community.pk %}";
+  let csrftoken = "{{ csrf_token }}";
 </script>
+
+<script src='{% static "sign.js"%}'></script>
 
 <div class="container">
   {% if room.id %}
@@ -100,6 +101,17 @@
             <button type="submit" class="btn btn-success">View</button>
           </form>
         </td> 
+        {% elif not test.answer_cid %}
+          {% if test.exam_cid and test.mentor_signature %}
+          <td class="col-1">
+            <input type="file" accept="application/pdf" name="doc" id="upload file" hidden
+              onchange="signFile('{{room.id}}', this)">
+            </input>
+            <label for="upload file" class="btn btn-danger">Upload</label>
+          </td>
+          {% else %}
+          <td class="col-2"> No test </td>
+          {% endif %}  
         {% else %}
         <td class="col-2"> None </td>
         {% endif %}
@@ -109,6 +121,8 @@
         <td class="col-1">
           <button class="btn btn-success" onclick="viewSign('test.student_signature')">View</button>
         </td>
+        {% elif test.answer_cid %}
+            <button class="btn btn-danger" onclick="sign('{{test.id}}', '{{test.answer_cid}}')">Sign</button>
         {% else %}
           <td class="col-1">None</td>
         {% endif %}

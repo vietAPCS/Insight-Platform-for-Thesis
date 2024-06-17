@@ -16,76 +16,6 @@
 </style>
 {% endif %}
 
-<!-- <script>
-  function confirmChallenge(event, user) {
-    const form = document.getElementById("challenge-form");
-    if(!form.checkValidity()) {
-      alert("Please enter a valid score!");
-      return;
-    }
-    
-    const new_score = form.new_score.value;
-  
-    user = JSON.parse(user);
-    // console.log(user)
-
-    if(!user || !user.username) {
-      alert("You need to login first!");
-      return;
-    }
-
-    const score = parseInt(user.score);
-    const new_score_element = document.getElementById("new-score");
-    const new_score_value = parseInt(new_score_element.value);
-
-    if(new_score_value <= score) {
-      alert("Your score must be greater than your current score!");
-      return;
-    }
-
-    const confirmation = window.confirm(`Do you want to join challenge with score: ${new_score_value}?`);
-    if (confirmation) {
-        sendChallenge(user._id, score, new_score_value);
-    }
-  }
-
-  function sendChallenge(user_id, score, new_score) {
-    console.log("user_id: ", user_id)
-    console.log('score: ', score)
-    console.log("new_score: ", new_score)
-    let temp = {
-      "challenger_id": user_id,
-      "score": score,
-      "new_score": new_score
-    }
-    temp = JSON.stringify(temp)
-    // console.log("temp: ", temp)
-    fetch('/challenge', {
-        method: 'POST',
-        body: temp,
-        headers: {
-          "Content-Type": "application/json",
-        },
-    })
-    .then(response => response.json())
-    .then(response => {
-      if(response.status == "failed") {
-        alert(response.message);
-        return;
-      }
-      else {
-        room_info = JSON.parse(response.data)
-        console.log(room_info)
-        window.location.href = `/contestant/` + room_info._id['$oid']; 
-      }
-    })
-    .catch(error => {
-      console.log('Error:', error);
-      alert("Server is busy, try again later!")
-    })
-  }
-</script> -->
-
 <div class="container">
   <h1 class="text-center mt-3">Contest</h1>
 
@@ -97,7 +27,6 @@
     </div>
 
     <button type="submit"  style="width: 20%;" class="btn btn-success search-button">
-            <!-- onclick="confirmChallenge(event, '{{user_json}}')"> -->
             Join Challenge
     </button>
   </form>
@@ -136,10 +65,10 @@
             <td class="col-3">{{user.score}}</td>
             <td class="col-2 align-items-center">
               <div class="btn-group" role="group" aria-label="inline-btn">
-                <button style="min-width: 5rem;" type="button" class="btn btn-outline-success"
-                        onclick="window.open('/{{user.username}}')">
+                <a style="min-width: 5rem;" type="button" class="btn btn-outline-success"
+                  href="{% url 'Room:profile' com_id=community.pk user_id=user.user_id.pk %}">
                   View
-                </button>
+                </a>
               </div>
             </td>  
           </tr>
@@ -158,10 +87,10 @@
             <td class="col-2">{{ mentor.score }}</td>
             <td class="col-2 align-items-center">
               <div class="btn-group" role="group" aria-label="inline-btn">
-                <button style="min-width: 5rem;" type="button" class="btn btn-outline-success"
-                        onclick="window.open('/{{mentor.username}}')">
+                <a style="min-width: 5rem;" type="button" class="btn btn-outline-success"
+                  href="{% url 'Room:profile' com_id=community.pk user_id=mentor.user_id.pk %}">
                   View
-                </button>
+                </a>
               </div>
             </td>  
           </tr>

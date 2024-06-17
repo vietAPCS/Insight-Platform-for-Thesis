@@ -7,12 +7,6 @@
 {%endblock%}
 
 {% block content %} 
-<!-- <script>
-    let my_url = "{% url 'Community:upload_doc' pk=community.pk %}";
-    let csrftoken = "{{ csrf_token }}";
-</script>
-
-<script src='{% static "sign.js"%}'></script> -->
 
 <div class="container add-container">
     <div class="title-wrapper">
@@ -44,7 +38,6 @@
             <h4 class="col-sm-full col-3">Document</h4>
             <div class="col-9">
                 <input type="file" accept="application/pdf" name="doc" id="upload file" hidden></input>
-                <!-- onchange="myfunc()" -->
                 <label for="upload file" class="btn btn-success">Upload File</label>
             </div>
         </div>

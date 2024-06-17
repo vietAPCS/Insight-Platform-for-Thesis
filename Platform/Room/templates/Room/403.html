@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet">
-        <link href="{{ css_url }}" rel="stylesheet">
+        <link href='{% static "403.css" %}' rel="stylesheet">
     </head>
         <body>
           <div class="message">You are not authorized.

@@ -28,7 +28,8 @@ def get_cid(request):
         }
         response = requests.request("POST", url, files={'file': file}, headers=headers)
         cid = response.json()["IpfsHash"]
-        return cid
+        # print(cid)
+        return encrypt(cid)
 
 def get_file(request):
     file_url = 'https://ipfs.io/ipfs/'+ decrypt(request.POST.get('download'))

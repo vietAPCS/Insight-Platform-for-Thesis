@@ -56,10 +56,10 @@
                   <div class="icon-container" style="margin-right: 10px;">
                     <i id="notification-icon" class="bi bi-bell-fill"></i>
                   </div>
-                    <span id="username"
+                    <!-- <span id="username"
                           onclick="window.location.href='/profile'">
                       Hi {{ user.user_id.username }}
-                    </span>
+                    </span> -->
                 </div>
 {#                <button id="logoutButton" class="btn btn-outline-danger" onclick="logout_user(event)">Log out</button>#}
                 <div class="dropdown">
@@ -67,10 +67,10 @@
                       Action
                     </button>
                     <ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <!-- <li><a class="dropdown-item" href="/{{username}}">Profile</a></li>
-                      <li><a class="dropdown-item" href="/mentor">Room Mentor</a></li>
-                      <li><a class="dropdown-item" href="/contestant">Room Contestant</a></li>
-                      <li><a class="dropdown-item" href="/former/view">Room Former</a></li> -->
+                      <li><a class="dropdown-item" href="{% url 'Room:profile' com_id=community.pk user_id=current_user.pk %}">Profile</a></li>
+                      <li><a class="dropdown-item" href="{% url 'Room:mentor' com_id=community.pk %}">Room Mentor</a></li>
+                      <!-- <li><a class="dropdown-item" href="/contestant">Room Contestant</a></li> -->
+                      <li><a class="dropdown-item" href="{% url 'Room:former' com_id=community.pk %}">Room Former</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a href="{% url 'Member:signout' %}" class="dropdown-item">Logout</a></li>
                     </ul>

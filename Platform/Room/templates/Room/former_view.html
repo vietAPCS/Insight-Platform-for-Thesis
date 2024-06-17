@@ -1,112 +1,54 @@
-{% extends 'base.html' %}
+{% extends 'Room/base.html' %}
 {% block content %}
-
-<link rel="stylesheet" href="../static/former_view.css">
+{% load static %}
+<link rel="stylesheet" href='{% static "former_view.css" %}'>
 
 <script>
-    async function checkMetamask() {
-        if (!window.ethereum) {
-            alert('Metamask not installed')
-            return null;
-            }
-        if('{{metamask_id}}' == '') {
-            alert('Please login again!')
-            return null;
-        }
-        const provider = new ethers.providers.Web3Provider(window.ethereum)
-        console.log("metamask = ", '{{metamask_id}}')
-        const signer = provider.getSigner('{{metamask_id}}'); // signer.getAddress() == accounts[0]
-        const signerAddress = await signer.getAddress();
-        console.log("signerAddress = ", signerAddress)
-        if('{{metamask_id}}' != signerAddress) {
-            alert('Please connect to the correct metamask account.\nYour metamask account is {{metamask_id}}')
-            return null;
-        }
-
-        return signer;
-    }
-    
-    async function signRoomAndSendCertificate(event, room_id) {
-        event.preventDefault(); 
-        let data = await fetch(`/former/get_byte/${room_id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "username": "{{ username }}",
-            })
-        }).then(res => res.json()); 
-        console.log("data = ", data)
-
-        const room_byte = data.room_byte;
-        const arr = new Uint8Array(room_byte);
-        const room_hash = ethers.utils.sha256(arr);
-        const signer = await checkMetamask();
-        if(signer == null) return;
-        const signature = await signer.signMessage(ethers.utils.arrayify(room_hash));
-        console.log("signature = ", signature)
-        
-        data = await fetch(`/former/send_certificate`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                "room_id": room_id,
-                "username": "{{ username }}",
-                "room_hash": room_hash,
-                "signature": signature,
-            })
-        }).then(res => res.json());
-        console.log("data = ", data)
-        if(data.status == '200') {
-            alert('Certificate sent successfully!')
-        } else {
-            alert('Certificate sent failed!')
-        }
-    }
-</script>
+    let my_url = "{% url 'Room:former' com_id=community.pk %}";
+    let csrftoken = "{{ csrf_token }}";
+  </script>
+  
+  <script src='{% static "sign.js"%}'></script>
 
 <div id="page-container">
-    <!-- {{rooms}} -->
     <main id="content">
         <div id="content-body">
             <div class="middle-content wrapper">
                 <div class="main-content">
                     <h3 class="toggle open contest-group-header">
                         <i class="fa fa-chevron-right fa-fw"></i>
-                        Finish Room
+                        Rooms
                     </h3>
                     {% if rooms %}
-                        {% for room in rooms %}
-                            <a href="/public/room/{{ room['_id'] }}" target="_blank"> 
-                                <div class="list-contest">
-                                    <div class="info-contest" style="flex: 1.5">
-                                        <div class="contest-title"> Room </div>
-                                        {{ room.id }}
-                                    </div>
-                                    <div class="info-contest" style="flex: 1.5">
-                                        <div class="contest-title"> Contestant </div>
-                                        <div class="contest-block">
-                                            {{ room.student_id.username}}
-                                        </div>
-                                    </div>
-                                    <div class="info-contest">
-                                        <div class="contest-title"> Final Result </div>
-                                        {{ room.final_grade }}
-                                    </div>
-                                    <div class="info-contest">
-                                        <div class="contest-title"> Previous Grade </div>
-                                        {{ room.prev_grade }}
-                                    </div>
-                                    <div class="participate-button">
-                                        <input type="submit" class="unselectable button full small join-warning" value="Sign" style="color: white;"
-                                               onclick="signRoomAndSendCertificate(event, `{{ room['_id'] }}`, `{{ room['contestant']['id'] }}`)"
-                                         >
+                        {% for room in rooms %} 
+                            <div class="list-contest">
+                                <div class="info-contest" style="flex: 1.5">
+                                    <div class="contest-title"> Room </div>
+                                    <a href="{% url 'Room:room_details' com_id=community.pk room_id=room.pk %}">{{ room.id }}</a>
+                                </div>
+                                <div class="info-contest" style="flex: 1.5">
+                                    <div class="contest-title"> Contestant </div>
+                                    <div class="contest-block">
+                                        {{ room.student_id.username}}
                                     </div>
                                 </div>
-                            </a>
+                                <div class="info-contest">
+                                    <div class="contest-title"> Final Result </div>
+                                    {{ room.final_grade }}
+                                </div>
+                                <div class="info-contest">
+                                    <div class="contest-title"> Previous Grade </div>
+                                    {{ room.prev_grade }}
+                                </div>
+                                {% if not room.final_grade %}
+                                <div class="participate-button">
+                                    <button class="unselectable button full small join-warning" value="Sign" style="color: white;"
+                                            onclick="sign('{{room.id}}', '{{room.final_grade}}')"
+                                        >Sign
+                                </div>
+                                {% endif %}
+                            </div>
+
                         {% endfor %}
                         <br>
                     {% else %}

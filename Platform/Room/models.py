@@ -13,7 +13,7 @@ class ExamRoom(models.Model):
     final_grade = models.IntegerField(null=True, blank=True)
     former_signature = models.TextField(max_length=255, blank=True, null=True)
     detail = models.ManyToManyField(User, related_name='room_detail', through='RoomDetails',  through_fields=('room_id', 'mentor_id'))
-    
+
     def __str__(self):
         return str(self.community_id.name) + '-' + str(self.student_id.username) + '-' +str(self.id)
     
@@ -26,16 +26,6 @@ class RoomDetails(models.Model):
     mentor_signature = models.TextField(max_length=255, blank=True, null=True)
     student_signature = models.TextField(max_length=255, blank=True, null=True)
     score_signature = models.TextField(max_length=255, blank=True, null=True)
-    
-    def save(self, *args, **kwargs):
-        
-        if(self.exam_cid):
-            self.exam_cid = encrypt(self.exam_cid)
-            super(RoomDetails, self).save(*args, **kwargs)
-
-        if(self.answer_cid):
-            self.answer_cid = encrypt(self.answer_cid)
-            super(RoomDetails, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.room_id)+ '-' + str(self.mentor_id.username)

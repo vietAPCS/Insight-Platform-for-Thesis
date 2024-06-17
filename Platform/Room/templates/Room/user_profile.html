@@ -1,83 +1,51 @@
-{% extends 'base.html' %}
+{% extends 'Room/base.html' %}
 {% block content %}
+{% load static %}
 
-<link rel="stylesheet" href="../static/user_profile.css">
-
-<script>
-  function openNewTabWithContent(content) {
-    var newWindow = window.open(" ", "_blank");
-    newWindow.document.write(content);
-  }
-
-  function openNewTabToDownloadBinaryFile(content) {
-    // var newWindow = window.open(" ", "_blank");
-    // var blob = new Blob([content], {type: "application/octet-stream"});
-    // var url = URL.createObjectURL(blob);
-    // newWindow.location.href = url;
-
-    // Create a Blob containing the binary content
-    var blob = new Blob([content], { type: "application/octet-stream" });
-
-    // Create a URL for the Blob
-    var url = URL.createObjectURL(blob);
-
-    // Create a new anchor element
-    var a = document.createElement("a");
-    a.href = url;
-    a.download = "room.bin";
-
-    // Trigger a click event on the anchor element to open a new tab and initiate the download
-    a.dispatchEvent(new MouseEvent("click"));
-
-    // Clean up by revoking the URL
-    URL.revokeObjectURL(url);
-  }
-</script>
+<link rel="stylesheet" href='{% static "user_profile.css" %}'>
 
 <div class="container justify-content-center">
-  <h3 class="">{{user.username}}</h3>
+  <h3 class="">{{ user.userid.username }}</h3>
 
   <ul> 
-    <li>Score: {{user.score}}</li>
-    <li>Metamask address: {{user.metamask_id}}</li>
+    <li>Score: {{ user.score }}</li>
+    <li>Metamask address: {{ metamask }}</li>
   </ul>
 
-  {% if certificates %}
+  {% if rooms %}
   <table class="container table table-striped mt-3 text-center">
     <thead>
       <tr>
         <th scope="col">#ID</th>
-        <th scope="col">Date</th>
+        <th scope="col">RoomID</th>
         <th scope="col">Old Score</th>
         <th scope="col">New Score</th>
-        <th scope="col">Room Data</th>
-        <th scope="col">Room Hash</th>
-        <th scope="col">Signature</th>
+        <!-- <th scope="col">Room Data</th> -->
+        <!-- <th scope="col">Room Hash</th> -->
+        <th scope="col">Former Signature</th>
       </tr>
     </thead>
 
     <tbody class="overflow-auto">
-      {% for certificate in certificates %}
+      {% for room in rooms %}
       <tr>
-        <th scope="row" class="col-1">{{ loop.index }}</th>
-        <td class="col-2">{{ certificate.date }}</td>
-        <td class="col-2">{{ certificate.old_score }}</td>
-        <td class="col-2">{{ certificate.new_score }}</td>
-        <td class="col-2"> 
-          <button class="btn btn-success" 
-             onclick="openNewTabToDownloadBinaryFile('{{certificate.room_byte}}')">
-             View
-          </button>
-        </td>
-        <td class="col-2"> 
-            <button class="btn btn-success" 
-                    onclick="openNewTabWithContent('{{certificate.room_hash}}')">
-                    View
-            </button>
-        </td>
+        <th scope="row" class="col-1">{{ forloop.counter }}</th>
         <td class="col-2">
-          <button class="btn btn-success"
-                  onclick="openNewTabWithContent('{{certificate.signature}}')">
+          {% if current_user == user.user_id %}
+          <a href="{% url 'Room:contestant_details' com_id=community.pk room_id=room.pk %}">
+            {{ room.id }}
+          </a>
+          {% else %}
+          <a href="{% url 'Room:room_details' com_id=community.pk room_id=room.pk %}">
+            {{ room.id }}
+          </a>
+          {% endif %}
+        </td>
+        <td class="col-2">{{ room.prev_grade }}</td>
+        <td class="col-2">{{ room.final_grade }}</td>
+        <td class="col-2">
+          <button class="btn btn-success">
+                  <!-- onclick="openNewTabWithContent('{{certificate.signature}}')"> -->
               View
           </button>
         </td>
@@ -85,6 +53,8 @@
         {% endfor %}
     </tbody>
   </table>
+  {% else %}
+    <h2 class="text-center mt-3">No room found</h2>
   {% endif %}
 </div>
 
