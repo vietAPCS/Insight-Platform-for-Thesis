@@ -236,7 +236,7 @@ function viewScoreSignature(roomID, mentorID) {
 
   <h1 class="text-center mt-3">Mentor Room</h1>
 
-  {% if mentor_rooms %}
+  {% if room_details %}
     <table class="table table-bordered mt-3 text-center">
       <thead>
         <tr>
@@ -254,12 +254,12 @@ function viewScoreSignature(roomID, mentorID) {
       <tbody class="overflow-auto">
         {% for room in mentor_rooms %}
         <tr>
-          <th scope="row" class="col-1">{{ loop.index }}</th>
-          <td class="col-2">{{ room._id }}</td>
-          <td class="col-2">{{ room['contestant']['username'] }}</td>
+          <th scope="row" class="col-1">{{ forloop.counter }}</th>
+          <td class="col-2">{{ room.room_id }}</td>
+          <td class="col-2">{{ room.room_id.student_id.username }}</td>
           
           <!-- test -->
-          {% if not room.tests[0]['test'] %}
+          {% if not room.exam_cid %}
             <td class="col-1">
               <button class="btn btn-danger" onclick="uploadTest('{{ room._id }}', '{{ room.mentors.id }}')">Upload</button>
             </td>
@@ -270,7 +270,7 @@ function viewScoreSignature(roomID, mentorID) {
           {% endif %}
 
           <!-- Submission -->
-          {% if not room.tests[0]['submission'] %}
+          {% if not room.answer_cid %}
             <td class="col-1">None</td>
           {% else %}
             <td class="col-1">
@@ -279,9 +279,9 @@ function viewScoreSignature(roomID, mentorID) {
           {% endif %}
 
           <!-- Score -->          
-          {% if room.tests[0]['score']%}
-            <td class="col-1">{{room.tests[0]['score']}}</td>
-          {% elif room.tests[0]['submission'] %}
+          {% if room.grade %}
+            <td class="col-1">{{ room.grade }}</td>
+          {% elif room.answer_cid %}
             <td class="col-1">
               <!-- Score button -->
               <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gradeModal">Score</button>
@@ -307,7 +307,7 @@ function viewScoreSignature(roomID, mentorID) {
           {% endif %}
 
           <!-- Test Sign -->
-          {% if room.tests[0]['test_sign'] %}
+          {% if room.mentor_signature %}
            <td class="col-1">
               <button class="btn btn-success" onclick="viewTestSignature('{{ room._id }}', `{{ room.mentors['id'] }}`)">View</button>
            </td>
@@ -316,7 +316,7 @@ function viewScoreSignature(roomID, mentorID) {
           {% endif %}
 
           <!-- Score Sign -->
-          {% if room.tests[0]['score_sign'] %}
+          {% if room.score_signature %}
            <td class="col-1">
               <button class="btn btn-success" onclick="viewScoreSignature('{{ room._id }}', `{{ room.mentors['id'] }}`)">View</button>
            </td>

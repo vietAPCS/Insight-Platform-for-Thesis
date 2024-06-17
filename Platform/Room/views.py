@@ -62,6 +62,7 @@ def room_details(request, com_id, room_id):
     this_user = request.user
     community = Community.objects.get(id=com_id)
     isMember = Validate_member(this_user, community)
+
     if not isMember:
         return redirect('Community:home')
     else:
@@ -72,5 +73,69 @@ def room_details(request, com_id, room_id):
             'community': community,
             'room_details': room_detail,
         }
-        return render(request, 'Room/render_room.html', context)
+
+        if this_user == room.student_id:
+            return render(request, 'Room/render_room2?.html', context)
+        else:
+            return render(request, 'Room/render_room.html', context)
     
+def contestant(request, com_id):
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+
+    this_user = request.user
+    community = Community.objects.get(id=com_id)
+    isMember = Validate_member(this_user, community)
+    if not isMember:
+        return redirect('Community:home')
+    else:
+        room = ExamRoom.objects.filter(student_id=this_user)
+        room_detail = RoomDetails.objects.filter(room_id=room)
+        context = {
+            'rooms': room,
+            'community': community,
+            'room_details': room_detail,
+        }
+        return render(request, 'Room/render_room.html', context)
+
+def former(request, com_id):
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+
+    this_user = request.user
+    community = Community.objects.get(id=com_id)
+    isMember = Validate_member(this_user, community)
+    is_former = Validate_former(this_user, community)
+
+    if not isMember:
+        return redirect('Community:home')
+    elif not is_former:
+        return render(request, 'Room/404.html')
+    else:
+        room = ExamRoom.objects.filter(community_id=community)
+        # room_detail = RoomDetails.objects.filter(room_id=room)
+        context = {
+            'rooms': room,
+            'community': community,
+            # 'room_details': room_detail,
+        }
+        return render(request, 'Room/render_room.html', context)
+
+def mentor(request, com_id):
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+
+    this_user = request.user
+    community = Community.objects.get(id=com_id)
+    isMember = Validate_member(this_user, community)
+    if not isMember:
+        return redirect('Community:home')
+    else:
+        room_detail = RoomDetails.objects.filter(mentor_id=this_user).select_related("room_id").only('student_id')
+        # room = ExamRoom.objects.get(student_id=this_user)
+        context = {
+            # 'room': room,
+            'community': community,
+            'room_details': room_detail,
+        }
+        return render(request, 'Room/render_room.html', context)
