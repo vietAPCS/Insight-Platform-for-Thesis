@@ -418,10 +418,6 @@ const contractABI = [
 ];
 
 const Insights = new web3.eth.Contract(contractABI, contractAddress);
-const el= document.getElementById('hiddenInput');
-if (el) {
-	console.log("youre gay");
-}
 
 async function requestAccount() {
 	try {
@@ -444,22 +440,31 @@ async function requestAccount() {
 //     // this.submit();
 // });
 
-async function buyDoc(address, docPrice, cid) {
+async function buyDoc(address, docPrice, cid, title) {
     try {
 		const fromAdress = await requestAccount();
-		console.log(address + "this is address");
-		console.log(docPrice + "this is docPrice");	
+		// console.log(address + "this is address");
+		// console.log(docPrice + "this is docPrice");	
 		const correctPrice = docPrice * 1000000000000000000;
         const result = await Insights.methods.transfer(address,correctPrice).send({from: fromAdress});
 		// const result = await Insights.methods.totalSupply().call();
-        console.log(result);
+        // console.log(result);
 		const form = document.getElementById('myForm');
 		const t = document.createElement('input');
 		t.setAttribute('type', 'text');
 		t.setAttribute('name', 'download');
 		t.setAttribute('value', cid);
 		form.appendChild(t)
+		
+
+		const t1 = document.createElement('input');
+		t1.setAttribute('type', 'text');
+		t1.setAttribute('name', 'title');
+		t1.setAttribute('value', title);
+		form.appendChild(t1)
 		form.submit();
+		t.remove();
+		t1.remove();
     } catch (error) {
         console.error(error);
     }

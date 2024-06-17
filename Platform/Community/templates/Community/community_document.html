@@ -28,14 +28,13 @@
                     <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
                     <div class="card-body shadow-sm">
                         <h5 class="card-title" value = {{doc.title}} name="title">{{doc.title}}</h5>
-                        <small>Uploaded at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
+                        <p>Price: {{doc.price}} IST</p>
+                        <small>Created at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
                         <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>   
-                            <input type = "text" value = {{doc.title}} name="title" hidden></input>
                             <input type="hidden" id="address" value={{doc.created_user_id.myuser.metamaskID}}></input>
-                            <!-- <input type="text" name="download" value={{doc.doc_cid}}></input> -->
-                            <input type="text" id="price" value={{doc.price}}></input>
-                            <button type="button" id="submitButton" class="btn btn-primary" onclick="buyDoc('{{doc.created_user_id.myuser.metamaskID}}','{{doc.price}}','{{doc.doc_cid}}')">
-                                Download
+                            <!-- <input type="hidden" id="price" value={{doc.price}}></input> -->
+                            <button type="button" id="submitButton" class="btn btn-primary" onclick="buyDoc('{{doc.created_user_id.myuser.metamaskID}}','{{doc.price}}','{{doc.doc_cid}}','{{doc.title}}')">
+                                Buy
                             </button> 
                         <div id="des{{doc.document_id}}" class="collapse">
                             {{doc.description}}

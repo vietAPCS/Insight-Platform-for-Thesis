@@ -614,3 +614,11 @@ def synchronize_data(request):
         return JsonResponse({'message': 'Data synchronized successfully'})
     else:
         return JsonResponse({'message': 'Failed to synchronize data'}, status=500)
+
+class QuizListView(ListView):
+    model = CommunityQuiz
+    template_name='Community/quiz_list.html'
+
+def quiz(request, pk):
+    quiz = CommunityQuiz.objects.get(pk=pk)
+    return render(request, 'Community/quiz.html', {'obj': quiz})

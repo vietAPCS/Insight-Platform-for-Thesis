@@ -35,7 +35,7 @@ def get_file(request):
     response = requests.get(file_url)
     if response.status_code == 200:
         # Set the file name for the downloaded file
-        filename = 'request' + '.pdf'
+        filename = request.POST.get('title') + '.pdf'
 
         # Create an HttpResponse with the file content and appropriate headers
         response = HttpResponse(

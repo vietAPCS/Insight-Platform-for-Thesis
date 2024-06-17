@@ -111,3 +111,36 @@ class CommunityMember(models.Model):
         # self.id = f"{self.community}-{self.member}-{day}{month}{year}"
 
         super().save(*args, **kwargs)
+
+class CommunityQuiz(models.Model):
+    id = models.AutoField(primary_key=True)
+    community_id = models.ForeignKey(Community, on_delete=models.CASCADE)
+    creator_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    value = models.IntegerField(default=0, validators=[validate_no_negative])
+    passing_score = models.FloatField() 
+
+    def __str__(self):
+        return str(self.title) + '-' + str(self.community_id)
+    
+    def get_questions(self):
+        return self.question_set.all()
+
+class Question(models.Model):
+    id = models.AutoField(primary_key=True)
+    quiz_id = models.ForeignKey(CommunityQuiz, on_delete=models.CASCADE)
+    text = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.text)
+
+    def get_answers(self):
+        return self.answer_set.all()
+
+class Answer(models.Model):
+    text = models.CharField(max_length=100)
+    is_correct = models.BooleanField(default=False)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str("question " + self.question.text) + '-' + str("answer" + self.text)
