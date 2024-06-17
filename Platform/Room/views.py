@@ -156,34 +156,34 @@ def mentor(request, com_id):
     elif request.method == 'POST':
         if request.POST.get('download', False):
             return get_file(request)
-         
-        if request.POST.get('score', False) and request.POST.get('score_signature', False) and request.POST.get('id', False):
-            detail_id = request.POST['id']
-            room_detail = RoomDetails.objects.get(id=detail_id)
-            # .update(mentor_signature=signature, score_signature=score_signature)
-            score = int(request.POST['score'])
-            score_signature = request.POST['score_signature']
+        if request.POST.get('id', False): 
+            if request.POST.get('score', False) and request.POST.get('score_signature', False):
+                detail_id = request.POST['id']
+                room_detail = RoomDetails.objects.get(id=detail_id)
+                # .update(mentor_signature=signature, score_signature=score_signature)
+                score = int(request.POST['score'])
+                score_signature = request.POST['score_signature']
 
-            room_detail.grade = score
-            room_detail.score_signature = score_signature
+                room_detail.grade = score
+                room_detail.score_signature = score_signature
 
-            room_detail.save(update_fields=["grade", "score_signature"])
-            cal_final_grade(room_detail.room_id)
-            return JsonResponse({'ok': 'yes'})
-        
-        if request.POST.get('doc', False) and request.POST.get('id', False):
-            detail_id = request.POST['id']
-            cid = get_cid(request)
-            room_detail = RoomDetails.objects.get(id=detail_id)
-            room_detail.exam_cid = cid
-            room_detail.save(update_fields=["exam_cid"])
-            return JsonResponse({'cid': room_detail.exam_cid})
+                room_detail.save(update_fields=["grade", "score_signature"])
+                cal_final_grade(room_detail.room_id)
+                return JsonResponse({'ok': 'yes'})
+            
+            if request.POST.get('doc', False):
+                detail_id = request.POST['id']
+                cid = get_cid(request)
+                room_detail = RoomDetails.objects.get(id=detail_id)
+                room_detail.exam_cid = cid
+                room_detail.save(update_fields=["exam_cid"])
+                return JsonResponse({'cid': room_detail.exam_cid})
 
-        if request.POST.get('signature', False) and request.POST.get('id', False):
-            detail_id = request.POST['id']
-            signature = request.POST['signature']
-            room_detail = RoomDetails.objects.get(id=detail_id).update(mentor_signature=signature)
-            return JsonResponse({'sign': room_detail.mentor_signature})
+            if request.POST.get('signature', False):
+                detail_id = request.POST['id']
+                signature = request.POST['signature']
+                room_detail = RoomDetails.objects.get(id=detail_id).update(mentor_signature=signature)
+                return JsonResponse({'sign': room_detail.mentor_signature})
     
     else:
         room_detail = RoomDetails.objects.filter(mentor_id=this_user)
