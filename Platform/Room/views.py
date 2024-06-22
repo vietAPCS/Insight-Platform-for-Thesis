@@ -131,6 +131,17 @@ def former(request, com_id):
             room.former_signature = signature
             room.save(update_fields=["former_signature"])
             return JsonResponse({'ok': 'yes'})
+        
+        if request.POST.get('signing', False):
+            room_id = request.POST['id']
+            room = ExamRoom.objects.get(id=room_id)
+            room_details = RoomDetails.objects.filter(room_id=room)
+            string =""
+            for test in room_details:
+                string = string + str(test.grade).zfill(2)
+            string = string + str(room.prev_grade).zfill(2) + str(room.final_grade).zfill(2)
+            return JsonResponse({'ok': string})
+        
     else:
         room = ExamRoom.objects.filter(community_id=community)
         # room_detail = RoomDetails.objects.filter(room_id=room)
