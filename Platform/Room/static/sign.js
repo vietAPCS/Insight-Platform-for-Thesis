@@ -90,7 +90,7 @@ async function signFile(id, file) {
     return null;
   }
 
-  try{
+  // try{
     let formData = new FormData();
     formData.append('id', id);
     formData.append('doc', file.files[0]);
@@ -104,10 +104,9 @@ async function signFile(id, file) {
     .then(response => response.json());
 
     const mess = data.cid
-
-    const provider = new ethers.providers.Web3Provider(window.ethereum)
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
     await provider.send("eth_requestAccounts", []);
-    const signer = provider.getSigner()
+    const signer = provider.getSigner();
     if(signer == null) return;
     const signature = await signer.signMessage(mess);
 
@@ -131,7 +130,7 @@ async function signFile(id, file) {
         })
     }
     
-  } catch (error) {
-    console.error(error);
-  }
+  // } catch (error) {
+  //   console.error(error);
+  // }
 }

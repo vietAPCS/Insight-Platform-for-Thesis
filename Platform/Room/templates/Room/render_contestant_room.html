@@ -2,7 +2,7 @@
 {% block content %}
 {% load static %}
 <script>
-  let my_url = "{% url 'Room:mentor' com_id=community.pk %}";
+  let my_url = "{% url 'Room:contestant_details' com_id=community.pk room_id=room.id %}";
   let csrftoken = "{{ csrf_token }}";
 </script>
 
@@ -93,7 +93,7 @@
         {% endif %}
         
         <!-- Submission -->
-        {% if test.answer_cid and test.student_signature %}
+        {% if test.answer_cid %}
         <td class="col-2">
           <form method="POST">{% csrf_token %}
             <input type="hidden" name="download" value={{test.answer_cid}}></input>
@@ -105,7 +105,7 @@
           {% if test.exam_cid and test.mentor_signature %}
           <td class="col-1">
             <input type="file" accept="application/pdf" name="doc" id="upload file" hidden
-              onchange="signFile('{{room.id}}', this)">
+              onchange="signFile('{{test.id}}', this)">
             </input>
             <label for="upload file" class="btn btn-danger">Upload</label>
           </td>
@@ -119,10 +119,12 @@
         <!-- Submission Sign -->
         {% if test.student_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('test.student_signature')">View</button>
+          <button class="btn btn-success" onclick="viewSign('{{test.student_signature}}')">View</button>
         </td>
         {% elif test.answer_cid %}
-            <button class="btn btn-danger" onclick="sign('{{test.id}}', '{{test.answer_cid}}')">Sign</button>
+        <td class="col-1">    
+          <button class="btn btn-danger" onclick="sign('{{test.id}}', '{{test.answer_cid}}')">Sign</button>
+        </td>
         {% else %}
           <td class="col-1">None</td>
         {% endif %}

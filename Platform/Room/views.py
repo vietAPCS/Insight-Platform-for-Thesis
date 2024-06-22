@@ -177,7 +177,7 @@ def mentor(request, com_id):
                 room_detail = RoomDetails.objects.get(id=detail_id)
                 room_detail.exam_cid = cid
                 room_detail.save(update_fields=["exam_cid"])
-                return JsonResponse({'ok': 'yes'})
+                return JsonResponse({'cid': room_detail.exam_cid})
 
             if request.POST.get('signature', False):
                 detail_id = request.POST['id']
@@ -219,7 +219,7 @@ def contestant_details(request, com_id, room_id):
             room_detail = RoomDetails.objects.get(id=detail_id)
             room_detail.answer_cid = cid
             room_detail.save(update_fields=["answer_cid"])
-            return JsonResponse({'ok': 'yes'})
+            return JsonResponse({'cid': room_detail.answer_cid})
 
         if request.POST.get('signature', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
@@ -244,7 +244,7 @@ def cal_final_grade(room):
         if not a.score_signature:
             return
         score += a.grade
-    score = score/room_details.len()
+    score = score/room_details.count()
     final_grade = score * (room.wanted_grade-room.prev_grade)
     final_grade = final_grade / 10
 

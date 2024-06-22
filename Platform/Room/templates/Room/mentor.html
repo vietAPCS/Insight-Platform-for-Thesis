@@ -62,7 +62,9 @@
               <button class="btn btn-success" onclick="viewSign('{{room.mentor_signature}}')">View</button>
             </td>
           {% elif room.exam_cid %}
-            <button class="btn btn-danger" onclick="sign('{{room.id}}', '{{room.exam_cid}}')">Sign</button>
+            <td class="col-1">  
+              <button class="btn btn-danger" onclick="sign('{{room.id}}', '{{room.exam_cid}}')">Sign</button>
+            </td>
           {% else %}
             <td class="col-1">None</td>
           {% endif %}
