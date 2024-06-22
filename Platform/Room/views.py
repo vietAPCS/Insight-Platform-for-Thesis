@@ -177,13 +177,13 @@ def mentor(request, com_id):
                 room_detail = RoomDetails.objects.get(id=detail_id)
                 room_detail.exam_cid = cid
                 room_detail.save(update_fields=["exam_cid"])
-                return JsonResponse({'cid': room_detail.exam_cid})
+                return JsonResponse({'ok': 'yes'})
 
             if request.POST.get('signature', False):
                 detail_id = request.POST['id']
                 signature = request.POST['signature']
-                room_detail = RoomDetails.objects.get(id=detail_id).update(mentor_signature=signature)
-                return JsonResponse({'sign': room_detail.mentor_signature})
+                room_detail = RoomDetails.objects.filter(id=detail_id).update(mentor_signature=signature)
+                return JsonResponse({'ok': 'yes'})
     
     else:
         room_detail = RoomDetails.objects.filter(mentor_id=this_user)
@@ -219,13 +219,13 @@ def contestant_details(request, com_id, room_id):
             room_detail = RoomDetails.objects.get(id=detail_id)
             room_detail.answer_cid = cid
             room_detail.save(update_fields=["answer_cid"])
-            return JsonResponse({'cid': room_detail.answer_cid})
+            return JsonResponse({'ok': 'yes'})
 
         if request.POST.get('signature', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
             signature = request.POST['signature']
-            room_detail = RoomDetails.objects.get(id=detail_id).update(student_signature=signature)
-            return JsonResponse({'sign': room_detail.student_signature})
+            room_detail = RoomDetails.objects.filter(id=detail_id).update(student_signature=signature)
+            return JsonResponse({'ok': 'yes'})
     else:
         room_detail = RoomDetails.objects.filter(room_id=room_id)
         context = {
