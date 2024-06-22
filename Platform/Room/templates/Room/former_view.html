@@ -40,7 +40,13 @@
                                     <div class="contest-title"> Previous Grade </div>
                                     {{ room.prev_grade }}
                                 </div>
-                                {% if room.final_grade %}
+                                {% if room.former_signature %}
+                                <div class="participate-button">
+                                    <button class="unselectable button full small join-warning" value="Sign" style="color: white;"
+                                            onclick="viewSign('{{room.former_signature}}')"
+                                        >View Signed
+                                </div>
+                                {% elif room.final_grade %}
                                 <div class="participate-button">
                                     <button class="unselectable button full small join-warning" value="Sign" style="color: white;"
                                             onclick="signFormer('{{room.id}}')"

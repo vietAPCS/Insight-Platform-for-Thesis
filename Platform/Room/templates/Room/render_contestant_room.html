@@ -31,7 +31,6 @@
       <ol>
         <li>Score: {{room.prev_grade}}</li>
         <li>Wanted Score: {{room.wanted_grade}}</li>
-        <li>Updated Score: {{room.final_score}}</li>
       </ol>
     </li>
   
@@ -47,6 +46,9 @@
     <li>
       Room Final Average Score: {{room.final_grade}}
     </li>
+    <button class="unselectable button full small join-warning" value="Sign" style="color: black;"
+            onclick="viewSign('{{room.former_signature}}')"
+        >View Former Signature
   </ol>
   
   <h4 class=""> Test, Submission and Score</h4>
