@@ -156,7 +156,7 @@ def mentor(request, com_id):
     elif request.method == 'POST':
         if request.POST.get('download', False):
             return get_file(request)
-        if request.POST.get('id', False): 
+        if request.POST.get('id', False):
             if request.POST.get('score', False) and request.POST.get('score_signature', False):
                 detail_id = request.POST['id']
                 room_detail = RoomDetails.objects.get(id=detail_id)
@@ -171,7 +171,7 @@ def mentor(request, com_id):
                 cal_final_grade(room_detail.room_id)
                 return JsonResponse({'ok': 'yes'})
             
-            if request.POST.get('doc', False):
+            if request.FILES.get('doc', False):
                 detail_id = request.POST['id']
                 cid = get_cid(request)
                 room_detail = RoomDetails.objects.get(id=detail_id)
@@ -213,7 +213,7 @@ def contestant_details(request, com_id, room_id):
         if request.POST.get('download', False):
             return get_file(request)    
         
-        if request.POST.get('doc', False) and request.POST.get('id', False):
+        if request.FILES.get('doc', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
             cid = get_cid(request)
             room_detail = RoomDetails.objects.get(id=detail_id)

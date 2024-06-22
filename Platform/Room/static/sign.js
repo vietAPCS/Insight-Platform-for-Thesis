@@ -27,7 +27,7 @@ async function sign(id, mess){
         method: "POST",
         body: formData2,
         headers: {
-          "X-CSRFToken": csrftoken,
+          "X-CSRFToken": token,
         }})
         .then((response) =>{
           if (response.ok) {
@@ -68,7 +68,7 @@ async function signScore(id){
         method: "POST",
         body: formData2,
         headers: {
-          "X-CSRFToken": csrftoken,
+          "X-CSRFToken": token,
         }})
         .then((response) =>{
           if (response.ok) {
@@ -99,7 +99,7 @@ async function signFile(id, file) {
       method: "POST",
       body: formData,
       headers: {
-        "X-CSRFToken": csrftoken,
+        "X-CSRFToken": token,
       }})
     .then(response => response.json());
 
@@ -120,7 +120,7 @@ async function signFile(id, file) {
         method: "POST",
         body: formData2,
         headers: {
-          "X-CSRFToken": csrftoken,
+          "X-CSRFToken": token,
         }})
         .then((response) =>{
           if (response.ok) {
