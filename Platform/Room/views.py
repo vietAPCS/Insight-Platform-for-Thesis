@@ -161,7 +161,7 @@ def mentor(request, com_id):
                 detail_id = request.POST['id']
                 room_detail = RoomDetails.objects.get(id=detail_id)
                 # .update(mentor_signature=signature, score_signature=score_signature)
-                score = int(request.POST['score'])
+                score = float(request.POST['score'])
                 score_signature = request.POST['score_signature']
 
                 room_detail.grade = score
@@ -246,7 +246,8 @@ def cal_final_grade(room):
         score += a.grade
     score = score/room_details.count()
     final_grade = score * (room.wanted_grade-room.prev_grade)
-    final_grade = final_grade / 10
 
-    room.final_grade = final_grade
+    final_grade = final_grade / 100
+
+    room.final_grade = final_grade + room.prev_grade
     room.save(update_fields=["final_grade"])

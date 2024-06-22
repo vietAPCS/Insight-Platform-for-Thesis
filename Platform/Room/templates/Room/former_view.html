@@ -40,7 +40,7 @@
                                     <div class="contest-title"> Previous Grade </div>
                                     {{ room.prev_grade }}
                                 </div>
-                                {% if not room.final_grade %}
+                                {% if room.final_grade %}
                                 <div class="participate-button">
                                     <button class="unselectable button full small join-warning" value="Sign" style="color: white;"
                                             onclick="sign('{{room.id}}', '{{room.final_grade}}')"

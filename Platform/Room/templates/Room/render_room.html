@@ -107,7 +107,7 @@
         <!-- Submission Sign -->
         {% if test.student_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('test.student_signature')">View</button>
+          <button class="btn btn-success" onclick="viewSign('{{test.student_signature}}')">View</button>
         </td>
         {% else %}
           <td class="col-1">None</td>
@@ -123,7 +123,7 @@
         <!-- Score Sign -->
         {% if test.score_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('test.score_signature')">View</button>
+          <button class="btn btn-success" onclick="viewSign('{{test.score_signature}}')">View</button>
         </td>
         {% else %}
           <td class="col-1">None</td>
