@@ -7,6 +7,7 @@ from Community.models import *
 from Community.views import Validate_former, Validate_member
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.db.models import Q
 from Platform.utils import *
 
 
@@ -47,10 +48,11 @@ def contest(request, pk):
             user_id=this_user, community_id=community)
         mentors_community = UserCommunity.objects.filter(community_id=community, is_mentor = True)
         mentors_community = mentors_community.order_by('-score')
+        in_room = ExamRoom.objects.filter(Q(student_id=this_user) & Q(community_id=community) & (Q(former_signature=None) | Q(former_signature=""))).exists()
         context = {
             'user': this_community_user,
             'community': community,
-            # 'is_former': isFormer,
+            'in_room': in_room,
             'mentors': mentors_community,
             'current_user': this_user,
         }
@@ -130,6 +132,7 @@ def former(request, com_id):
             room = ExamRoom.objects.get(id=room_id)
             room.former_signature = signature
             room.save(update_fields=["former_signature"])
+            UserCommunity.objects.filter(user_id=this_user, community_id=com_id).update(score=room.final_grade)
             return JsonResponse({'ok': 'yes'})
         
         if request.POST.get('signing', False):
