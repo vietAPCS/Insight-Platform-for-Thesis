@@ -138,8 +138,8 @@ def former(request, com_id):
             room_details = RoomDetails.objects.filter(room_id=room)
             string =""
             for test in room_details:
-                string = string + str(test.grade).zfill(2)
-            string = string + str(room.prev_grade).zfill(2) + str(room.final_grade).zfill(2)
+                string = string + str(test.grade).zfill(2) + '-'
+            string = string + str(room.prev_grade).zfill(2) + '-' + str(room.final_grade).zfill(2)
             return JsonResponse({'ok': string})
         
     else:
