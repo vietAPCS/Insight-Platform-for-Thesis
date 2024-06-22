@@ -62,8 +62,8 @@
             <div class="col-9">
                 <select class="add-form-select" aria-label="Default select example" name="community-upload-permission" style="margin-bottom: 15px;">
                     <option {% if community.upload_permission == 1 %}selected{% endif %} value="1">Freely</option>
-                    <option {% if community.upload_permission == 2 %}selected{% endif %} value="2">Only Mentor</option>
-                    <option {% if community.upload_permission == 3 %}selected{% endif %} value="3">Restricted</option>
+                    <option {% if community.upload_permission == 2 %}selected{% endif %} value="2">Mentor and Former</option>
+                    <option {% if community.upload_permission == 3 %}selected{% endif %} value="3">Former</option>
                 </select>
             </div>
         </div>      

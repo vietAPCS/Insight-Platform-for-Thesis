@@ -11,7 +11,7 @@
 <script src="https://cdn.jsdelivr.net/npm/web3@4.9.0/dist/web3.min.js"></script>
 
 <div class="container">
-        {% if community.upload_permission == 1 or is_former%}
+        {% if can_upload %}
         <div class="upload-doc-wrapper">
             <a class="border-btn" href="{% url 'Community:upload_doc' pk=community.pk %}">
             Upload Document

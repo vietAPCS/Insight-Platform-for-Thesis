@@ -49,6 +49,11 @@ def Validate_member(user, community):
         user_id=user, community_id=community).exists()
     return isMember
 
+def Validate_mentor(user, community):
+    isMentor = UserCommunity.objects.filter(
+        user_id=user, community_id=community, is_mentor=True).exists()
+    return isMentor
+
 
 def Validate_former(user, community):
     isFormer = Community.objects.filter(created_user_id=user,id=community.id).exists()
@@ -329,9 +334,19 @@ def ansewer_request_mentor(request):
 
 
 def upload_document(request, pk):
+    this_user = request.user
+    community = Community.objects.get(id=pk)
+    isMember = Validate_member(this_user, community)
+    isMentor = Validate_mentor(this_user, community)
+    isFormer = Validate_former(this_user, community)
+    
     if not request.user.is_authenticated:
         return redirect('Member:signin')
-    else:
+    
+    elif ((community.upload_permission==1) or 
+        (((isFormer or isMentor) and community.upload_permission==2)) or
+        (isFormer and community.upload_permission==3)):
+
         this_user = request.user
         community = Community.objects.get(id=pk)
         isMember = Validate_member(this_user, community)
@@ -339,15 +354,6 @@ def upload_document(request, pk):
             redirect('Community:community-detail', pk=pk)
         else:
             if request.method == 'POST':
-                # if request.POST.get('signature', False):
-                #     print(request.POST['signature'])
-                #     return redirect('Community:community-docs', pk=pk)
-                # print(request.POST['id'])
-                # cid = "this is cid upsioeef"
-                # # cid = get_cid(request)
-                # print(cid)
-                # return JsonResponse({'cid': cid, 'cid3': cid})
-
                 title = request.POST['title']
                 description = request.POST['description']
                 price = request.POST['price']
@@ -379,6 +385,8 @@ def upload_document(request, pk):
                     'metamask_id': myuser.metamaskID
                 }
                 return render(request, 'Community/upload_doc.html', context)
+    else:
+        return community_interface(request, pk)
 
 # get document and return render html
 def get_community_docments(request, pk):
@@ -388,6 +396,7 @@ def get_community_docments(request, pk):
         this_user = request.user
         community = Community.objects.get(id=pk)
         isMember = Validate_member(this_user, community)
+        isMentor = Validate_mentor(this_user, community)
         isFormer = Validate_former(this_user, community)
         if not isMember:
             redirect('Community:community-detail', pk=pk)
@@ -399,11 +408,19 @@ def get_community_docments(request, pk):
             this_community_user = UserCommunity.objects.prefetch_related('user_id__myuser').get(
                 user_id=this_user, community_id=community)
             user_img = MyUser.objects.get(userid = this_user).avatar
+
+            can_upload = False
+            if ((community.upload_permission==1) or 
+                (((isFormer or isMentor) and community.upload_permission==2)) or
+                (isFormer and community.upload_permission==3)):
+                can_upload = True
+
             context = {
                 'community': community,
                 'this_c_user': this_community_user,
                 'community_docs': community_docs,
                 'is_former': isFormer,
+                'can_upload': can_upload,
                 'img': user_img
             }
             return render(request, 'Community/community_document.html', context)
