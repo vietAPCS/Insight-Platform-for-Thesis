@@ -90,7 +90,7 @@ async function signFile(id, file) {
     return null;
   }
 
-  // try{
+  try{
     let formData = new FormData();
     formData.append('id', id);
     formData.append('doc', file.files[0]);
@@ -130,7 +130,7 @@ async function signFile(id, file) {
         })
     }
     
-  // } catch (error) {
-  //   console.error(error);
-  // }
+  } catch (error) {
+    console.error(error);
+  }
 }
