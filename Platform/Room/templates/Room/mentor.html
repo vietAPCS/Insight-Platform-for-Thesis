@@ -70,6 +70,11 @@
                       <form id="gradeForm">
                         <div class="mb-3">
                           <p style="word-wrap: break-word;">{{room.mentor_signature}}</p>
+                          <p style="word-wrap: break-word; display: none;" id="signed_mentor_{{room.id}}">Signed by 
+                            <a href="{% url 'Room:profile' com_id=community.pk user_id=room.mentor_id.pk %}">
+                              {{room.mentor_id.myuser.metamaskID}}
+                            </a>
+                          </p>
                         </div>
                         <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'mentor','{{room.mentor_signature}}','{{room.mentor_id.myuser.metamaskID}}')">Verify</button>
                       </form>
@@ -113,6 +118,11 @@
                       <form id="gradeForm">
                         <div class="mb-3">
                           <p style="word-wrap: break-word;">{{room.student_signature}}</p>
+                          <p style="word-wrap: break-word; display: none;" id="signed_student_{{room.id}}">Signed by 
+                            <a href="{% url 'Room:profile' com_id=community.pk user_id=room.room_id.student_id.pk %}">
+                              {{room.room_id.student_id.myuser.metamaskID}}
+                            </a>
+                          </p>
                         </div>
                         <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'student','{{room.student_signature}}','{{room.room_id.student_id.myuser.metamaskID}}')">Verify</button>
                       </form>
@@ -167,6 +177,11 @@
                       <form id="gradeForm">
                         <div class="mb-3">
                           <p style="word-wrap: break-word;">{{room.score_signature}}</p>
+                          <p style="word-wrap: break-word; display: none;" id="signed_score_{{room.id}}">Signed by 
+                            <a href="{% url 'Room:profile' com_id=community.pk user_id=room.mentor_id.pk %}">
+                              {{room.mentor_id.myuser.metamaskID}}
+                            </a>
+                          </p>
                         </div>
                         <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'score','{{room.score_signature}}','{{room.mentor_id.myuser.metamaskID}}')">Verify</button>
                       </form>
