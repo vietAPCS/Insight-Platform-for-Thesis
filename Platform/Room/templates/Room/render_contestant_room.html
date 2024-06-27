@@ -46,11 +46,26 @@
     <li>
       Room Final Average Score: {{room.final_grade}}
     </li>
-    <button class="unselectable button full small join-warning" value="Sign" style="color: black;"
-            onclick="viewSign('{{room.former_signature}}')"
-        >View Former Signature
   </ol>
-  
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalformer">View Former Signature</button>
+  <div class="modal fade text-center" id="gradeModalformer" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header text-center">
+          <h2>Former Signature</h2>
+        </div>
+        <div class="modal-body">
+          <form id="gradeForm">
+            <div class="mb-3">
+              <p style="word-wrap: break-word;">{{room.former_signature}}</p>
+            </div>
+            <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'former','{{room.former_signature}}','{{former.metamaskID}}')">Verify</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <h4 class=""> Test, Submission and Score</h4>
   <table class="container table table-striped mt-3 text-center">
     <thead>
@@ -88,7 +103,24 @@
         <!-- Test Sign -->
         {% if test.mentor_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('{{test.mentor_signature}}')">View</button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalmentor{{test.id}}">View</button>
+          <div class="modal fade" id="gradeModalmentor{{test.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h2>Mentor Signature</h2>
+                </div>
+                <div class="modal-body">
+                  <form id="gradeForm">
+                    <div class="mb-3">
+                      <p style="word-wrap: break-word;">{{test.mentor_signature}}</p>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="viewSign('{{test.id}}', 'mentor','{{test.mentor_signature}}','{{test.mentor_id.myuser.metamaskID}}')">Verify</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </td>
         {% else %}
         <td class="col-1">None</td>
@@ -121,7 +153,24 @@
         <!-- Submission Sign -->
         {% if test.student_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('{{test.student_signature}}')">View</button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalstudent{{test.id}}">View</button>
+          <div class="modal fade" id="gradeModalstudent{{test.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h2>Student Signature</h2>
+                </div>
+                <div class="modal-body">
+                  <form id="gradeForm">
+                    <div class="mb-3">
+                      <p style="word-wrap: break-word;">{{test.student_signature}}</p>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="viewSign('{{test.id}}', 'student','{{test.student_signature}}','{{room.student_id.myuser.metamaskID}}')">Verify</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </td>
         {% elif test.answer_cid %}
         <td class="col-1">    
@@ -141,7 +190,24 @@
         <!-- Score Sign -->
         {% if test.score_signature %}
         <td class="col-1">
-          <button class="btn btn-success" onclick="viewSign('{{test.score_signature}}')">View</button>
+          <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalscore{{test.id}}">View</button>
+          <div class="modal fade" id="gradeModalscore{{test.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header text-center">
+                  <h2>Score Signature</h2>
+                </div>
+                <div class="modal-body">
+                  <form id="gradeForm">
+                    <div class="mb-3">
+                      <p style="word-wrap: break-word;">{{test.score_signature}}</p>
+                    </div>
+                    <button type="button" class="btn btn-danger" onclick="viewSign('{{test.id}}', 'score','{{test.score_signature}}','{{test.mentor_id.myuser.metamaskID}}')">Verify</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
         </td>
         {% else %}
           <td class="col-1">None</td>

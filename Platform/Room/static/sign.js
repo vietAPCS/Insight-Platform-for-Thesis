@@ -1,8 +1,35 @@
 let django_url = my_url
 let token = csrftoken
 
-function viewSign(mess){
-  alert(mess);
+async function viewSign(id, type, signature, address){
+  console.log(address)
+  try{
+    let formData = new FormData();
+      formData.append('id', id);
+      formData.append('view', type);
+
+      let ret = await fetch(django_url,{
+        method: "POST",
+        body: formData,
+        headers: {
+          "X-CSRFToken": token,
+        }})
+        .then(response => response.json())
+
+        if(ret){
+          // console.log(ret.mess)
+          const signerAddr = await ethers.utils.verifyMessage(ret.mess, signature);
+          console.log(signerAddr)
+          if (signerAddr == address) {
+            alert("Verified")
+          }
+          else{
+            alert("Verification Failed")
+          }
+        }
+  }catch(err){
+    console.log(err)
+  }
 }
 
 async function sign(id, mess){

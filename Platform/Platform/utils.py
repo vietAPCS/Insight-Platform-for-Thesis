@@ -12,7 +12,6 @@ def encrypt(message):
 
 def decrypt(message):
     f = Fernet(settings.ENCRYPTION_SECRET)
-    print(settings.ENCRYPTION_SECRET)
     mes =  bytes(message, encoding='utf8')
     token = f.decrypt(mes)
     ret = token.decode()
@@ -28,7 +27,6 @@ def get_cid(request):
         }
         response = requests.request("POST", url, files={'file': file}, headers=headers)
         cid = response.json()["IpfsHash"]
-        # print(cid)
         return encrypt(cid)
 
 def get_file(request):

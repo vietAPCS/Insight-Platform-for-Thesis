@@ -59,7 +59,24 @@
           <!-- Test Sign -->
           {% if room.mentor_signature %}
             <td class="col-1">
-              <button class="btn btn-success" onclick="viewSign('{{room.mentor_signature}}')">View</button>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalmentor{{room.id}}">View</button>
+              <div class="modal fade" id="gradeModalmentor{{room.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header text-center">
+                      <h2>Mentor Signature</h2>
+                    </div>
+                    <div class="modal-body">
+                      <form id="gradeForm">
+                        <div class="mb-3">
+                          <p style="word-wrap: break-word;">{{room.mentor_signature}}</p>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'mentor','{{room.mentor_signature}}','{{room.mentor_id.myuser.metamaskID}}')">Verify</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           {% elif room.exam_cid %}
             <td class="col-1">  
@@ -85,7 +102,24 @@
           <!-- Submission Sign -->
           {% if room.student_signature %}
             <td class="col-1">
-              <button class="btn btn-success" onclick="viewSign('room.student_signature')">View</button>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalstudent{{room.id}}">View</button>
+              <div class="modal fade" id="gradeModalstudent{{room.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header text-center">
+                      <h2>Student Signature</h2>
+                    </div>
+                    <div class="modal-body">
+                      <form id="gradeForm">
+                        <div class="mb-3">
+                          <p style="word-wrap: break-word;">{{room.student_signature}}</p>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'student','{{room.student_signature}}','{{room.room_id.student_id.myuser.metamaskID}}')">Verify</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </td>
           {% else %}
             <td class="col-1">None</td>
@@ -122,7 +156,24 @@
           <!-- Score Sign -->
           {% if room.score_signature %}
             <td class="col-1">
-              <button class="btn btn-success" onclick="viewSign('{{room.score_signature}}')">View</button>
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#gradeModalscore{{room.id}}">View</button>
+              <div class="modal fade" id="gradeModalscore{{room.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header text-center">
+                      <h2>Score Signature</h2>
+                    </div>
+                    <div class="modal-body">
+                      <form id="gradeForm">
+                        <div class="mb-3">
+                          <p style="word-wrap: break-word;">{{room.score_signature}}</p>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="viewSign('{{room.id}}', 'score','{{room.score_signature}}','{{room.mentor_id.myuser.metamaskID}}')">Verify</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>              
             </td>
           {% else %}
             <td class="col-1">None</td>

@@ -15,6 +15,8 @@ class MyUser(models.Model):
     userid = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="myuser")
     metamaskID = models.CharField(max_length=255, blank=True, null=True)
     avatar = models.ImageField(default='default.png', upload_to='profile_images')
+    def __str__(self):
+        return str(self.userid)
     def save(self, *args, **kwargs):
         super().save()
         img = Image.open(self.avatar.path)

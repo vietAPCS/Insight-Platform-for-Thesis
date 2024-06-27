@@ -73,14 +73,42 @@ def room_details(request, com_id, room_id):
     elif request.method == 'POST':
         if request.POST.get('download', False):
             return get_file(request)
+        if request.POST.get('view', False) and request.POST.get('id', False):
+            print(request.POST['view'])
+            if(request.POST['view'] == "mentor"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                mess = decrypt(room_detail.exam_cid)
+                return JsonResponse({'mess': mess})
+            
+            if(request.POST['view'] == "student"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                mess = decrypt(room_detail.answer_cid)
+                return JsonResponse({'mess': mess})
+            
+            if(request.POST['view'] == "score"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                score = str(room_detail.grade).zfill(2) 
+                return JsonResponse({'mess': score})
+            
+            if(request.POST['view'] == "former"):
+                room = ExamRoom.objects.prefetch_related('student_id__myuser').get(id=room_id)
+                room_details = RoomDetails.objects.filter(room_id=room)
+                string = ""
+                for test in room_details:
+                    string = string + str(test.grade).zfill(2) + '-'
+                mess = string + str(room.prev_grade).zfill(2) + '-' + str(room.final_grade).zfill(2)
+                return JsonResponse({'mess': mess})
+
     else:
-        room = ExamRoom.objects.get(id=room_id)
-        room_detail = RoomDetails.objects.filter(room_id=room_id)
+        room = ExamRoom.objects.prefetch_related('student_id__myuser').get(id=room_id)
+        former = MyUser.objects.get(userid=room.community_id.created_user)
+        room_detail = RoomDetails.objects.prefetch_related('mentor_id__myuser').filter(room_id=room_id)
         context = {
             'room': room,
             'community': community,
             'room_details': room_detail,
             'current_user': this_user,
+            'former': former,
         }
         return render(request, 'Room/render_room.html', context)
     
@@ -188,19 +216,37 @@ def mentor(request, com_id):
             if request.FILES.get('doc', False):
                 detail_id = request.POST['id']
                 cid = get_cid(request)
+                r_cid = decrypt(cid)
                 room_detail = RoomDetails.objects.get(id=detail_id)
                 room_detail.exam_cid = cid
                 room_detail.save(update_fields=["exam_cid"])
-                return JsonResponse({'cid': room_detail.exam_cid})
+                return JsonResponse({'cid': r_cid})
 
             if request.POST.get('signature', False):
                 detail_id = request.POST['id']
                 signature = request.POST['signature']
                 room_detail = RoomDetails.objects.filter(id=detail_id).update(mentor_signature=signature)
                 return JsonResponse({'ok': 'yes'})
+            
+            if request.POST.get('view', False):
+                print(request.POST['view'])
+                if(request.POST['view'] == "mentor"):
+                    room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                    mess = decrypt(room_detail.exam_cid)
+                    return JsonResponse({'mess': mess})
+                
+                if(request.POST['view'] == "student"):
+                    room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                    mess = decrypt(room_detail.answer_cid)
+                    return JsonResponse({'mess': mess})
+                
+                if(request.POST['view'] == "score"):
+                    room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                    score = str(room_detail.grade).zfill(2) 
+                    return JsonResponse({'mess': score})
     
     else:
-        room_detail = RoomDetails.objects.filter(mentor_id=this_user)
+        room_detail = RoomDetails.objects.prefetch_related('mentor_id__myuser', 'room_id__student_id__myuser').filter(mentor_id=this_user)
         # room = ExamRoom.objects.get(student_id=this_user)
         context = {
             # 'room': room,
@@ -216,7 +262,7 @@ def contestant_details(request, com_id, room_id):
 
     this_user = request.user
     community = Community.objects.get(id=com_id)
-    room = ExamRoom.objects.get(id=room_id)
+    room = ExamRoom.objects.prefetch_related('student_id__myuser').get(id=room_id)
     isMember = Validate_member(this_user, community)
     
     if not isMember:
@@ -230,25 +276,55 @@ def contestant_details(request, com_id, room_id):
         if request.FILES.get('doc', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
             cid = get_cid(request)
+            r_cid = decrypt(cid)
             room_detail = RoomDetails.objects.get(id=detail_id)
             room_detail.answer_cid = cid
             room_detail.save(update_fields=["answer_cid"])
-            return JsonResponse({'cid': room_detail.answer_cid})
+            return JsonResponse({'cid': r_cid})
 
         if request.POST.get('signature', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
             signature = request.POST['signature']
             room_detail = RoomDetails.objects.filter(id=detail_id).update(student_signature=signature)
             return JsonResponse({'ok': 'yes'})
+        
+        if request.POST.get('view', False) and request.POST.get('id', False):
+            print(request.POST['view'])
+            if(request.POST['view'] == "mentor"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                mess = decrypt(room_detail.exam_cid)
+                return JsonResponse({'mess': mess})
+            
+            if(request.POST['view'] == "student"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                mess = decrypt(room_detail.answer_cid)
+                return JsonResponse({'mess': mess})
+            
+            if(request.POST['view'] == "score"):
+                room_detail = RoomDetails.objects.get(id=request.POST['id'])
+                score = str(room_detail.grade).zfill(2) 
+                return JsonResponse({'mess': score})
+            
+            if(request.POST['view'] == "former"):
+                room = ExamRoom.objects.prefetch_related('student_id__myuser').get(id=room_id)
+                room_details = RoomDetails.objects.filter(room_id=room)
+                string = ""
+                for test in room_details:
+                    string = string + str(test.grade).zfill(2) + '-'
+                mess = string + str(room.prev_grade).zfill(2) + '-' + str(room.final_grade).zfill(2)
+                return JsonResponse({'mess': mess})
+
     else:
-        room_detail = RoomDetails.objects.filter(room_id=room_id)
+        former = MyUser.objects.get(userid=room.community_id.created_user)
+        room_detail = RoomDetails.objects.prefetch_related('mentor_id__myuser').filter(room_id=room_id)
         context = {
             'room': room,
             'community': community,
             'room_details': room_detail,
             'current_user': this_user,
+            'former': former,
         }
-        return render(request, 'Room/render_contestant_room.html', context)
+        return render(request, 'Room/render_room.html', context)
 
 def cal_final_grade(room):
     score = 0
