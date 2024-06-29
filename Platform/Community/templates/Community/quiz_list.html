@@ -1,10 +1,56 @@
 {% extends 'Community/community_base.html' %}
 
-{% block title %}Quiz List 342{% endblock %}
+{% block title %}{{ community.name }}{% endblock %}
+{% load static %}
 
-{% block content %}
-{{obj.title}}
+{% block link %}
+<link rel="stylesheet" href="{% static 'community_doc.css' %}">
 {% endblock %}
 
-{% block scripts %}
+{% block content %} 
+<script src="https://cdn.jsdelivr.net/npm/web3@4.9.0/dist/web3.min.js"></script>
+
+<div class="container">
+        {% if isCreateQuizzes == True %}
+        <div class="upload-doc-wrapper">
+            <a class="border-btn" href="{% url 'Community:upload_doc' pk=community.pk %}">
+            Create A Quiz
+            </a>
+        </div>
+        {% endif %}
+        <div class="doc-wrapper">
+            <div class="title-wrapper">
+                <h3>All quizzes</h3>
+                <h3>{{isCreateQuizzes}}</h3>
+            </div>
+            {%for quiz in community_quizzes%}
+                <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
+                    <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" style="height: 120px; object-fit:cover;">
+                    <div class="card-body shadow-sm">
+                        <h5 class="card-title" value = {{quiz.title}} name="title">{{quiz.title}}</h5>
+                        <p>Value: {{quiz.value}} IST</p>
+                        <small>Created by {{quiz.creator_id}} </small>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#gradeModal{{room.id}}">Do Quiz</button>
+                        <div class="modal fade" id="gradeModal{{quiz.id}}" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-body">
+                                <form id="gradeForm">
+                                  <div class="mb-3">
+                                    <label for="score" class="col-form-label">Enter Score:</label>
+                                    <input type="number" class="form-control" id="score{{room.id}}" name="score" required min="0" max="10">
+                                  </div>
+                                  <button type="button" class="btn btn-danger" onclick="signScore('{{room.id}}')">Submit</button>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>   
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    
+</div>
+<script src='{% static "transaction.js" %}'></script>
 {% endblock %}

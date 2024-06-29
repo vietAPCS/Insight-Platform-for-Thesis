@@ -642,9 +642,31 @@ def synchronize_data(request):
     else:
         return JsonResponse({'message': 'Failed to synchronize data'}, status=500)
 
-class QuizListView(ListView):
-    model = CommunityQuiz
-    template_name='Community/quiz_list.html'
+def quiz_list(request, pk):
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+    else:
+        this_user = request.user
+        community = Community.objects.get(id=pk)
+        isMember = Validate_member(this_user, community)
+        isMentor = Validate_mentor(this_user, community)
+        isFormer = Validate_former(this_user, community)
+        print(isMember, isMentor, isFormer)
+        isCreateQuizzes = False
+        if community.upload_permission == 0 or (community.upload_permission == 1 and isMentor) or (community.upload_permission == 1 and isFormer) or (community.upload_permission == 2 and isFormer):
+            isCreateQuizzes = True
+        if not isMember:
+            redirect('Community:community-detail', pk=pk)
+        else:
+            community_quizzes = CommunityQuiz.objects.filter(
+            community_id=pk).all()
+            print(isCreateQuizzes)
+            context = {
+                'community':community,
+                'community_quizzes': community_quizzes,
+                'isCreateQuizzes': isCreateQuizzes,
+            }
+            return render(request, 'Community/quiz_list.html', context)    
 
 def quiz(request, pk):
     quiz = CommunityQuiz.objects.get(pk=pk)
