@@ -8,6 +8,7 @@ python-dotenv #pip install python-dotenv.
 dj-database-url #pip install dj-database-url
 pillow
 cryptography
+pandas
 ## database name :insight_database
 ## password:
 ## username: root

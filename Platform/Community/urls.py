@@ -19,6 +19,7 @@ urlpatterns = [
     path('join-community/<int:pk>/<int:userId>', join_community, name='join-community-exam'),
     path('verify-exam-score', verify_exam, name='verify-exam'),
     path('synchronize_data', synchronize_data, name='synchronize-data'),
-    path('quiz-list/<int:pk>', quiz_list, name='quiz-list'),
-    path('quiz/<int:pk>', quiz, name='quiz'),
+    path('community-interface/quiz-list/<int:pk>', quiz_list, name='quiz-list'),
+    path('community-interface/upload_quiz/<int:pk>', upload_quiz, name='upload-quiz'),
+    path('community-interface/quiz/<int:pk>/<int:quiz_id>', quiz, name='quiz'),
 ]

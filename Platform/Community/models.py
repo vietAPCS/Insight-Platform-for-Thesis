@@ -96,24 +96,6 @@ class CommunityFormer(models.Model):
 
         super().save(*args, **kwargs)
 
-# class CommunityMember(models.Model):
-    
-#     community= models.ForeignKey(Community, on_delete=models.CASCADE)
-#     member= models.ForeignKey(User, on_delete=models.CASCADE)
-#     date_joined = models.DateField(auto_now_add=True)
-#     is_mentor = models.BooleanField(default=False)
-#     point= models.IntegerField(default=0)
-
-#     def save(self, *args, **kwargs):
-#     # Get the day, month, and year from the created_date
-#         day = str(self.date_joined.day).zfill(2)
-#         month = str(self.date_joined.month).zfill(2)
-#         year = str(self.date_joined.year % 100).zfill(2)
-
-#         # self.id = f"{self.community}-{self.member}-{day}{month}{year}"
-
-#         super().save(*args, **kwargs)
-
 class CommunityQuiz(models.Model):
     id = models.AutoField(primary_key=True)
     community_id = models.ForeignKey(Community, on_delete=models.CASCADE)

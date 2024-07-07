@@ -1,0 +1,59 @@
+{% extends 'Community/community_base.html' %}
+
+{% block title %}{{ community.name }}{% endblock %}
+{% load static %}
+{% load templatetags %} 
+{%block link%}
+<link rel="stylesheet" href='{% static "add_community.css" %}'>
+{%endblock%}
+
+{% block content %} 
+
+<div class="container add-container">
+    <div class="title-wrapper">
+        <h3>Upload Quiz</h3>
+    </div>
+    <form id="submit form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row mb-5">
+            <h4 class="col-3">Title</h4>
+            <div class="col-9">
+                <input type="text" id="title" name="title" placeholder="title" class="add-form-control">
+            </div>
+        </div>
+        <div class="row mb-5">
+            <h4 class="col-sm-full col-3">Description</h4>
+            <div class="col-9">
+                <textarea id="description" name="description" class="add-form-description " placeholder="Document's description"></textarea>
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <h4 class="col-3">Price (Insights)</h4>
+            <div class="col-9">
+                <input type="number" id="price" name="price" placeholder="10" class="add-form-control">
+            </div>
+        </div>
+
+        <div class="row mb-5">
+            <h4 class="col-sm-full col-3">Document</h4>
+            <div class="col-9">
+                <input type="file" accept="application/pdf" name="doc" id="upload file" hidden></input>
+                <label for="upload file" class="btn btn-success">Upload File</label>
+            </div>
+        </div>
+        <div class="row gutters">
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="text-right">
+                    <a class="btn btn-secondary" href="{% url 'Community:quiz-list' pk=community.pk %}">Cancel</a>
+                    <button type="submit" id="upload" name="upload" class="btn btn-primary" >Upload</button>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="add-button">
+            <button class="btn btn-primary" id = "add_community_button-24923">Save</button>
+        </div>         -->
+        
+    </form>
+</div>
+{% endblock %}

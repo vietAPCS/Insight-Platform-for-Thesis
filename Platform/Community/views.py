@@ -13,6 +13,7 @@ from datetime import datetime
 import requests
 from Platform.utils import *
 import json
+import pandas as pd
 # Create your views here.
 
 
@@ -342,49 +343,44 @@ def upload_document(request, pk):
     
     if not request.user.is_authenticated:
         return redirect('Member:signin')
-    
+    elif not isMember:
+            redirect('Community:community-detail', pk=pk)
     elif ((community.upload_permission==1) or 
         (((isFormer or isMentor) and community.upload_permission==2)) or
         (isFormer and community.upload_permission==3)):
 
-        this_user = request.user
-        community = Community.objects.get(id=pk)
-        isMember = Validate_member(this_user, community)
-        if not isMember:
-            redirect('Community:community-detail', pk=pk)
-        else:
-            if request.method == 'POST':
-                title = request.POST['title']
-                description = request.POST['description']
-                price = request.POST['price']
-                new_doc = CommunityDoc()
-                new_doc.title = title
-                new_doc.description = description
-                new_doc.created_user_id = this_user
-                new_doc.created_date = datetime.now()
-                new_doc.community_id = community
-                new_doc.price = price
-                new_doc.doc_cid = get_cid(request)
+        if request.method == 'POST':
+            title = request.POST['title']
+            description = request.POST['description']
+            price = request.POST['price']
+            new_doc = CommunityDoc()
+            new_doc.title = title
+            new_doc.description = description
+            new_doc.created_user_id = this_user
+            new_doc.created_date = datetime.now()
+            new_doc.community_id = community
+            new_doc.price = price
+            new_doc.doc_cid = get_cid(request)
 
-                new_doc.save()
-                
-                return redirect('Community:community-docs', pk=pk)
-            else:
-                community = Community.objects.get(id=pk)
-                this_user = request.user
-                myuser = MyUser.objects.get(userid = this_user)
-                this_community_user = UserCommunity.objects.get(
-                    user_id=this_user, community_id=community)
-                print(this_user)
-                is_former = True
-                context = {
+            new_doc.save()
+            
+            return redirect('Community:community-docs', pk=pk)
+        else:
+            community = Community.objects.get(id=pk)
+            this_user = request.user
+            myuser = MyUser.objects.get(userid = this_user)
+            this_community_user = UserCommunity.objects.get(
+                user_id=this_user, community_id=community)
+            print(this_user)
+            is_former = True
+            context = {
                     'this_c_user': this_community_user,
                     'is_former': is_former,
                     'community': community,
                     'img': myuser.avatar,
                     'metamask_id': myuser.metamaskID
                 }
-                return render(request, 'Community/upload_doc.html', context)
+            return render(request, 'Community/upload_doc.html', context)
     else:
         return community_interface(request, pk)
 
@@ -653,11 +649,17 @@ def quiz_list(request, pk):
         isFormer = Validate_former(this_user, community)
         print(isMember, isMentor, isFormer)
         isCreateQuizzes = False
-        if community.upload_permission == 0 or (community.upload_permission == 1 and isMentor) or (community.upload_permission == 1 and isFormer) or (community.upload_permission == 2 and isFormer):
+        if (community.upload_permission == 1 or 
+            (community.upload_permission == 2 and isMentor) or 
+            (community.upload_permission == 2 and isFormer) or 
+            (community.upload_permission == 3 and isFormer)):
             isCreateQuizzes = True
         if not isMember:
             redirect('Community:community-detail', pk=pk)
         else:
+            this_community_user = UserCommunity.objects.prefetch_related('user_id__myuser').get(
+                user_id=this_user, community_id=community)
+            user_img = MyUser.objects.get(userid = this_user).avatar
             community_quizzes = CommunityQuiz.objects.filter(
             community_id=pk).all()
             print(isCreateQuizzes)
@@ -665,9 +667,132 @@ def quiz_list(request, pk):
                 'community':community,
                 'community_quizzes': community_quizzes,
                 'isCreateQuizzes': isCreateQuizzes,
+                'this_c_user': this_community_user,
+                'img': user_img
             }
             return render(request, 'Community/quiz_list.html', context)    
+        
+def upload_quiz(request, pk):
+    this_user = request.user
+    community = Community.objects.get(id=pk)
+    isMember = Validate_member(this_user, community)
+    isMentor = Validate_mentor(this_user, community)
+    isFormer = Validate_former(this_user, community)
+    
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+    elif not isMember:
+            redirect('Community:community-detail', pk=pk)
 
-def quiz(request, pk):
-    quiz = CommunityQuiz.objects.get(pk=pk)
-    return render(request, 'Community/quiz.html', {'obj': quiz})
+    elif ((community.upload_permission==1) or 
+        (((isFormer or isMentor) and community.upload_permission==2)) or
+        (isFormer and community.upload_permission==3)):
+
+        tsd = ['A', 'B', 'C', 'D']
+        if request.method == 'POST':
+            if(len(request.FILES) != 0):
+                title = request.POST['title']
+                new_quiz = CommunityQuiz()
+                new_quiz.title = title
+                new_quiz.creator_id = this_user
+                new_quiz.value = 10
+                new_quiz.passing_score = 1
+                new_quiz.community_id = community
+                new_quiz.save()
+
+                file = request.FILES['doc']
+                file_extension = file.name.split('.')
+
+                if file_extension[1] == 'xlsx':
+                    df = pd.read_excel(file, engine='openpyxl')
+                elif file_extension[1] == 'xls':
+                    df = pd.read_excel(file)
+                elif file_extension[1] == 'csv':
+                    df = pd.read_csv(file)
+                else:
+                    raise Exception("File not supported")
+                try:
+                    for index, row in df.iterrows():
+                        question = row['Question']
+                        print(question)
+                        q = Question()
+                        q.quiz_id = new_quiz
+                        q.text = question
+                        q.save()
+                        for t in tsd:
+                            ans = Answer()
+                            ans.question = q
+                            ans.text = row[t]
+                            if t == row['Correct']:
+                                ans.is_correct = True
+                                print(row[t]+"-correct")
+                            else:
+                                print(row[t])
+                            ans.save()
+                except:
+                    raise Exception("Wrong file format")
+                
+            return redirect('Community:quiz-list', pk=pk)
+        else:
+            community = Community.objects.get(id=pk)
+            this_user = request.user
+            myuser = MyUser.objects.get(userid = this_user)
+            this_community_user = UserCommunity.objects.get(
+                user_id=this_user, community_id=community)
+            print(this_user)
+            is_former = True
+            context = {
+                'this_c_user': this_community_user,
+                'is_former': is_former,
+                'community': community,
+                'img': myuser.avatar,
+                'metamask_id': myuser.metamaskID,
+            }
+            return render(request, 'Community/upload_quiz.html', context)
+    else:
+        return community_interface(request, pk)
+
+def quiz(request, pk, quiz_id):
+    
+    quiz = CommunityQuiz.objects.get(id=quiz_id)
+    this_user = request.user
+    community = Community.objects.get(id=pk)
+    isMember = Validate_member(this_user, community)
+    
+    if not request.user.is_authenticated:
+        return redirect('Member:signin')
+    elif not isMember:
+            redirect('Community:community-detail', pk=pk)
+    elif request.method == 'POST':
+        answers = request.POST.dict()
+        score = 0
+        for key, value in answers.items():
+            a = Answer.objects.get(id=value)
+            if(a.is_correct):
+                score+=1
+        result = ""
+        if score >= quiz.passing_score:
+            result = "Passed"
+        else: 
+            result = "Failed"
+        return JsonResponse({'result': result})
+
+    questions = Question.objects.prefetch_related("answer_set").filter(quiz_id=quiz).all()
+
+    community = Community.objects.get(id=pk)
+    this_user = request.user
+    myuser = MyUser.objects.get(userid = this_user)
+    this_community_user = UserCommunity.objects.get(
+        user_id=this_user, community_id=community)
+    is_former = True
+
+    context = {
+        'this_c_user': this_community_user,
+        'is_former': is_former,
+        'community': community,
+        'img': myuser.avatar,
+        'metamask_id': myuser.metamaskID,
+        'questions': questions,
+        'quiz': quiz,
+    }
+    return render(request, 'Community/quiz.html', context)

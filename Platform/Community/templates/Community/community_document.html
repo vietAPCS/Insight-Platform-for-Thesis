@@ -22,7 +22,7 @@
             <div class="title-wrapper">
                 <h3>All documents</h3>
             </div>
-            {%for doc in community_docs%}
+            {% for doc in community_docs %}
             <form id="myForm" method="POST">{% csrf_token %}
                 <div class="community-card card ms-2 me-2 mb-3" style="width: 18rem;">    
                     <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
