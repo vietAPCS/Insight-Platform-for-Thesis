@@ -34,15 +34,8 @@
         <h2>Question {{forloop.counter}}: {{q.text}}</h2>
             {% for a in q.answer_set.all %}
             <input type="radio" id="{{a.id}}" name="{{q.id}}" value="{{a.id}}" >
-            <!-- onclick="radio2select('{{a.id}}', '{{q.id}}')"> -->
             <label for="{{a.id}}">{{forloop.counter|to_char}}. {{a.text}}</label><br>  
             {% endfor %}
-            <!-- <h3 style="display: inline">Your Answer:</h3>
-            <select class="add-form-select" aria-label="Default select example" id="{{q.id}}" name="{{q.id}}" style="margin-bottom: 15px;" onchange="select2radio(this.value)">
-                {% for a in q.answer_set.all %}
-                <option value="{{a.id}}">{{forloop.counter|to_char}}</option>
-                {% endfor %}
-            </select> -->
         {% endfor %}
         <div class="row gutters">
             <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
