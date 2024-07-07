@@ -188,7 +188,6 @@ def community_setting(request, pk):
                 this_community_user = UserCommunity.objects.get(
                     user_id=this_user, community_id=community)
                 print(this_user)
-                is_former = True
                 context = {
                     'this_c_user': this_community_user,
                     'is_former': is_former,
@@ -372,10 +371,9 @@ def upload_document(request, pk):
             this_community_user = UserCommunity.objects.get(
                 user_id=this_user, community_id=community)
             print(this_user)
-            is_former = True
             context = {
                     'this_c_user': this_community_user,
-                    'is_former': is_former,
+                    'is_former': isFormer,
                     'community': community,
                     'img': myuser.avatar,
                     'metamask_id': myuser.metamaskID
@@ -668,7 +666,8 @@ def quiz_list(request, pk):
                 'community_quizzes': community_quizzes,
                 'isCreateQuizzes': isCreateQuizzes,
                 'this_c_user': this_community_user,
-                'img': user_img
+                'img': user_img,
+                'is_former': isFormer,
             }
             return render(request, 'Community/quiz_list.html', context)    
         
@@ -740,10 +739,9 @@ def upload_quiz(request, pk):
             this_community_user = UserCommunity.objects.get(
                 user_id=this_user, community_id=community)
             print(this_user)
-            is_former = True
             context = {
                 'this_c_user': this_community_user,
-                'is_former': is_former,
+                'is_former': isFormer,
                 'community': community,
                 'img': myuser.avatar,
                 'metamask_id': myuser.metamaskID,
@@ -758,7 +756,8 @@ def quiz(request, pk, quiz_id):
     this_user = request.user
     community = Community.objects.get(id=pk)
     isMember = Validate_member(this_user, community)
-    
+    isFormer = Validate_former(this_user, community)
+
     if not request.user.is_authenticated:
         return redirect('Member:signin')
     elif not isMember:
@@ -784,11 +783,10 @@ def quiz(request, pk, quiz_id):
     myuser = MyUser.objects.get(userid = this_user)
     this_community_user = UserCommunity.objects.get(
         user_id=this_user, community_id=community)
-    is_former = True
 
     context = {
         'this_c_user': this_community_user,
-        'is_former': is_former,
+        'is_former': isFormer,
         'community': community,
         'img': myuser.avatar,
         'metamask_id': myuser.metamaskID,
