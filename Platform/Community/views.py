@@ -205,8 +205,6 @@ def community_setting(request, pk):
 # nếu có ròi thì gán cờ là flase,
 # nếu chưa có thì thêm vào bảng request_mentor một bảng ghi (usercommunityID, mentorID, status = 0), gán gờ là True
 # trả về json
-# Khang
-
 
 def request_mentor(request):
     if not request.user.is_authenticated:
@@ -551,8 +549,8 @@ def join_community(request, pk, userId=None):
     else:
         user = request.user
         if request.user.is_authenticated:
-            community.Member.add(user)
-            community.save()
+            # community.Member.add(user)
+            # community.save()
             user_community = UserCommunity()
             user_community.user_id = user
             user_community.community_id = community
