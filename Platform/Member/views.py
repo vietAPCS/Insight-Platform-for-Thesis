@@ -107,8 +107,10 @@ def edituser(request, pk):
             user2 = MyUser.objects.get(userid = this_user)
             if request.method == 'POST':
                 username = request.POST.get('nick-name', None)
+                metamaskID = request.POST.get('metamaskID', None)
                 if(len(request.FILES)!=0):
                     user2.avatar = request.FILES['image']
+                    user2.metamaskID = metamaskID
                     user2.save()
 
                 this_user.username = username
@@ -117,7 +119,8 @@ def edituser(request, pk):
             else:
                 context = {
                     'user_name':this_user.username,
-                    'img':user2.avatar
+                    'metamaskID':user2.metamaskID,
+                    'img':user2.avatar,
                 }
                 return render(request, 'Member/edit_user.html',context)
 

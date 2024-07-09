@@ -551,8 +551,8 @@ def join_community(request, pk, userId=None):
     else:
         user = request.user
         if request.user.is_authenticated:
-            community.Member.add(user)
-            community.save()
+            # community.Member.add(user)
+            # community.save()
             user_community = UserCommunity()
             user_community.user_id = user
             user_community.community_id = community
