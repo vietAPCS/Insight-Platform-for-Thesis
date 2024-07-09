@@ -689,11 +689,13 @@ def upload_quiz(request, pk):
         if request.method == 'POST':
             if(len(request.FILES) != 0):
                 title = request.POST['title']
+                pass_score = request.POST['pass_score']
+                value = request.POST['price']
                 new_quiz = CommunityQuiz()
                 new_quiz.title = title
                 new_quiz.creator_id = this_user
-                new_quiz.value = 10
-                new_quiz.passing_score = 1
+                new_quiz.value = value
+                new_quiz.passing_score = pass_score
                 new_quiz.community_id = community
                 new_quiz.save()
 
