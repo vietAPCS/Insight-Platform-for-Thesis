@@ -16,28 +16,28 @@
     <form id="submit form" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row mb-5">
-            <h4 class="col-3">Title</h4>
+            <h4 class="col-3">Title:</h4>
             <div class="col-9">
                 <input type="text" id="title" name="title" placeholder="title" class="add-form-control">
             </div>
         </div>
         
         <div class="row mb-5">
-            <h4 class="col-3">Passing Score</h4>
+            <h4 class="col-3">Passing Score (how many correct answers):</h4>
             <div class="col-9">
                 <input type="number" id="pass_score" name="pass_score" placeholder="1" class="add-form-control">
             </div>
         </div>
 
         <div class="row mb-5">
-            <h4 class="col-3">Price (Insights)</h4>
+            <h4 class="col-3">Price (Insights):</h4>
             <div class="col-9">
                 <input type="number" id="price" name="price" placeholder="10" class="add-form-control">
             </div>
         </div>
 
         <div class="row mb-5">
-            <h4 class="col-sm-full col-3">Document</h4>
+            <h4 class="col-sm-full col-3">Quiz File (CSV)</h4>
             <div class="col-9">
                 <input type="file" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel" name="doc" id="upload file" hidden></input>
                 <label for="upload file" class="btn btn-success">Upload File</label>

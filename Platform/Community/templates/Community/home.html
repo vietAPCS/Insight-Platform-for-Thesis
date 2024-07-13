@@ -31,7 +31,7 @@ Community
         <div class="community-container">
             {% for community in communities %}
                 <div class="community-card card ms-2 me-2 mb-3" style="width: 30rem;">    
-                    <img src='{% static "dogs-shiba-inu.jpg" %}' class="card-img-top" alt="{{community.name}}-banner" style="height: 120px; object-fit:cover;">
+                    <img src='{% static "community-logo.jpg" %}' class="card-img-top" alt="{{community.name}}-banner" style="height: 120px; object-fit:cover;">
                     <div class="card-body shadow-sm">
                         <h5 class="card-title">{{community.name}}</h5>
                         <small>Created at {{community.created_date}} by <a href="{% url 'Member:profile' community.created_user.id %}">{{community.created_user.username}}</a> </small>
