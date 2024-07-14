@@ -1,0 +1,155 @@
+/* .signup-container {
+    width: 900px;
+    padding: ;
+    margin-top: ;
+}
+ */
+/* 
+.container{
+    padding-top: 40px;
+} */
+
+.avatar {
+    width: 200px;
+    height: 200px;
+}
+
+
+.table_with_default_each_column_width {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.block {
+    display: block;
+    width: 100%;
+    border: black;
+    border-radius:0vi;
+    background-color:lightgray;
+    color: white;
+    padding: 14px 28px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.container_swap {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+}
+
+.div_left{
+    float: left;
+    text-align: center;
+    padding: 20px;
+}
+
+.div_right{
+    width: 200px;
+    /* display: inline-block; */
+
+    float: right;
+
+    text-align: center;
+
+}
+
+
+
+/* ------------ bootdey css --------------------  */
+.account-settings .user-profile {
+    margin: 0 0 1rem 0;
+    padding-bottom: 1rem;
+    text-align: center;
+}
+.account-settings .user-profile .user-avatar {
+    margin: 0 0 1rem 0;
+}
+.account-settings .user-profile .user-avatar img {
+    width: 90px;
+    height: 90px;
+    -webkit-border-radius: 100px;
+    -moz-border-radius: 100px;
+    border-radius: 100px;
+}
+
+.edit-avatar img {
+    width: 200px;
+    height: 200px;
+    -webkit-border-radius: 400px;
+    -moz-border-radius: 400px;
+    border-radius: 400px;
+}
+
+.user-avatar img
+.account-settings .user-profile h5.user-name {
+    margin: 0 0 0.5rem 0;
+}
+.account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #9fa8b9;
+}
+.account-settings .about {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+.account-settings .about h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+.account-settings .about p {
+    font-size: 0.825rem;
+}
+.form-control, .form-select {
+    border: 1px solid #cfd1d8;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: .825rem;
+    background: #ffffff;
+    color: #2e323c;
+}
+
+
+.edit-wrapper {
+    text-align: center;
+}
+
+.edit-wrapper:hover {
+    cursor: pointer;
+}
+
+/* ------------------- */
+
+
+.card 
+{
+    background: #ffffff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+}
+
+.table-container {
+    background-color: white;
+    padding: 40px 20px;
+    border: none;
+    /* border-radius: 14px; */
+}
+
+
+/* edit profile------------ */
+.profile-container {
+    display: flex;
+    justify-content: center;
+}
+
+/* .card {
+    padding: 40px 25px;
+    border-radius: 6px;
+} */
