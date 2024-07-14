@@ -40,13 +40,13 @@ def contest(request, pk):
         for m in mentors_community:
             new_room.detail.add(m.user_id)
         
-        return redirect('Room:room_details', com_id=community.id, room_id=new_room.id)
+        return redirect('Room:contestant_details', com_id=community.id, room_id=new_room.id)
     
     else:
         # isFormer = Validate_former(this_user, community)
         this_community_user = UserCommunity.objects.get(
             user_id=this_user, community_id=community)
-        mentors_community = UserCommunity.objects.filter(community_id=community, is_mentor = True)
+        mentors_community = UserCommunity.objects.filter(community_id=community).exclude(user_id = this_user)
         mentors_community = mentors_community.order_by('-score')
         in_room = ExamRoom.objects.filter(Q(student_id=this_user) & Q(community_id=community) & (Q(former_signature=None) | Q(former_signature=""))).exists()
         context = {
@@ -324,7 +324,7 @@ def contestant_details(request, com_id, room_id):
             'current_user': this_user,
             'former': former,
         }
-        return render(request, 'Room/render_room.html', context)
+        return render(request, 'Room/render_contestant_room.html', context)
 
 def cal_final_grade(room):
     score = 0

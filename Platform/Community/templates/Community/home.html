@@ -8,12 +8,12 @@ Community
 {% load static %}
 
 <div class="container body-container">
-    <section id="shorcuts" style="text-align: center;">
+    <section id="shorcuts" style="text-align: center; margin-bottom: 10px; border-bottom: 10px;">
         <h3 class="mb-3">Joined</h3>
-        <div class="shorcut-container">
+        <div class="shorcut-container mb-2">
             {% for short in shorcuts %}
                 <div class="shorcut-wrapper">
-                    <img src="{% static 'shiba-shorcut.jpg' %}" alt="{{short.name}}" class="shorcut-img">
+                    <img src="{% static 'join-logo.png' %}" alt="{{short.name}}" class="shorcut-img">
                     <h6>{{short.community_id.name}}</h6>
                     <a href="{% url 'Community:community-interface' short.community_id.pk %}">
                         <i class="fa-solid fa-paper-plane me-2"></i>
