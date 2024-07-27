@@ -18,15 +18,7 @@
         <p><strong>Total Number of Users:</strong> {{community_size}}</p>
         <p><strong>Total Number of Mentors:</strong> {{num_mentors}}</p>
         <p><strong>Total Number of Documents:</strong> {{num_documents}}</p>
-        
-        
-        <!-- { % if community.entrance_test_enable %}
-        <form action="http://127.0.0.1:3001/exam">
-            <input style="display: none;" type="text" name="communityName" value="{{community.name}}">
-            <input style="display: none;" type="text" name="communityId" value="{{community.id}}">
-            <input style="display: none;" type="text" name="userId" value="{{user.id}}">
-            <button class="border-btn community-join-btn" type="submit">Take test to join</button>
-        </form>   -->
+
         {% if not ismember %}
         <a class="border-btn community-join-btn" href="{% url 'Community:join-community' community.pk %}">Join</a>
         {% else %}

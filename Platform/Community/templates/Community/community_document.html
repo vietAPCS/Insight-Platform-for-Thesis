@@ -29,7 +29,6 @@
                         <small>Created at {{doc.created_date}} by <a href="{% url 'Member:profile' doc.created_user_id.id %}">{{doc.created_user_id.username}}</a> </small>
                         <button type="button" class="btn btn-info" data-bs-toggle="collapse" data-bs-target="#des{{doc.document_id}}">Description</button>   
                             <input type="hidden" id="address" value={{doc.created_user_id.myuser.metamaskID}}></input>
-                            <!-- <input type="hidden" id="price" value={{doc.price}}></input> -->
                             <button type="button" id="submitButton" class="btn btn-primary" onclick="buyDoc('{{doc.created_user_id.myuser.metamaskID}}','{{doc.price}}','{{doc.doc_cid}}','{{doc.title}}')">
                                 Buy
                             </button> 

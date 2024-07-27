@@ -8,7 +8,6 @@
   }
 
   .table-striped>tbody>tr:first-child>* {
-    /* background-color: var(--bs-primary-bg-subtle); */
     background-color: #5f9af3;
     color: white;
     --bs-table-bg-type: var(--bs-table-striped-bg); 
@@ -53,7 +52,6 @@
           <th scope="col">#ID</th>
           <th scope="col">Name</th>
           <th scope="col">Score</th>
-          <!-- <th scope="col">Public Key</th> -->
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -78,7 +76,6 @@
         {% for mentor in mentors %}
         <tr>
             <th scope="row" class="col-1"> {{ forloop.counter }}</th>
-            <!-- <td class="col-5">{{ user.username }}</td> -->
             {% if mentor.user_id.username %}
              <td class="col-3">{{ mentor.user_id.username }}</td>
             {% else %}

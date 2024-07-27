@@ -18,7 +18,6 @@
     <header class="header" style="width: 100%;">
       <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-          <!-- <a class="navbar-brand" href="/room"> Contest</a> -->
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -30,17 +29,6 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'Room:contest' community.pk %}">Contest</a>
               </li>
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="{-% url 'Room:room_render' pk=community.pk %}">Room View</a>
-              </li> -->
-              <!-- <li class="nav-item">
-                {% if score %} 
-                <a class="nav-link" href="http://127.0.0.1:8000/back_home_from_exam?username={{username}}&score={{score}}">Back To Home</a>
-                {% else %}
-                <a class="nav-link" href="http://127.0.0.1:8000/back_home_from_exam?username={{username}}">Back To Home</a>
-                {% endif %}
-              </li> -->
-
               {% if user %}  
                 <div>
                   <button id="connect-metamask-btn" class="btn btn-outline-primary  ms-5 mb-2"
@@ -53,13 +41,6 @@
             <form class="d-flex" role="search">
               {% if user %}
                 <div style="align-items: center; display: flex; margin-right: 10px;">
-                  <!-- <div class="icon-container" style="margin-right: 10px;">
-                    <i id="notification-icon" class="bi bi-bell-fill"></i>
-                  </div> -->
-                    <!-- <span id="username"
-                          onclick="window.location.href='/profile'">
-                      Hi {{ user.user_id.username }}
-                    </span> -->
                 </div>
 {#                <button id="logoutButton" class="btn btn-outline-danger" onclick="logout_user(event)">Log out</button>#}
                 <div class="dropdown">
@@ -69,7 +50,6 @@
                     <ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <li><a class="dropdown-item" href="{% url 'Room:profile' com_id=community.pk user_id=current_user.pk %}">Exam History</a></li>
                       <li><a class="dropdown-item" href="{% url 'Room:mentor' com_id=community.pk %}">Room Mentor</a></li>
-                      <!-- <li><a class="dropdown-item" href="/contestant">Room Contestant</a></li> -->
                       <li><a class="dropdown-item" href="{% url 'Room:former' com_id=community.pk %}">Room Former</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a href="{% url 'Member:signout' %}" class="dropdown-item">Logout</a></li>
@@ -85,7 +65,6 @@
     </header>
 
     {% block content %}
-      
     {% endblock %}
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

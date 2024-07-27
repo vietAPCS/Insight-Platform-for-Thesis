@@ -2,7 +2,6 @@ let django_url = my_url
 let token = csrftoken
 
 async function viewSign(id, type, signature, address){
-  // console.log(address)
   try{
     let formData = new FormData();
       formData.append('id', id);
@@ -17,9 +16,7 @@ async function viewSign(id, type, signature, address){
         .then(response => response.json())
 
         if(ret){
-          // console.log(ret.mess)
           const signerAddr = await ethers.utils.verifyMessage(ret.mess, signature);
-          // console.log(signerAddr)
           if (signerAddr == address) {
             alert("Verified")
             document.getElementById('signed_'+type+'_'+id).style.display = 'block';

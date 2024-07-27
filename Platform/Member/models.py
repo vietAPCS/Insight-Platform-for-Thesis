@@ -8,9 +8,6 @@ from PIL import Image
 
 # Create your models here.
 class MyUser(models.Model):
-    # id = models.AutoField(primary_key=True, default=1)
-    # first Name, last name, password, joined_date đã được kế thừa từ class user
-    # user = models.OneToOneField(User, on_delete=models.CASCADE, default=1)
     id = models.AutoField(primary_key = True)
     userid = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True, related_name="myuser")
     metamaskID = models.CharField(max_length=255, blank=True, null=True)

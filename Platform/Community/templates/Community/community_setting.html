@@ -20,11 +20,6 @@
                 <input type="text" id="community-name" value="{{community.name}}" name="community-name" class="add-form-control">
             </div>
         </div>
-
-        <!-- <label>Created user</label>
-        <datalist id="community-created-user" name="community-created-user" class="form-control mb-3"> 
-            <option></option>
-        </datalist> -->
         <div class="row mb-5">
             <h4 class="col-sm-full col-3">Description</h4>
             <div class="col-9">
@@ -54,8 +49,6 @@
 
             </script>
         </div>
-
-        <!-- <input id="mentor-threshold" name="mentor-threshold" class="form-control mb-3" type="number""> </textarea> -->
   
         <div class="row mb-5">
             <h4 class="col-3">Document upload permission</h4>
@@ -75,19 +68,12 @@
             <div class="col">
                 <input class="add-form-check-input" type="checkbox" {% if community.entrance_test_enable %} checked {% endif %} id="enable_entrance_test" role="switch" name="enable-entrance-test" >
             </div> 
-            <!-- <div class="input-group col-5" style="width: auto;" id="file_upload_container-24923">
-                <input type="file" class="form-control" id="file_upload-24923" disabled>
-            </div> -->
         </div>
-        
-
         <div class="add-button">
             <button class="btn btn-primary" id = "add_community_button-24923">Save</button>
         </div>        
         
     </form>
 </div>
-
-
 
 {% endblock %}

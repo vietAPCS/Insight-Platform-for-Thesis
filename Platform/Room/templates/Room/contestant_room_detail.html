@@ -9,27 +9,23 @@ function viewTest(roomID, mentorID) {
 
   xhr.onload = function () {
     if (xhr.status == 200) {
-      // Nếu nhận được dữ liệu thành công, tạo một blob từ arrayBuffer và mở cửa sổ mới chứa PDF
       var arrayBuffer = xhr.response;
       var blob = new Blob([arrayBuffer], { type: 'application/pdf' });
       var url = URL.createObjectURL(blob);
 
-      // Mở cửa sổ mới chứa PDF
       window.open(url, '_blank');
     } else {
       alert('Error! Please try again!');
     }
   };
 
-  // Gửi yêu cầu lấy dữ liệu PDF từ server
   xhr.send();
 }
 
 function submit(roomId, mentorID) {
   var fileInput = document.createElement('input');
   fileInput.type = 'file';
-  fileInput.accept = '.pdf';  // Chỉ chấp nhận file PDF
-
+  fileInput.accept = '.pdf'; 
   fileInput.onchange = async function () {
     if (!window.ethereum) {
       alert('Metamask not installed')
@@ -41,7 +37,7 @@ function submit(roomId, mentorID) {
     }
     const provider = new ethers.providers.Web3Provider(window.ethereum)
     console.log("metamask = ", '{{metamask_id}}')
-    const signer = provider.getSigner('{{metamask_id}}'); // signer.getAddress() == accounts[0]
+    const signer = provider.getSigner('{{metamask_id}}'); 
     const signerAddress = await signer.getAddress();
     console.log("signerAddress = ", signerAddress)
     if('{{metamask_id}}' != signerAddress) {
@@ -54,7 +50,6 @@ function submit(roomId, mentorID) {
     formData.append('room_id', roomId);
     formData.append('mentor_id',mentorID);
 
-    // Gửi yêu cầu POST để tải lên file đề thi lên server
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/contestant/'+roomId, true);
     xhr.onload = function () {
@@ -108,10 +103,9 @@ function submit(roomId, mentorID) {
           alert('You need to sign this message')
         });
     };
-    reader.readAsArrayBuffer(file); // Read the file as text
+    reader.readAsArrayBuffer(file);
   };
 
-  // Kích hoạt sự kiện click trên input[type=file] để chọn file
   fileInput.click();
 }
 function viewSubmitSign(roomID, mentorID) {
@@ -126,19 +120,16 @@ function viewSubmit(roomID, mentorID) {
 
   xhr.onload = function () {
     if (xhr.status == 200) {
-      // Nếu nhận được dữ liệu thành công, tạo một blob từ arrayBuffer và mở cửa sổ mới chứa PDF
       var arrayBuffer = xhr.response;
       var blob = new Blob([arrayBuffer], { type: 'application/pdf' });
       var url = URL.createObjectURL(blob);
 
-      // Mở cửa sổ mới chứa PDF
       window.open(url, '_blank');
     } else {
       alert('Error! Please try again!');
     }
   };
 
-  // Gửi yêu cầu lấy dữ liệu PDF từ server
   xhr.send();
 }
 </script>

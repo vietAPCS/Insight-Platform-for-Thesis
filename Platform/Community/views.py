@@ -39,12 +39,6 @@ def home(request):
         }
         return render(request, 'Community/home.html', context)
 
-
-#################
-#
-# với mỗi hàm cần làm thì hoàn thiện lun path trong file url.py
-#
-# ##########
 def Validate_member(user, community):
     isMember = UserCommunity.objects.filter(
         user_id=user, community_id=community).exists()
@@ -84,7 +78,6 @@ def community_interface(request, pk):
             'users_community': users_community,
             'img': user_img
         }
-        # context['community_size'] = creater_communities.count()
         return render(request, 'Community/community_interface.html', context)
 
 
@@ -110,12 +103,6 @@ def community_detail(request, pk):
             'ismember': isMember,
         }
         return render(request, 'Community/community_detail.html', context)
-
-# 1. xác định người dùng có thuộc community hay ko, nếu ko thì redirect qua trang detail
-# 2. xác định người dùng có phải former hay ko
-# 3. truy vấn ra danh sách tất cả các mentor thuộc community
-# 4. render trang communitymentor
-
 
 def community_mentor(request, pk):
     if not request.user.is_authenticated:
@@ -178,8 +165,6 @@ def community_setting(request, pk):
                 update_community.save()
                 print(update_community)
                 print(update_community.mentor_threshold)
-
-                # return redirect('Community:community-interface', pk=pk)
                 return JsonResponse(request.POST)
             else:
                 community = Community.objects.get(id=pk)
@@ -197,23 +182,11 @@ def community_setting(request, pk):
                 print(community.upload_permission)
                 return render(request, 'Community/community_setting.html', context)
 
-# metadata: usercommunityID,  mentor_id
-# vd: request.POST.usercommunityID
-# method: POST
-# trả về json (không render trang html)
-# 1. kiểm tra trong bảng request_mentor đã có bản ghi nào trùng usercommunityID và mentor id hay chưa
-# nếu có ròi thì gán cờ là flase,
-# nếu chưa có thì thêm vào bảng request_mentor một bảng ghi (usercommunityID, mentorID, status = 0), gán gờ là True
-# trả về json
-
 def request_mentor(request):
     if not request.user.is_authenticated:
         return redirect('Member:signin')
     else:
-        # Retrieve usercommunityID and mentorID from POST data
-        # tên của trường usercommunityid trong form
         usercommunityID = request.GET.get('user_communityID')
-        # tên của trường mentorID trong form
         mentorID = request.GET.get('mentorID')
         communityID = request.GET.get('communityID')
         community = Community.objects.get(id=communityID)
@@ -225,7 +198,6 @@ def request_mentor(request):
             err_message = "Community not found"
         else:
             # Initialize flag and status
-
             # Check foreign key reference
             requesting_user = UserCommunity.objects.get(
                 id=usercommunityID, community_id=community)
@@ -272,15 +244,6 @@ def request_mentor(request):
         }
 
         return JsonResponse(response_data)
-
-# meta data: usercommunityID,  mentor_id, option
-# method: POST
-# 0. kiểm tra this.usercommunityID có bằng  mentor_id hay ko, ko thì return false
-# 1. kiểm tra trong bảng request_mentor đã có bản ghi nào trùng usercommunityID và mentor id hay chưa
-# nếu cưa có thì gán cờ là flase,
-# nếu có rồi thì thay đổi status thành 1/2 phụ thuộc theo option True, False
-# Khang
-
 
 def ansewer_request_mentor(request):
     if request.method == "POST":
@@ -418,96 +381,6 @@ def get_community_docments(request, pk):
             return render(request, 'Community/community_document.html', context)
 
 
-def get_community_exam(request, pk):
-    if not request.user.is_authenticated:
-        return redirect('Member:signin')
-    else:
-        this_user = request.user
-        # EXAM_URL = "http://127.0.0.1:5000/sign_up"
-        this_community_user = UserCommunity.objects.get(
-            user_id=this_user, community_id=pk)
-        # return redirect(EXAM_URL+"?username="+this_user.username+"&score="+str(this_community_user.score))
-        return render(request, 'Room/contest')
-    #     community = Community.objects.get(id=pk)
-    #     isMember = Validate_member(this_user, community)
-    #     isFormer = Validate_former(this_user, community)
-    #     this_community_user = UserCommunity.objects.get(
-    #         user_id=this_user, community_id=community)
-    #     # print(Exam)
-
-    #     if not isMember:
-    #         return redirect('Community:home')
-    #     else:
-    #         exams = Exam.objects.filter(
-    #             community_id=pk, user_id=this_user).all()
-    #         context = {
-    #             'exams': exams,
-    #             'is_former': isFormer,
-    #             'community': community,
-    #             'this_c_user': this_community_user,
-    #         }
-    #         # for exam in exams:
-    #         #     print(f"Exam ID: {exam.id}")
-    #         #     print(f"Name: {exam.user.username}")
-    #         #     print(f"Created Date: {exam.created_date}")
-    #         # print(exams)
-    # return render(request, 'Community/community_exam.html', context)
-
-
-def done_exam(request):
-    username = request.GET.get('username')
-    score = request.GET.get('score')
-    community_id = request.GET.get('community')
-
-    # Check if the user is already logged in. If not, log them in.
-    if not request.user.is_authenticated:
-        # You might need to specify the user's password here.
-        user = authenticate(request, username=username, password=username)
-        if user is not None:
-            login(request, user)
-        else:
-            return HttpResponse("Login failed")
-
-    # Update the user's score in the community.
-    try:
-        user_community = UserCommunity.objects.get(
-            user_id=request.user, community_id=community_id)
-        user_community.score = int(score)
-        user_community.save()
-    except UserCommunity.DoesNotExist:
-        return HttpResponse("User not found in the specified community")
-
-    # Redirect the user to the community interface or any other page.
-    return redirect('Community:community-interface', pk=community_id)
-
-
-def back_community(request):
-    username = request.GET.get('username')
-    community_id = 1
-    score = request.GET.get('score')
-    # Check if the user is already logged in. If not, log them in.
-    # if not request.user.is_authenticated:
-     # You might need to specify the user's password here.
-    user = authenticate(request, username=username, password=username)
-    if user is not None:
-
-            login(request, user)
-    else:
-            return HttpResponse("Login failed")
-
-    if score is not None:
-        try:
-            user_community = UserCommunity.objects.get(
-                user_id=request.user, community_id=community_id)
-            user_community.score = int(score)
-            user_community.save()
-        except UserCommunity.DoesNotExist:
-            return HttpResponse("User not found in the specified community")
-    # Update the user's score in the community.
-
-    return redirect('Community:community-interface', pk=community_id)
-
-
 def add_community(request):
     if not request.user.is_authenticated:
         return redirect('Member:signin')
@@ -557,82 +430,6 @@ def join_community(request, pk, userId=None):
             # user_community.score=10
             user_community.save()
             return redirect('Community:community-detail', pk=pk)
-
-
-def verify_exam(request):
-    communityId = request.POST.get('communityId')
-    userId = request.POST.get('userId')
-    playerScore = request.POST.get('playerScore')
-    community = Community.objects.get(id=communityId)
-    user = User.objects.get(id=userId)
-    err_mes = ""
-    if user == None or community == None:
-        flag = False
-        err_mes = "user id or commmunity id not valid"
-    else:
-        playScore = int(request.POST.get('playerScore'))
-        print(playScore)
-        if playScore >= 4:
-            community.Member.add(user)
-            community.save()
-            user_community = UserCommunity()
-            user_community.user_id = user
-            user_community.community_id = community
-            user_community.score = 10
-            user_community.save()
-            flag = True
-
-        else:
-            flag = False
-            err_mes = "not passed exam"
-    res = {
-        'flag': flag,
-        'err_mess': err_mes
-    }
-    return JsonResponse(res)
-
-
-def synchronize_data(request):
-    api_url = "http://127.0.0.1:5000/get_all_users"
-    response = requests.get(api_url)
-    if response.status_code == 200:
-        # Parse and process the data received from the API
-        data = response.json()
-
-        # Save the data to your Django models or perform other actions
-        for item in data:
-            if 'username' not in item:
-                continue
-            username = item['username']
-            community_id = 1
-            # Get the score from the API, default to 10
-            score = int(item.get('score', 10))
-
-            # Get or create a user with the specified username
-            user, created = User.objects.get_or_create(username=username)
-
-            if created:
-                # Set the password if the user is created
-                user.set_password(username)
-                user.save()
-            # Check if the user already has a UserCommunity record for the community
-
-            community = Community.objects.get(id=community_id)
-            user_community, created = UserCommunity.objects.get_or_create(
-                user_id=user,
-                community_id=community,
-                # Set the score if the record is created
-                defaults={'score': score}
-            )
-
-            # If the record is not created (user already had a record for the community), update the score
-            if not created:
-                user_community.score = score
-                user_community.save()
-
-        return JsonResponse({'message': 'Data synchronized successfully'})
-    else:
-        return JsonResponse({'message': 'Failed to synchronize data'}, status=500)
 
 def quiz_list(request, pk):
     if not request.user.is_authenticated:

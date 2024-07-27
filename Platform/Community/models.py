@@ -15,7 +15,6 @@ def validate_no_negative(value):
     
 # Create your models here.
 class Community(models.Model):
-    # khóa đại diện , khóa chính
     id = models.AutoField(primary_key=True) 
     name = models.CharField(max_length=255, blank=True, null=True)
     created_date = models.DateField(auto_now_add=True, blank=True, null=True)
@@ -24,7 +23,6 @@ class Community(models.Model):
     upload_permission = models.IntegerField(default=1, blank=True, null=True)
     mentor_threshold = models.IntegerField(default=0, validators=[validate_no_negative])
     entrance_test_enable = models.BooleanField(default=0)
-    # Member = models.ManyToManyField(User,related_name='groups_joined',through='CommunityMember')
 
     def __str__(self):
         return str(self.name) + '-' + str(self.created_user)
@@ -58,12 +56,6 @@ class CommunityDoc(models.Model):
     title = models.CharField(max_length=100) 
     doc_cid = models.TextField(max_length=255, null=False, blank=True)
     price = models.IntegerField(default=0, validators=[validate_no_negative])
-    
-    # def save(self, *args, **kwargs):
-    #     if not self.pk:
-    #         self.doc_cid = encrypt(self.doc_cid)
-    #         super(CommunityDoc, self).save(*args, **kwargs)
-
 
 class CommunityCerti(models.Model):
     id = models.AutoField(primary_key=True)

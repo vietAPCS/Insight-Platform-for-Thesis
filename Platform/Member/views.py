@@ -72,7 +72,6 @@ def profile(request, pk):
         return redirect('Member:signin')
     else:
         this_user = User.objects.get(id = pk)
-        # print(this_user)
         user_img = MyUser.objects.get(userid = this_user).avatar
         user_communities = UserCommunity.objects.filter(user_id = this_user)
         creater_communities = Community.objects.filter(created_user = this_user)
@@ -123,23 +122,3 @@ def edituser(request, pk):
                     'img':user2.avatar,
                 }
                 return render(request, 'Member/edit_user.html',context)
-
-    # # URL of the file you want to download
-    # file_url = 'https://apricot-impressive-termite-356.mypinata.cloud/ipfs/QmT2rvh81di6135JtbRwBwXHETCTThYaFxaK6Y1FZqp7AB'
-
-    # # Fetch the file from the URL
-    # response = requests.get(file_url)
-
-    # if response.status_code == 200:
-    #     # Set the file name for the downloaded file
-    #     filename = 'downloaded_file.txt'
-
-    #     # Create an HttpResponse with the file content and appropriate headers
-    #     response = HttpResponse(
-    #         response.content,
-    #         content_type='application/octet-stream'
-    #     )
-    #     response['Content-Disposition'] = f'attachment; filename="{filename}"'
-    #     return response
-    # else:
-    #     return HttpResponse("Failed to download the file.")

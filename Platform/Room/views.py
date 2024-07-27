@@ -43,7 +43,6 @@ def contest(request, pk):
         return redirect('Room:contestant_details', com_id=community.id, room_id=new_room.id)
     
     else:
-        # isFormer = Validate_former(this_user, community)
         this_community_user = UserCommunity.objects.get(
             user_id=this_user, community_id=community)
         mentors_community = UserCommunity.objects.filter(community_id=community).exclude(user_id = this_user)
@@ -129,14 +128,12 @@ def profile(request, com_id, user_id):
         return redirect('Community:home')
     else:
         room = ExamRoom.objects.filter(student_id=this_user)
-        # room_detail = RoomDetails.objects.filter(room_id=room)
         context = {
             'metamask': user.metamaskID,
             'user': this_community_user,
             'rooms': room,
             'community': community,
             'current_user': request.user,
-            # 'room_details': room_detail,
         }
         return render(request, 'Room/user_profile.html', context)
 
@@ -175,12 +172,10 @@ def former(request, com_id):
         
     else:
         room = ExamRoom.objects.filter(community_id=community)
-        # room_detail = RoomDetails.objects.filter(room_id=room)
         context = {
             'rooms': room,
             'community': community,
             'current_user': this_user,
-            # 'room_details': room_detail,
         }
         return render(request, 'Room/former_view.html', context)
 
@@ -202,7 +197,6 @@ def mentor(request, com_id):
             if request.POST.get('score', False) and request.POST.get('score_signature', False):
                 detail_id = request.POST['id']
                 room_detail = RoomDetails.objects.get(id=detail_id)
-                # .update(mentor_signature=signature, score_signature=score_signature)
                 score = float(request.POST['score'])
                 score_signature = request.POST['score_signature']
 
@@ -247,9 +241,7 @@ def mentor(request, com_id):
     
     else:
         room_detail = RoomDetails.objects.prefetch_related('mentor_id__myuser', 'room_id__student_id__myuser').filter(mentor_id=this_user)
-        # room = ExamRoom.objects.get(student_id=this_user)
         context = {
-            # 'room': room,
             'community': community,
             'room_details': room_detail,
             'current_user': this_user,

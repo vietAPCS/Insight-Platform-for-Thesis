@@ -24,8 +24,6 @@
     <script>
         $('#send-request').click(function () {
             console.log('clciked')
-            // console.log({{this_c_user.id}})
-            // console.log({{mentor.id}})
             $.ajax({
                 url: '{% url "Community:ajax-request-mentor" %}',
                 data: {
