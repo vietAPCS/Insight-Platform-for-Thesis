@@ -440,7 +440,7 @@ def quiz_list(request, pk):
         isMember = Validate_member(this_user, community)
         isMentor = Validate_mentor(this_user, community)
         isFormer = Validate_former(this_user, community)
-        print(isMember, isMentor, isFormer)
+        
         isCreateQuizzes = False
         if (community.upload_permission == 1 or 
             (community.upload_permission == 2 and isMentor) or 
@@ -455,7 +455,7 @@ def quiz_list(request, pk):
             user_img = MyUser.objects.get(userid = this_user).avatar
             community_quizzes = CommunityQuiz.objects.filter(
             community_id=pk).all()
-            print(isCreateQuizzes)
+
             context = {
                 'community':community,
                 'community_quizzes': community_quizzes,
@@ -555,10 +555,17 @@ def quiz(request, pk, quiz_id):
     isMember = Validate_member(this_user, community)
     isFormer = Validate_former(this_user, community)
 
+    try:
+        quiz_complete = QuizComplete.objects.get(quiz_id=quiz_id, user_id=this_user).is_complete
+    except QuizComplete.DoesNotExist:
+        quiz_complete = False
+
     if not request.user.is_authenticated:
         return redirect('Member:signin')
     elif not isMember:
-            redirect('Community:community-detail', pk=pk)
+        return redirect('Community:community-detail', pk=pk)
+    elif quiz_complete:
+        return redirect('Community:quiz-list', pk=pk)
     elif request.method == 'POST':
         answers = request.POST.dict()
         score = 0
@@ -569,6 +576,11 @@ def quiz(request, pk, quiz_id):
         result = ""
         if score >= quiz.passing_score:
             result = "Passed"
+            new_quiz_complete = QuizComplete()
+            new_quiz_complete.quiz_id = quiz
+            new_quiz_complete.user_id = this_user
+            new_quiz_complete.is_complete = True
+            new_quiz_complete.save()
         else: 
             result = "Failed"
         return JsonResponse({'result': result})

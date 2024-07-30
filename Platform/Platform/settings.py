@@ -37,7 +37,7 @@ ENCRYPTION_SECRET = os.environ['ENCRYPTION_SECRET']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app','localhost', '127.0.0.1']
 
 
 # Application definition
@@ -91,21 +91,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Platform.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/5.0/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {        
-#         'ENGINE': 'django.db.backends.mysql',        
-#         'NAME': 'insight_database',
-#         'USER': 'root',
-#         'PASSWORD': 'root',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#         'OPTIONS': {'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"},
-#    }
-# }
 DATABASES = {'default': dj_database_url.config(default= os.environ['DATABASE_URL'], engine='django_cockroachdb')}
 
 # Password validation

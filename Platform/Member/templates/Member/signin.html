@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng nhập</title>
+    <title>Sign In</title>
 
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
@@ -19,17 +19,17 @@
             <div class="loginout-logo">
                 <img src='{% static "logo.jpg" %}' style="height: 60px;">
             </div>
-            <h5>Đăng nhập</h5>
+            <h5>Sign In</h5>
             <form method="POST">
                 {% csrf_token %}
-                <label class="">Tên đăng nhập</label>
+                <label class="">Username</label>
                 <input type="text" id="username" name="username" class="form-control mb-3">
         
-                <label class="">Mật khẩu</label>
+                <label class="">Password</label>
                 <input type="password" id="password" name="password" class="form-control mb-3">
-                <button class="btn btn-primary">Đăng nhập</button>
+                <button class="btn btn-primary">Sign In</button>
                 <div class="">
-                    <a href="{% url 'Member:signup' %}">Chưa có tài khoản?</a>
+                    <a href="{% url 'Member:signup' %}">Don't have an account?</a>
                 </div>
             </form>
         </div>

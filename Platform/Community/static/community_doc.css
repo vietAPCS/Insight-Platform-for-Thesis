@@ -14,3 +14,12 @@
     margin-bottom: 16px;
     padding: 16px;
 }
+.quiz-item-wrapper {
+    display: block;
+    margin: 32px 24px;
+    align-items: center;
+    padding: 24px 32px;
+    border-radius: 20px;
+    background-color: rgb(223, 198, 198);
+    box-shadow: 0 .5rem 1rem rgba(67, 185, 254, 0.237);
+}

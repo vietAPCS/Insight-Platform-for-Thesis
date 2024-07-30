@@ -120,3 +120,8 @@ class Answer(models.Model):
 
     def __str__(self):
         return str("question " + self.question.text) + '-' + str("answer" + self.text)
+
+class QuizComplete(models.Model):
+    quiz_id = models.ForeignKey(CommunityQuiz, on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    is_complete = models.BooleanField(default=False)
