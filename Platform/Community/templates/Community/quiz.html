@@ -22,13 +22,13 @@
             }})
         .then(response => response.json())
         .then(result =>{
-            const modal = document.getElementById("gradeModal")
-            const modal2 = new bootstrap.Modal(modal);
-            modal2.show();
-            document.getElementById("result").innerHTML = result.result
-            if(result.result == "Failed"){
+            if(result.result == "Failed" || result.complete){
                 document.getElementById("reward_btn").style.display = "none"
             }
+            const modal = document.getElementById("gradeModal");
+            const modal2 = new bootstrap.Modal(modal);
+            modal2.show();
+            document.getElementById("result").innerHTML = result.result;
         });
     }
 </script>
@@ -57,7 +57,7 @@
     </form>
 </div>
 
-<div class="modal fade text-center" id="gradeModal" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true">
+<div class="modal fade text-center" id="gradeModal" tabindex="-1" aria-labelledby="gradeModalLabel" aria-hidden="true"  data-bs-keyboard="false" data-bs-backdrop="static">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -71,7 +71,7 @@
         <div class="modal-footer" id="reward">
             <a class="btn btn-secondary" href="{% url 'Community:quiz-list' pk=community.pk %}">Return</a>
             <button type="button" id="reward_btn" class="btn btn-primary">Claim reward</button>
-          </div>
+        </div>
       </div>
     </div>
   </div>

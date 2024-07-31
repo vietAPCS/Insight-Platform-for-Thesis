@@ -564,8 +564,6 @@ def quiz(request, pk, quiz_id):
         return redirect('Member:signin')
     elif not isMember:
         return redirect('Community:community-detail', pk=pk)
-    elif quiz_complete:
-        return redirect('Community:quiz-list', pk=pk)
     elif request.method == 'POST':
         answers = request.POST.dict()
         score = 0
@@ -576,14 +574,15 @@ def quiz(request, pk, quiz_id):
         result = ""
         if score >= quiz.passing_score:
             result = "Passed"
-            new_quiz_complete = QuizComplete()
-            new_quiz_complete.quiz_id = quiz
-            new_quiz_complete.user_id = this_user
-            new_quiz_complete.is_complete = True
-            new_quiz_complete.save()
+            if not quiz_complete:
+                new_quiz_complete = QuizComplete()
+                new_quiz_complete.quiz_id = quiz
+                new_quiz_complete.user_id = this_user
+                new_quiz_complete.is_complete = True
+                new_quiz_complete.save()
         else: 
             result = "Failed"
-        return JsonResponse({'result': result})
+        return JsonResponse({'result': result, 'complete': quiz_complete})
 
     questions = Question.objects.prefetch_related("answer_set").filter(quiz_id=quiz).all()
 
@@ -592,7 +591,7 @@ def quiz(request, pk, quiz_id):
     myuser = MyUser.objects.get(userid = this_user)
     this_community_user = UserCommunity.objects.get(
         user_id=this_user, community_id=community)
-
+    
     context = {
         'this_c_user': this_community_user,
         'is_former': isFormer,
