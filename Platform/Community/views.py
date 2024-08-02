@@ -119,8 +119,7 @@ def community_mentor(request, pk):
             user_img = MyUser.objects.get(userid = this_user).avatar
             isFormer = Validate_former(this_user, community)
             threshold = community.mentor_threshold
-            mentor = UserCommunity.objects.filter(
-                community_id=community, score__gt=threshold)
+            mentor = UserCommunity.objects.prefetch_related('user_id__myuser').filter(community_id=community, is_mentor=True)
             context = {
                 'this_c_user': this_community_user,
                 'community_mentors': mentor,

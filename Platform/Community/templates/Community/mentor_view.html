@@ -1,7 +1,9 @@
 {% load static %}
 <div class="user-item-wrapper">
     <!-- User Avatar -->
-    <img src='{% static "dog-avatar.jpg" %}' alt="User Avatar" class="user-item-avatar">
+    <div class="avatar">
+        <img src="{{mentor.user_id.myuser.avatar.url}}" class="avatar">
+    </div>
 
     <!-- User Information -->
     <div class="user-item-info-wrapper">
@@ -21,30 +23,4 @@
 
     <!-- Follow Button -->
     <button class="border-btn" id="send-request">Send a request</button> 
-    <script>
-        $('#send-request').click(function () {
-            console.log('clciked')
-            $.ajax({
-                url: '{% url "Community:ajax-request-mentor" %}',
-                data: {
-                    'communityID': {{community.id}},
-                    'user_communityID': {{this_c_user.id}},
-                    'mentorID': {{mentor.id}}
-
-                },
-                dataType: 'json',
-                success: function (data) {
-                    if(data.flag)
-                    {
-                        console.log("success")
-                        console.log(data.status)
-                    }
-                    else 
-                    {
-                        console.log(data.err_message)
-                    }
-                }
-            })
-        })
-    </script> 
 </div>
