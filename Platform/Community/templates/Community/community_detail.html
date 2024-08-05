@@ -13,7 +13,7 @@
     <div class="container community-info-wrapper">
         <h1>{{community.name}}</h1>
         <p><strong>Founder:</strong> <a href="{% url 'Member:profile' community.created_user.id %}">{{community.created_user}}</a></p>
-        <p><strong>Since</strong>{{community.created_date}}</p>
+        <p><strong>Since:</strong> {{community.created_date}}</p>
         <p><strong>Description:</strong> {{community.description}}.</p>
         <p><strong>Total Number of Users:</strong> {{community_size}}</p>
         <p><strong>Total Number of Mentors:</strong> {{num_mentors}}</p>

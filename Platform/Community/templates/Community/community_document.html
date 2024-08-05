@@ -21,7 +21,7 @@
         <div class="doc-wrapper">
             {% for doc in community_docs %}
             <form id="myForm" method="POST">{% csrf_token %}
-                <div class="community-card card ms-2 me-2 mb-3" style="width: 250px;">    
+                <div class="document-card card ms-2 me-2 mb-3" style="width: 250px;">    
                     <img src='{% static "document-icon.jpg" %}' class="card-img-top" alt="{{doc.name}}" style="height: 120px; object-fit:cover;">
                     <div class="card-body shadow-sm">
                         <h5 class="card-title" value = {{doc.title}} name="title">{{doc.title}}</h5>

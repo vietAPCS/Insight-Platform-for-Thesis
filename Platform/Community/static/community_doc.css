@@ -23,3 +23,11 @@
     background-color: rgb(223, 198, 198);
     box-shadow: 0 .5rem 1rem rgba(67, 185, 254, 0.237);
 }
+
+
+.document-card {
+    width: 18rem !important;
+    min-width: 14rem !important;
+    padding: auto;
+    text-align: center;
+}
