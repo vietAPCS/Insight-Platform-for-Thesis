@@ -12,6 +12,8 @@
 {% block content %}
 <script src="https://cdn.jsdelivr.net/npm/web3@4.9.0/dist/web3.min.js"></script>
 <script>
+    href="{% url 'Community:quiz-list' pk=community.pk %}"
+    console.log('href = ', href);
     async function get_result(){
         const form = document.getElementById("submit form");
         const formData = new FormData(form);
@@ -26,9 +28,9 @@
             if(result.result == "Failed" || result.complete){
                 document.getElementById("reward_btn").style.display = "none"
             }
-            else{
-                document.getElementById("return_btn").style.display = "none"
-            }
+            // else{
+            //     document.getElementById("return_btn").style.display = "none"
+            // }
             const modal = document.getElementById("gradeModal");
             const modal2 = new bootstrap.Modal(modal);
             modal2.show();
@@ -74,7 +76,7 @@
         </div>
         <div class="modal-footer" id="reward">
             <a class="btn btn-secondary" id="return_btn" href="{% url 'Community:quiz-list' pk=community.pk %}">Return</a>
-            <button type="button" id="reward_btn" href="{% url 'Community:quiz-list' pk=community.pk %}" class="btn btn-primary" onclick="rewardToken('{{metamask_id}}','{{quiz.value}}')">Claim reward</button>
+            <a  id="reward_btn" class="btn btn-primary" onclick="rewardToken('{{metamask_id}}','{{quiz.value}}')">Claim reward</a>
         </div>
       </div>
     </div>

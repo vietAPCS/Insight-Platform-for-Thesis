@@ -30,7 +30,8 @@ def get_cid(request):
         return encrypt(cid)
 
 def get_file(request):
-    file_url = 'https://ipfs.io/ipfs/'+ decrypt(request.POST.get('download'))
+    file_url = 'https://black-tropical-tapir-830.mypinata.cloud/ipfs/'+ decrypt(request.POST.get('download'))+ '?pinataGatewayToken=OKN_xu34JMmYE16IXtiaBuY5FQRtlHBVCEvu0AXIrUn42ZHtcN9sUvq08QUpqx5Q'
+    print(file_url)
     response = requests.get(file_url)
     if response.status_code == 200:
         # Set the file name for the downloaded file

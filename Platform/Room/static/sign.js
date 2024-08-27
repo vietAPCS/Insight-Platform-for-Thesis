@@ -16,7 +16,8 @@ async function viewSign(id, type, signature, address){
         .then(response => response.json())
 
         if(ret){
-          const signerAddr = await ethers.utils.verifyMessage(ret.mess, signature);
+          let mess = "https://ipfs.io/ipfs/"+ret.mess;
+          const signerAddr = await ethers.utils.verifyMessage(mess, signature);
           if (signerAddr == address) {
             alert("Verified")
             document.getElementById('signed_'+type+'_'+id).style.display = 'block';

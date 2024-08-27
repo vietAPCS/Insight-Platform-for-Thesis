@@ -16,7 +16,7 @@ Community
                     <img src="{% static 'join-logo.png' %}" alt="{{short.name}}" class="shorcut-img">
                     <h6>{{short.community_id.name}}</h6>
                     <a href="{% url 'Community:community-interface' short.community_id.pk %}">
-                        <i class="fa-solid fa-paper-plane me-2"></i>
+                        View
                     </a>    
                 </div>
             {% endfor %}
@@ -36,7 +36,7 @@ Community
                         <small>Created at {{community.created_date}} by <a href="{% url 'Member:profile' community.created_user.id %}">{{community.created_user.username}}</a> </small>
                         <p class="card-text">{{community.description}}</p>
                         <a href="{% url 'Community:community-detail' community.pk %}" class="btn btn-link">
-                            <i class="fa-solid fa-paper-plane me-2"></i>View insight
+                           Inspect
                         </a>
                     </div>
                 </div>
@@ -44,7 +44,7 @@ Community
         </div>
     </section>
 
-    <section id="newests">
+    <!-- <section id="newests">
         <div class="newset-container">
             <h1 class="ms-5">Newests from Insight</h1>
 
@@ -57,6 +57,6 @@ Community
                 </div>
               </div>
         </div>
-    </section>
+    </section> -->
 </div>
 {% endblock %}

@@ -7,6 +7,7 @@ from datetime import datetime
 import requests
 from django.http import HttpResponse
 from Platform.utils import *
+import os
 #from .forms import *
 # Create your views here.
 
@@ -73,8 +74,11 @@ def profile(request, pk):
     else:
         this_user = User.objects.get(id = pk)
         user_img = MyUser.objects.get(userid = this_user).avatar
+        metamaskID = MyUser.objects.get(userid = this_user).metamaskID
         user_communities = UserCommunity.objects.filter(user_id = this_user)
         creater_communities = Community.objects.filter(created_user = this_user)
+        infura_key= os.environ.get('INFURA_API_KEY')
+        private_key = os.environ.get('SIGNER_PRIVATE_KEY')
         len = []
         for i in creater_communities:
             len.append(
@@ -88,8 +92,11 @@ def profile(request, pk):
             'this_user': this_user,
             'user_communities': user_communities,
             'creater_communities': creater_communities,
+            'metamaskID': metamaskID,
             "len": len,
-            'img': user_img
+            'img': user_img,
+            'infura_key': infura_key,
+            'private_key': private_key
         }
         return render(request, 'Member/profile.html', context)
     

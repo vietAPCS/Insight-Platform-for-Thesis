@@ -21,7 +21,7 @@
   <form method="POST" class="float-start row col-6 mt-3 mb-3">
     {% csrf_token %}
     <div style="width: 40%;" class="input-group">
-      <span class="input-group-text">Wanted Score</span>
+      <span class="input-group-text">Wanted Reputation</span>
       <input id="new-score" required type="number" name="new_score" autocomplete="off" style="flex: 0 0 auto; width: 40%;" class="form-control" placeholder="0" aria-label="Want Score" aria-describedby="basic-addon1">
     </div>
     
@@ -51,7 +51,7 @@
         <tr>
           <th scope="col">#ID</th>
           <th scope="col">Name</th>
-          <th scope="col">Score</th>
+          <th scope="col">Reputation</th>
           <th scope="col">Action</th>
         </tr>
       </thead>

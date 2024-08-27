@@ -29,14 +29,14 @@
               <li class="nav-item">
                 <a class="nav-link" href="{% url 'Room:contest' community.pk %}">Contest</a>
               </li>
-              {% if user %}  
+              <!-- {% if user %}  
                 <div>
                   <button id="connect-metamask-btn" class="btn btn-outline-primary  ms-5 mb-2"
                           onclick="connectToMetamask(event)"  >
                     Connect Wallet
                   </button>
                 </div>
-              {% endif %}
+              {% endif %} -->
             </ul>
             <form class="d-flex" role="search">
               {% if user %}
@@ -49,8 +49,8 @@
                     </button>
                     <ul id="dropdown-menu" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <li><a class="dropdown-item" href="{% url 'Room:profile' com_id=community.pk user_id=current_user.pk %}">Exam History</a></li>
-                      <li><a class="dropdown-item" href="{% url 'Room:mentor' com_id=community.pk %}">Room Mentor</a></li>
-                      <li><a class="dropdown-item" href="{% url 'Room:former' com_id=community.pk %}">Room Former</a></li>
+                      <li><a class="dropdown-item" href="{% url 'Room:mentor' com_id=community.pk %}">Mentor Rooms</a></li>
+                      <li><a class="dropdown-item" href="{% url 'Room:former' com_id=community.pk %}">Leader Rooms</a></li>
                       <li><hr class="dropdown-divider"></li>
                       <li><a href="{% url 'Member:signout' %}" class="dropdown-item">Logout</a></li>
                     </ul>

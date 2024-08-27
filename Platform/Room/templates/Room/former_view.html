@@ -8,7 +8,7 @@
     let csrftoken = "{{ csrf_token }}";
   </script>
   
-  <script src='{% static "sign.js"%}'></script>
+<script src='{% static "sign.js"%}'></script>
 
 <div id="page-container">
     <main id="content">
@@ -33,11 +33,11 @@
                                     </div>
                                 </div>
                                 <div class="info-contest">
-                                    <div class="contest-title"> Final Result </div>
+                                    <div class="contest-title"> Final Reputation </div>
                                     {{ room.final_grade }}
                                 </div>
                                 <div class="info-contest">
-                                    <div class="contest-title"> Previous Grade </div>
+                                    <div class="contest-title"> Previous Reputation </div>
                                     {{ room.prev_grade }}
                                 </div>
                                 {% if room.former_signature %}

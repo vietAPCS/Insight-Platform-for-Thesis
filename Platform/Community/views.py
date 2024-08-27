@@ -14,6 +14,7 @@ import requests
 from Platform.utils import *
 import json
 import pandas as pd
+from Platform.utils import decrypt
 # Create your views here.
 
 

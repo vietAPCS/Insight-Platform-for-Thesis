@@ -210,7 +210,7 @@ def mentor(request, com_id):
             if request.FILES.get('doc', False):
                 detail_id = request.POST['id']
                 cid = get_cid(request)
-                r_cid = decrypt(cid)
+                r_cid = 'https://ipfs.io/ipfs/'+decrypt(cid)
                 room_detail = RoomDetails.objects.get(id=detail_id)
                 room_detail.exam_cid = cid
                 room_detail.save(update_fields=["exam_cid"])
@@ -268,7 +268,7 @@ def contestant_details(request, com_id, room_id):
         if request.FILES.get('doc', False) and request.POST.get('id', False):
             detail_id = request.POST['id']
             cid = get_cid(request)
-            r_cid = decrypt(cid)
+            r_cid = 'https://ipfs.io/ipfs/'+decrypt(cid)
             room_detail = RoomDetails.objects.get(id=detail_id)
             room_detail.answer_cid = cid
             room_detail.save(update_fields=["answer_cid"])

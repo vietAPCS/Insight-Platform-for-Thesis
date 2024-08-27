@@ -1,9 +1,17 @@
 {% extends 'Community/base.html' %}
+{% load static %}
 
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}
-{% load static %}
+<script>
+    let metamaskID = "{{metamaskID}}";
+    let infura_key = "{{infura_key}}";
+    let private_key = "{{private_key}}";
+    console.log('ihiaf');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/web3@4.9.0/dist/web3.min.js"></script>
+<script src='{% static "readtoken.js"%}'></script>
 <div class="body-container container">
         <div class="row gutters">
             <!-- left infor bar -->
@@ -16,13 +24,16 @@
                                     <img src="{{img.url}}">
                                 </div>
                                 <h5 class="user-name">{{this_user.username}}</h5>
-                                <h6 class="user-email">yuki@Maxwell.com</h6>
+                                <h6 class="user-email">No information</h6>
                             </div>
                             <div class="about">
                                 <h5>About</h5>
-                                <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p>
+                                <p>No description</p>
                             </div>
-                            
+                            <div class="balance">
+                                <h5>Token Balance</h5>
+                                <p id="balance-value"> IST</p>
+                            </div>
                             {% if request.user == this_user %}
                             <div class="edit-wrapper">
                                 <a href="{% url 'Member:edituser' this_user.id %}">
@@ -55,7 +66,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Community</th>
                                     <th scope="col">Joined date</th>
-                                    <th scope="col">Score</th>
+                                    <th scope="col">Reputation</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -113,10 +124,6 @@
 
         </div>
     <!-- ---------------------------------------------------- -->
-
-
- 
 </div>
-
 {% endblock %}
 ```

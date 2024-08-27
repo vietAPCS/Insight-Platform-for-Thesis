@@ -103,6 +103,17 @@
 .account-settings .about p {
     font-size: 0.825rem;
 }
+.account-settings .balance {
+    margin: 2rem 0 0 0;
+    text-align: center;
+}
+.account-settings .balance h5 {
+    margin: 0 0 15px 0;
+    color: #007ae1;
+}
+.account-settings .balance p {
+    font-size: 0.825rem;
+}
 .form-control, .form-select {
     border: 1px solid #cfd1d8;
     -webkit-border-radius: 2px;
